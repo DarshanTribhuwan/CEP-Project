@@ -1,0 +1,246 @@
+{
+  "_meta": {
+    "purpose": "Maharashtra package-of-practices (PoP) values transcribed verbatim from government/ICAR extension publications. Read by scripts/build_crop_table.py, surfaced per crop as the 'pop' block and through GET /api/v1/crops. The scoring engine does not read this file: seasons already drive seasonal fit, and these are advisory practice values for the client and the voice assistant.",
+    "schema_version": 1,
+    "transcription_method": "PDFs downloaded from the cited government URLs, text extracted with pypdf to the cached .txt files, every quote's line range verified against the cached file with grep before being recorded here.",
+    "transcribed_on": "2026-09-28",
+    "verification": "VERBATIM_QUOTE",
+    "sources": {
+      "nfsm_oilseeds_2018": {
+        "citation": "National Food Security Mission, Ready Reckoner: Package of Practices for Oilseeds (2018), Ministry of Agriculture & Farmers Welfare, Government of India",
+        "url": "https://nfsm.gov.in/ReadyReckoner/Oilseeds/PackagePractice_OS2018.pdf",
+        "cached_file": "pop_pdfs/nfsm_oilseeds_2018.pdf",
+        "cached_text": "pop_pdfs/nfsm_oilseeds_2018.txt",
+        "note": "National publication; state-specific variety lists and yield tables included. Sections quoted here are the all-India recommended practice unless the quote says otherwise."
+      },
+      "dcd_cotton_ready_reckoner": {
+        "citation": "Directorate of Cotton Development, Government of India, Nagpur - Cotton Ready Reckoner (zone-wise advisory; Maharashtra falls in the Central zone)",
+        "url": "https://cotton.dac.gov.in/pdf/22.2._Publication-Ready_reckoner.pdf",
+        "cached_file": "pop_pdfs/cotton_readyreckoner.pdf",
+        "cached_text": "pop_pdfs/cotton_readyreckoner.txt",
+        "note": "Zone-wise publication; quotes are from the Central zone (which the reckoner assigns to Maharashtra) unless stated."
+      },
+      "icar_iisr_soybean_2023": {
+        "citation": "ICAR - Indian Institute of Soybean Research, Extension Bulletin 2023 (zone-wise soybean production guide)",
+        "url": "https://icar-nsri.res.in/pdfdoc/ExtensionBulletin2023E_2.pdf",
+        "cached_file": "pop_pdfs/icar_iisr_soybean_2023.pdf",
+        "cached_text": "pop_pdfs/icar_iisr_soybean_2023.txt",
+        "note": "Zone-wise soybean agronomy; quotes are from the Central zone rows (which include Maharashtra/Vidarbha) unless stated."
+      }
+    },
+    "coverage_note": "Only the crops listed below were transcribed. The remaining crops in crops.json (cereals and pulses) still have NO local PoP source; they carry no pop block at all rather than an invented one. Next sources to hunt: MPKV/ICAR state package of practices for tur, gram, moong, urad, jowar, bajra, maize, wheat, onion, sugarcane, rice.",
+    "window_approximation_policy": "Where the source gives exact calendar dates (ICAR Table 2), the structured window is those dates. Where the source gives a month band or an event (onset of monsoon), the structured window encodes the band verbatim as months and the 'window_basis' field says exactly what the source published. No window is invented to look more precise than its source."
+  },
+  "crops": {
+    "soybean": {
+      "season_note": "kharif, rainfed dominant in Maharashtra",
+      "sowing": {
+        "window": ["06-20", "07-05"],
+        "window_basis": "ICAR-IISR 2023 Table 2, Central zone row: '20th June-5th July'. NFSM 2018 gives the national rainfed window 'mid of June to end of June subject to availability of soil moisture/rainfall', quoted below.",
+        "quotes": [
+          {
+            "text": "20th June-5th July",
+            "file": "pop_pdfs/icar_iisr_soybean_2023.txt",
+            "lines": "1014",
+            "label": "Table 2, Central zone sowing time"
+          },
+          {
+            "text": "Optimum time of sowing is from  mid of June to end of June subject to availability of  soil moisture/rainfall.",
+            "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+            "lines": "90-91",
+            "label": "NFSM sowing time"
+          }
+        ]
+      },
+      "seed_rate_kg_ha": [55, 65],
+      "seed_rate_note": "ICAR Central zone 65 kg/ha; NFSM 55-65 kg/ha. ICAR: raise to 75 for bold seed, lower to 45-50 for small seed.",
+      "spacing_cm": [30, 45],
+      "fertilizer": { "N": 25, "P": 100, "K": 50, "S": 50 },
+      "fertilizer_note": "ICAR Central zone dose 25:100:50:50 NPKS kg/ha. NFSM publishes 25:60:40:30 for the north plains - recorded, not used, because Maharashtra is Central zone.",
+      "yield_kg_ha_rainfed": [1600, 2000],
+      "soil_optimal_add": ["BLACK"],
+      "soil_evidence": "NFSM: soybean performs best on vertisols - black cotton soil (BLACK, a vertisol) is local optimal practice, overriding the EcoCrop global texture envelope.",
+      "intercrop_note": "Soybean + pigeon pea (tur) in 4:2 rows is the most popular rainfed intercrop in Maharashtra including Vidarbha.",
+      "quotes": [
+        {
+          "text": "Soybean can be grown on wide range of soils with better performance under vertisols rich in organic carbon.",
+          "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+          "lines": "94-95",
+          "label": "NFSM soil preference (settles the EcoCrop conflict)"
+        },
+        {
+          "text": "The optimum seed rate of 55-65 kg/ha with a spacing of 30-45 cm, which can be reduced with the use of broad-bed-furrow/ridge-furrow.",
+          "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+          "lines": "136-137",
+          "label": "NFSM seed rate and spacing"
+        },
+        {
+          "text": "fertilizers sources in order to meet the nutritional requirement (25:100:50:50 kg",
+          "file": "pop_pdfs/icar_iisr_soybean_2023.txt",
+          "lines": "1089",
+          "label": "ICAR Table 3, Central zone NPKS dose"
+        },
+        {
+          "text": "Recommended dose of 25: 60: 40:30 kg / ha of N: P: K: S in north plains and application of 5 kg Zn per ha through zinc sulphate is also recommended for better yields.",
+          "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+          "lines": "148-149",
+          "label": "NFSM nutrient dose (north plains - recorded for transparency, not used for Maharashtra)"
+        },
+        {
+          "text": "+pigeon pea in 4: 2 combinations are most popular inter-cropping system under",
+          "file": "pop_pdfs/icar_iisr_soybean_2023.txt",
+          "lines": "1098",
+          "label": "ICAR soybean + tur 4:2 intercrop, rainfed Maharashtra"
+        },
+        {
+          "text": "Under rainfed condition – 1600-2000 kg/ha and under Irrigated condition – 2000-2500 kg/ha.",
+          "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+          "lines": "177",
+          "label": "NFSM yield reference"
+        }
+      ]
+    },
+    "cotton": {
+      "season_note": "kharif, rainfed dominant in Maharashtra (Central zone)",
+      "sowing": {
+        "window": ["06-15", "07-15"],
+        "window_basis": "Event, not dates: DCD reckoner - 'Seeds of rainfed cotton are sown with onset of monsoon in central and south zones'. Start is the usual Maharashtra monsoon onset (mid-June) encoded as 06-15 and labelled an approximation; the end date is sourced directly: 'Sowing of Non Bt varieties before 15th July'.",
+        "approximation": "start date approximated from 'onset of monsoon'; end date is verbatim",
+        "quotes": [
+          {
+            "text": "Seeds of rainfed cotton are sown with onset of monsoon in central and south zones",
+            "file": "pop_pdfs/cotton_readyreckoner.txt",
+            "lines": "1697",
+            "label": "DCD Central zone sowing"
+          },
+          {
+            "text": "Sowing of Non Bt varieties before 15th July to avoid stress and bollworm infestation.",
+            "file": "pop_pdfs/cotton_readyreckoner.txt",
+            "lines": "1705",
+            "label": "DCD sowing deadline"
+          }
+        ]
+      },
+      "seed_rate_kg_ha": [12, 15],
+      "seed_rate_note": "Rainfed deshi cotton 12-15 kg/ha (Central zone). Reckoner also gives irrigated deshi 18-20, hybrid rainfed 3-3.5 kg/ha.",
+      "fertilizer": { "N": 40, "P": 20, "K": 20 },
+      "fertilizer_note": "Central zone deshi cotton. Reckoner: American cotton N50/P25/K25, hybrids N160/P80/K80. FYM or compost 2-3 t/ha 14-15 days before sowing.",
+      "quotes": [
+        {
+          "text": "Seed rate for south and central zones irrigated crop is 18 -20 kg / ha and rainfed 12 -15 kg / ha, Hybrid irrigated 2-3 kg / ha and rainfed 3-3.5 kg / ha.",
+          "file": "pop_pdfs/cotton_readyreckoner.txt",
+          "lines": "1724-1725",
+          "label": "DCD Central zone seed rate"
+        },
+        {
+          "text": "Recommended dose of fertilizers in central zone is N 40 kg / ha, P 20 kg / ha and K 20kg / ha for deshi cotton",
+          "file": "pop_pdfs/cotton_readyreckoner.txt",
+          "lines": "1726-1727",
+          "label": "DCD Central zone fertiliser (dhi/deshi row)"
+        },
+        {
+          "text": "Apply Farm Yard Manure (FYM) or compost @ 2 -3 tonnes / ha or vermi compost @ 2.5 tonnes / ha 14-15 days before sowing.",
+          "file": "pop_pdfs/cotton_readyreckoner.txt",
+          "lines": "1684-1685",
+          "label": "DCD FYM advisory"
+        }
+      ]
+    },
+    "groundnut": {
+      "season_note": "kharif (rabi and summer windows also published)",
+      "sowing": {
+        "window": ["06-01", "07-31"],
+        "window_basis": "Month band as published: 'Kharif-groundnut- June to July subject to onset of monsoon'. Rabi (November) and summer (February-March) windows are in the same quote but not modelled - the MVP recommends kharif crops in kharif.",
+        "window_basis_detail": "The published band is whole months, so the structured window spans 1 June to 31 July - no more precision than the source.",
+        "quotes": [
+          {
+            "text": "Kharif-groundnut- June to July subject to onset of monsoon, Rabi groundnut-November and Summer groundnut-February-March.",
+            "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+            "lines": "240-241",
+            "label": "NFSM sowing windows by season"
+          },
+          {
+            "text": "Sandy-loam soils rich in organic matter is considered as best.",
+            "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+            "lines": "244",
+            "label": "NFSM soil preference (agrees with the EcoCrop texture envelope; no override needed)"
+          }
+        ]
+      },
+      "seed_rate_kg_ha": [95, 110],
+      "seed_rate_note": "Bunch types 100-110 kg/ha at 30x10 cm; spreading/semi-spreading 95-100 kg/ha at 45x10 cm.",
+      "quotes": [
+        {
+          "text": "100-110 kg seed/ha with 30x10 and a plant population of 3.33 lakh  per ha for bunch type groundnut varieties and 95 -100 kg seed per ha for spreading and semi - spreading varieties with a spacing of 45 x 10 cms",
+          "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+          "lines": "285-287",
+          "label": "NFSM seed rate and spacing"
+        }
+      ]
+    },
+    "sunflower": {
+      "season_note": "all seasons possible; performs best rabi/spring",
+      "sowing": {
+        "window": null,
+        "window_basis": "The source publishes a planning rule, not a calendar window: plan sowing so flowering and seed filling avoid continuous rain and temperatures above 38 degC. No month band is transcribed rather than one being invented.",
+        "quotes": [
+          {
+            "text": "Sunflower can be cultivated in all the seasons but perform better during R abi or spring/early summer.",
+            "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+            "lines": "724-725",
+            "label": "NFSM season preference"
+          },
+          {
+            "text": "Sowing time should be so planned that the flowering and seed filling stages of the crop do not coincide with continuous rainy period or high temperatures above 38°C.",
+          "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+          "lines": "729-730",
+            "label": "NFSM sowing planning rule"
+          }
+        ]
+      },
+      "seed_rate_kg_ha": [5, 5],
+      "seed_rate_note": "5 kg/ha achieves 55,000 plants/ha on heavy soil and 74,000/ha on light soils; spacing 60x30 cm (45x30 for short-duration dwarfs).",
+      "quotes": [
+        {
+          "text": "A seed rate of 5 kg/ha is adequate to achieve required plant population of 55,000/ha under heavy soil and 74,000/ha under light soils.",
+          "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+          "lines": "765-766",
+          "label": "NFSM seed rate and populations"
+        }
+      ]
+    },
+    "safflower": {
+      "season_note": "rabi on residual moisture",
+      "sowing": {
+        "window": ["09-21", "11-15"],
+        "window_basis": "Published band 'late September to mid of November' encoded with those bounds; the crop is rabi on residual soil moisture (same source, quoted).",
+        "quotes": [
+          {
+            "text": "could be sown from late September to mid of November",
+            "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+            "lines": "880",
+            "label": "NFSM sowing window"
+          },
+          {
+            "text": "Safflower is confined to residual moisture conditions during rabi season under Vertisols over an area of 0.18 million ha with production of 0.10 million tonnes",
+            "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+            "lines": "828-829",
+            "label": "NFSM system description (vertisols, Maharashtra named in the sentence)"
+          }
+        ]
+      },
+      "seed_rate_kg_ha": [7.5, 20],
+      "seed_rate_note": "Depending on soil conditions; spacing 30x15 or 45x20 cm.",
+      "soil_optimal_add": ["BLACK"],
+      "soil_evidence": "NFSM describes safflower as grown on vertisols in rabi - black cotton soil (BLACK, a vertisol) is local optimal practice, overriding the EcoCrop global texture envelope.",
+      "quotes": [
+        {
+          "text": "Seed Rate of 7.5 kg to 20 kg / ha is used depending upon soil conditions.",
+          "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+          "lines": "906",
+          "label": "NFSM seed rate"
+        }
+      ]
+    }
+  }
+}

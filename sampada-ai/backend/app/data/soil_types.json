@@ -1,0 +1,125 @@
+{
+  "_meta": {
+    "purpose": "Soil type reference used by the soil evidence-fusion module (app/services/soil.py) and by the crop suitability scorer (app/services/suitability.py).",
+    "schema_version": 2,
+    "verification": "PARTIALLY_VERIFIED",
+    "provenance": {
+      "id": {
+        "status": "STANDARD_CLASSIFICATION",
+        "note": "The Indian soil names in the locale files (enum.soil_type.*) follow the standard NBSS&LUP / ICAR classification used across Maharashtra."
+      },
+      "texture_class": {
+        "status": "DERIVED_BY_PROJECT",
+        "method": "Coarse heavy/medium/light grouping, using the same vocabulary EcoCrop publishes, assigned from the standard classification of each soil. Black cotton soil is a vertisol (heavy); red and laterite soils are light-to-medium; sandy loam is light.",
+        "review_needed": "A soil scientist should confirm the seven assignments before any field pilot."
+      },
+      "ecocrop_drainage": {
+        "status": "DERIVED_BY_PROJECT",
+        "method": "Expresses each soil in EcoCrop's drainage vocabulary so it can be compared against EcoCrop's per-crop drainage requirement. Black and clay-loam soils are recorded as 'well (dry spells)' rather than 'poorly drained' because vertisols crack and dry out in summer (see cracks_in_summer) - they are impermeable, not waterlogged. That distinction is exactly the one that previously made this table call black soil a poor choice for cotton.",
+        "review_needed": "Confirm before any field pilot, in particular for SALINE."
+      },
+      "water_retention": {
+        "status": "STANDARD_CLASSIFICATION",
+        "note": "Qualitative, descriptive only. No scoring rule reads this field any more; crop/soil matching is driven by the EcoCrop-derived texture and drainage vocabulary."
+      },
+      "drainage": {
+        "status": "STANDARD_CLASSIFICATION",
+        "note": "Qualitative, descriptive only - see ecocrop_drainage for the field the matcher uses."
+      },
+      "cracks_in_summer": { "status": "STANDARD_CLASSIFICATION" },
+      "sticky_when_wet": { "status": "STANDARD_CLASSIFICATION" },
+      "rain_behaviour_likelihood": {
+        "status": "UNVALIDATED_PROJECT_ESTIMATE",
+        "note": "OUR OWN ESTIMATES for the fusion algorithm. Not published values, not calibrated against any labelled dataset. Values are relative weights; app/services/crops.py:water_behaviour_distribution normalises them into a distribution, so they do not need to sum to 1.0 here.",
+        "todo_before_field_pilot": "Calibrate against real farmer-observation plus soil-test pairs. Until then the fused confidence is a relative indicator only."
+      },
+      "typical_crops": {
+        "status": "REMOVED",
+        "note": "Removed in schema 2. It used to be a hand-written list. It is now derived by inverting the sourced crop/soil match in app/services/crops.py:typical_crops_for_soil, so the two tables cannot drift apart.",
+        "derived_from": "crops.json soil_types_optimal"
+      }
+    },
+    "fields": {
+      "id": "stable code, matches soil_type codes used across the app and the locale keys enum.soil_type.<CODE>",
+      "texture_class": "heavy / medium / light - see provenance.texture_class",
+      "ecocrop_drainage": "EcoCrop drainage vocabulary - see provenance.ecocrop_drainage",
+      "water_retention": "LOW / MEDIUM / HIGH, descriptive",
+      "drainage": "LOW / MEDIUM / HIGH, descriptive",
+      "cracks_in_summer": "bool - characteristic shrink-swell cracking",
+      "sticky_when_wet": "bool",
+      "rain_behaviour_likelihood": "RELATIVE likelihood that a farmer reporting this rain behaviour actually has this soil"
+    }
+  },
+  "soil_types": [
+    {
+      "id": "BLACK",
+      "texture_class": "heavy",
+      "ecocrop_drainage": "well (dry spells)",
+      "water_retention": "HIGH",
+      "drainage": "LOW",
+      "cracks_in_summer": true,
+      "sticky_when_wet": true,
+      "rain_behaviour_likelihood": { "DRAINS_QUICKLY": 0.05, "HOLDS_SOME": 0.35, "HOLDS_LONG": 0.60 }
+    },
+    {
+      "id": "RED",
+      "texture_class": "medium",
+      "ecocrop_drainage": "excessive (dry/moderately dry)",
+      "water_retention": "MEDIUM",
+      "drainage": "HIGH",
+      "cracks_in_summer": false,
+      "sticky_when_wet": false,
+      "rain_behaviour_likelihood": { "DRAINS_QUICKLY": 0.55, "HOLDS_SOME": 0.40, "HOLDS_LONG": 0.05 }
+    },
+    {
+      "id": "LATERITE",
+      "texture_class": "light",
+      "ecocrop_drainage": "excessive (dry/moderately dry)",
+      "water_retention": "LOW",
+      "drainage": "HIGH",
+      "cracks_in_summer": false,
+      "sticky_when_wet": false,
+      "rain_behaviour_likelihood": { "DRAINS_QUICKLY": 0.70, "HOLDS_SOME": 0.25, "HOLDS_LONG": 0.05 }
+    },
+    {
+      "id": "ALLUVIAL",
+      "texture_class": "medium",
+      "ecocrop_drainage": "well (dry spells)",
+      "water_retention": "MEDIUM",
+      "drainage": "MEDIUM",
+      "cracks_in_summer": false,
+      "sticky_when_wet": false,
+      "rain_behaviour_likelihood": { "DRAINS_QUICKLY": 0.15, "HOLDS_SOME": 0.65, "HOLDS_LONG": 0.20 }
+    },
+    {
+      "id": "SANDY_LOAM",
+      "texture_class": "light",
+      "ecocrop_drainage": "excessive (dry/moderately dry)",
+      "water_retention": "LOW",
+      "drainage": "HIGH",
+      "cracks_in_summer": false,
+      "sticky_when_wet": false,
+      "rain_behaviour_likelihood": { "DRAINS_QUICKLY": 0.80, "HOLDS_SOME": 0.18, "HOLDS_LONG": 0.02 }
+    },
+    {
+      "id": "CLAY_LOAM",
+      "texture_class": "heavy",
+      "ecocrop_drainage": "well (dry spells)",
+      "water_retention": "HIGH",
+      "drainage": "MEDIUM",
+      "cracks_in_summer": true,
+      "sticky_when_wet": true,
+      "rain_behaviour_likelihood": { "DRAINS_QUICKLY": 0.05, "HOLDS_SOME": 0.45, "HOLDS_LONG": 0.50 }
+    },
+    {
+      "id": "SALINE",
+      "texture_class": "medium",
+      "ecocrop_drainage": "poorly (saturated >50% of year)",
+      "water_retention": "MEDIUM",
+      "drainage": "LOW",
+      "cracks_in_summer": true,
+      "sticky_when_wet": true,
+      "rain_behaviour_likelihood": { "DRAINS_QUICKLY": 0.05, "HOLDS_SOME": 0.35, "HOLDS_LONG": 0.60 }
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+# SAMPADA AI - backend configuration
+#
+# RULES (from the project spec, see docs/spec/MVP_SPEC.md):
+#  1. No value in this file may claim accuracy, coverage or a data source that
+#     the code has not actually verified. Anything not verified is marked below.
+#  2. `data.mode = "sample"` is the ONLY way demo data can enter the system.
+#     Sample responses are always tagged `data_source = "sample"` / `is_demo = true`
+#     and must never be presented to a farmer as real.
+#  3. Every numeric weight here is an UNVALIDATED DEFAULT. They are starting
+#     points for experiments, not measured parameters. The chat design sessions
+#     produced these numbers by reasoning, not by fitting anything.
+
+[project]
+name = "SAMPADA AI"
+version = "0.1.0"
+description = "Community-Aware AI Agricultural Decision Support System"
+
+[backend]
+host = "0.0.0.0"
+port = 8000
+api_prefix = "/api/v1"
+db_url = "sqlite:///./sampada.db"
+
+# Tighten before any real deployment. "*" is for local development only.
+cors_origins = ["*"]
+
+[language]
+default = "mr"
+supported = ["mr", "hi", "en"]
+
+[data]
+# "live"   -> use only real, verifiable sources. If a source is unavailable the
+#             API returns an explicit unavailable state. This is the default.
+# "sample" -> additionally load marked demo data from app/data/sample/.
+mode = "live"
+
+# Shared policy for every outbound HTTP call (app/providers/http.py).
+#
+#   offline  - when true, NO outbound request is attempted at all. Cached
+#              responses on disk are used instead, and anything without a cache
+#              entry is reported unavailable. Can also be forced per-process by
+#              setting SAMPADA_OFFLINE=1 in the environment, which overrides this
+#              value. That env var is the switch for a machine with no route out.
+#   retries  - attempts per call for TRANSIENT failures only (timeouts, refused
+#              connections, 429, 5xx). A 404 or a rejected API key is never
+#              retried, because waiting does not fix it.
+#   cache_dir - where responses are kept between restarts, relative to backend/.
+#              Cached payloads are stored verbatim; nothing is ever interpolated.
+[providers.http]
+offline = false
+retries = 3
+backoff_seconds = 0.6
+max_backoff_seconds = 6.0
+timeout_seconds = 8
+cache_enabled = true
+cache_dir = "var/http_cache"
+
+# Weather: Open-Meteo is free, keyless and was verified reachable from this
+# machine on 2026-09-17. Results are real observations/forecasts.
+[providers.weather]
+enabled = true
+primary = "open-meteo-forecast"
+base_url = "https://api.open-meteo.com/v1/forecast"
+timeout_seconds = 8
+cache_ttl_minutes = 30
+# How old a cached forecast may be and still be served while the source is
+# unreachable. UNVALIDATED DEFAULT. Twelve hours covers a normal outage; beyond
+# it, a forecast is misleading rather than merely old, so it is refused.
+max_stale_minutes = 720
+
+# Market: the Agmarknet daily mandi price feed is published on data.gov.in and
+# requires an API key. Without SAMPADA_DATA_GOV_IN_KEY set in the environment
+# this provider reports `unavailable` - it does NOT invent prices.
+[providers.market]
+enabled = true
+primary = "data.gov.in-agmarknet"
+base_url = "https://api.data.gov.in/resource"
+# "Current Daily Price of Various Commodities from Various Markets (Mandi)",
+# Ministry of Agriculture and Farmers Welfare. Verified live 2026-09-23.
+# For historical prices (backtests) use resource
+# 35985678-0d79-46b4-9ed6-6f13308a1d24 - same key works for both.
+resource_id = "9ef84268-d588-465a-a308-a864a43d0070"
+api_key_env = "SAMPADA_DATA_GOV_IN_KEY"
+timeout_seconds = 8
+cache_ttl_minutes = 360
+# Mandi prices go stale faster than weather in terms of the damage a wrong number
+# does, but the feed itself is daily. Two days is the ceiling here. UNVALIDATED
+# DEFAULT. Served records always carry their age, and are marked is_stale once
+# they pass cache_ttl_minutes.
+max_stale_minutes = 2880
+
+# Soil: there is no keyless national soil-map API. Point this at a downloaded
+# soil dataset (GeoJSON with a soil-type attribute) to enable the geographic
+# soil evidence source. Left empty, geo soil stays `unavailable` and the soil
+# module fuses only the evidence it actually has.
+[providers.soil_geo]
+enabled = false
+dataset_path = ""
+soil_type_attribute = "soil_type"
+
+# Computer-vision soil model. NOT IMPLEMENTED. There is no trained model in this
+# repository and no accuracy figure exists for one. Leaving this disabled is
+# what makes the soil module honest about where its confidence comes from.
+[providers.soil_image]
+enabled = false
+model_version = "none"
+
+[soil]
+# If fused confidence is below this, the API tells the farmer to get a soil test
+# instead of guessing. UNVALIDATED DEFAULT.
+low_confidence_threshold = 0.60
+
+# Evidence weights for the multi-source fusion in app/services/soil.py.
+# UNVALIDATED DEFAULTS. A lab report is the only ground truth available.
+[soil.evidence_weights]
+lab_report = 1.0
+farmer_known_type = 0.55
+farmer_observations = 0.30
+geo_dataset = 0.60
+image_model = 0.40
+
+[ml]
+soil_model_version = "evidence-fusion-0.1.0"
+price_model_version = "seasonal-baseline-0.1.0"
+suitability_model_version = "rules-0.1.0"
+community_model_version = "app-issued-allocation-0.1.0"
+
+[recommendation]
+max_crops_per_recommendation = 3
+
+# Below this fused confidence the engine still answers but marks the
+# recommendation provisional. UNVALIDATED DEFAULT (previously hard-coded to 0.45
+# with no justification; now documented and configurable).
+min_confidence_for_recommendation = 0.45
+
+# Pilot-plot share of land offered to a farmer with no outcome history yet.
+# Matches the design discussion: 0.5 acre of a 5 acre farm.
+pilot_plot_percentage = 0.10
+
+# App-issued oversupply watch threshold: if this fraction of the region's
+# recommended area for a crop is already committed through this app, the crop's
+# score is discounted. UNVALIDATED DEFAULT.
+community_oversupply_threshold = 0.85
+
+# Recommendation factor weights. Directly from the design discussion:
+# soil 25% / weather 20% / market price 25% / water 15% / farmer history 10% /
+# community saturation 5%. UNVALIDATED DEFAULTS - weights redistribute
+# proportionally when a factor's data is unavailable. The market_price weight
+# is additionally scaled per crop by measured backtest reliability (see
+# app/services/price_reliability.py and app/data/price_reliability.json);
+# the value configured here is the pre-scaling base.
+[recommendation.factor_weights]
+soil_suitability = 0.25
+weather_match = 0.20
+market_price = 0.25
+water_availability = 0.15
+farmer_history = 0.10
+community_saturation = 0.05
+
+[weather]
+default_town = "Pune"
+default_district = "Pune"
+default_state = "Maharashtra"
+# Used only when a farm has no coordinates, so that weather can still resolve.
+default_lat = 18.5204
+default_lon = 73.8567
+
+# Data retention (app/core/retention.py). Every threshold defaults to
+# 0 = keep forever: a deployment that never sets [retention] never deletes a
+# row. Purging is operator-invoked only - python scripts/apply_retention.py
+# (dry run by default, --apply to execute) - and /health reports the policy.
+# An outcome whose recommendation is purged survives unlinked, never deleted
+# as a side effect.
+#[retention]
+#outcomes_months = 36
+#recommendations_months = 24
+#auth_tokens_days = 30

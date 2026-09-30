@@ -1,0 +1,24 @@
+# Local SQLite database - never commit farmer data
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Environment secrets (API keys live here, not in config.toml)
+.env
+.env.*
+!.env.example
+
+# Downloaded datasets (soil maps etc.) are large and licensing-specific
+data/soil_datasets/
+
+# Runtime cache of outbound HTTP responses (not source code, machine-specific).
+# Deleting it is always safe: the system refetches, or reports data unavailable.
+var/

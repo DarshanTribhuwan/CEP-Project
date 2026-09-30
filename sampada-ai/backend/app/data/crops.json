@@ -1,0 +1,3156 @@
+{
+  "_meta": {
+    "purpose": "Crop reference table read by app/services/crops.py and scored by app/services/suitability.py.",
+    "schema_version": 2,
+    "generated_by": "scripts/build_crop_table.py",
+    "do_not_hand_edit": "Generated file. Edit the sources listed below and re-run the builder.",
+    "sources": {
+      "ecocrop": {
+        "citation": "FAO EcoCrop crop environmental requirements database, Land & Water Division",
+        "url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/cropList",
+        "fetched_by": "scripts/fetch_ecocrop.py",
+        "cached_at": "app/data/sources/ecocrop.json and app/data/sources/ecocrop_html/"
+      },
+      "fao56": {
+        "citation": "FAO Irrigation and Drainage Paper 56, Chapter 6 (Tables 11 and 12)",
+        "url": "https://www.fao.org/4/x0490e/x0490e0b.htm",
+        "note": "Tables 11 and 12 are transcribed into scripts/build_crop_table.py with the exact row labels used."
+      },
+      "curated": {
+        "citation": "app/data/crop_agronomy_curated.json - judgement fields, kept separate and labelled"
+      },
+      "soil_vocabulary": {
+        "citation": "app/data/soil_types.json - texture_class and ecocrop_drainage"
+      },
+      "package_of_practices": {
+        "citation": "app/data/sources/pop_transcribed.json - Maharashtra package-of-practices, transcribed verbatim from government/ICAR publications (NFSM 2018, DCD Cotton Ready Reckoner, ICAR-IISR 2023)",
+        "verification": "VERBATIM_QUOTE",
+        "note": "Adds the advisory 'pop' block (sowing window, seed rate, fertilizer dose) to transcribed crops only; also records local soil-preference overrides. Crops without a transcription carry no pop block."
+      }
+    },
+    "verification": "PARTIALLY_VERIFIED",
+    "verification_summary": "The fields that drive a recommendation now come from cited sources instead of hand-written placeholders: soil_texture and temperature ranges from EcoCrop, KC values from FAO-56 Table 12, durations from FAO-56 Table 11 (EcoCrop crop cycle where FAO-56 has no row), and water_need_class derived from Kc x duration. seasons, investment_level and major_risks remain curated judgement and are labelled as such per field.",
+    "scoring_semantics": {
+      "soil_types_optimal": "credit 1.0",
+      "soil_types_tolerated": "credit 0.7",
+      "unlisted_soil": "credit 0.0",
+      "null_soil_types": "means the source records no texture preference; the soil factor is reported unavailable and its weight redistributed, not scored as a pass",
+      "combined": "app/services/suitability.py:soil_compatibility reads these lists; it no longer infers credit from water-retention similarity"
+    },
+    "removed_fields": {
+      "water_need_mm": "Removed in schema 2. It was a hand-written millimetre range with no source. EcoCrop's rainfall_optimal_mm / rainfall_absolute_mm replace it, and they mean something different: the annual rainfall of the environment the crop grows in, not the crop's water requirement. A real per-farm requirement needs ETo and effective rainfall, which is not implemented.",
+      "sowing_months": "Removed in schema 2. Hand-written and wrong to model as a fixed month list. A real sowing window needs a local package-of-practices source; EcoCrop's planting dates are for other regions. Partially reversed since: transcribed crops carry a 'pop' block with a sourced sowing window (VERBATIM_QUOTE); the scoring engine still does not read it - seasons drive seasonal fit.",
+      "harvest_months": "Removed in schema 2, same reason as sowing_months."
+    },
+    "local_review_needed": [
+      {
+        "crop": "tur",
+        "field": "kc",
+        "issue": "FAO-56 Table 12 has no pigeon-pea row; the dry-beans/pulses row is used as a proxy."
+      },
+      {
+        "crop": "sugarcane",
+        "field": "soil_texture",
+        "issue": "Texture came from a second EcoCrop record (Saccharum barberi). A crop specialist should confirm the substitution."
+      },
+      {
+        "crop": "sugarcane",
+        "field": "soil_drainage",
+        "issue": "EcoCrop requires poorly (saturated >50% of year), which no soil in this table records for this crop's texture class. The MVP treats drainage as advisory only."
+      },
+      {
+        "crop": "rice",
+        "field": "soil_texture",
+        "issue": "EcoCrop records no texture preference ('wide' or blank), so soil suitability is reported unavailable for this crop rather than scored full marks for every soil."
+      },
+      {
+        "crop": "wheat",
+        "field": "kc",
+        "issue": "Kc ini is the Cereals group value (0.3). The Winter Wheat row is not used because Maharashtra wheat is not winter-dormant."
+      },
+      {
+        "crop": "urad",
+        "field": "kc",
+        "issue": "FAO-56 Table 12 has no black-gram row; the dry-beans/pulses row is used as a proxy."
+      }
+    ],
+    "standing_caveat": "EcoCrop publishes global species-level envelopes. They are a citable improvement over invented numbers; the Maharashtra package-of-practices transcription (pop_transcribed.json) now provides local practice values for the crops it covers. local_review_needed lists every place where this build still knows the source is weak or conflicts with local practice."
+  },
+  "crops": [
+    {
+      "id": "soybean",
+      "scientific_name": "Glycine max",
+      "seasons": [
+        "KHARIF"
+      ],
+      "duration_days": [
+        85,
+        150
+      ],
+      "water_need_class": "LOW",
+      "temp_optimal_c": [
+        20.0,
+        33.0
+      ],
+      "temp_absolute_c": [
+        10.0,
+        38.0
+      ],
+      "rainfall_optimal_mm": [
+        600.0,
+        1500.0
+      ],
+      "rainfall_absolute_mm": [
+        450.0,
+        1800.0
+      ],
+      "ph_optimal": [
+        5.5,
+        6.5
+      ],
+      "ph_absolute": [
+        4.5,
+        8.4
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "organic"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "soil_types_optimal": [
+        "RED",
+        "ALLUVIAL",
+        "BLACK"
+      ],
+      "soil_types_tolerated": [
+        "CLAY_LOAM",
+        "SALINE",
+        "LATERITE",
+        "SANDY_LOAM"
+      ],
+      "kc": {
+        "ini": [
+          0.4,
+          0.4
+        ],
+        "mid": [
+          1.15,
+          1.15
+        ],
+        "end": [
+          0.5,
+          0.5
+        ],
+        "max_height_m": [
+          0.5,
+          1.0
+        ],
+        "row": "Soybeans"
+      },
+      "max_height_m": [
+        0.5,
+        1.0
+      ],
+      "investment_level": "MEDIUM",
+      "major_risks": [
+        "rainfall_variability",
+        "pod_borer",
+        "yellow_mosaic"
+      ],
+      "pop": {
+        "season_note": "kharif, rainfed dominant in Maharashtra",
+        "sowing": {
+          "window": [
+            "06-20",
+            "07-05"
+          ],
+          "window_basis": "ICAR-IISR 2023 Table 2, Central zone row: '20th June-5th July'. NFSM 2018 gives the national rainfed window 'mid of June to end of June subject to availability of soil moisture/rainfall', quoted below.",
+          "quotes": [
+            {
+              "text": "20th June-5th July",
+              "file": "pop_pdfs/icar_iisr_soybean_2023.txt",
+              "lines": "1014",
+              "label": "Table 2, Central zone sowing time"
+            },
+            {
+              "text": "Optimum time of sowing is from  mid of June to end of June subject to availability of  soil moisture/rainfall.",
+              "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+              "lines": "90-91",
+              "label": "NFSM sowing time"
+            }
+          ]
+        },
+        "seed_rate_kg_ha": [
+          55,
+          65
+        ],
+        "seed_rate_note": "ICAR Central zone 65 kg/ha; NFSM 55-65 kg/ha. ICAR: raise to 75 for bold seed, lower to 45-50 for small seed.",
+        "spacing_cm": [
+          30,
+          45
+        ],
+        "fertilizer": {
+          "N": 25,
+          "P": 100,
+          "K": 50,
+          "S": 50
+        },
+        "fertilizer_note": "ICAR Central zone dose 25:100:50:50 NPKS kg/ha. NFSM publishes 25:60:40:30 for the north plains - recorded, not used, because Maharashtra is Central zone.",
+        "yield_kg_ha_rainfed": [
+          1600,
+          2000
+        ],
+        "soil_optimal_add": [
+          "BLACK"
+        ],
+        "soil_evidence": "NFSM: soybean performs best on vertisols - black cotton soil (BLACK, a vertisol) is local optimal practice, overriding the EcoCrop global texture envelope.",
+        "intercrop_note": "Soybean + pigeon pea (tur) in 4:2 rows is the most popular rainfed intercrop in Maharashtra including Vidarbha.",
+        "quotes": [
+          {
+            "text": "Soybean can be grown on wide range of soils with better performance under vertisols rich in organic carbon.",
+            "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+            "lines": "94-95",
+            "label": "NFSM soil preference (settles the EcoCrop conflict)"
+          },
+          {
+            "text": "The optimum seed rate of 55-65 kg/ha with a spacing of 30-45 cm, which can be reduced with the use of broad-bed-furrow/ridge-furrow.",
+            "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+            "lines": "136-137",
+            "label": "NFSM seed rate and spacing"
+          },
+          {
+            "text": "fertilizers sources in order to meet the nutritional requirement (25:100:50:50 kg",
+            "file": "pop_pdfs/icar_iisr_soybean_2023.txt",
+            "lines": "1089",
+            "label": "ICAR Table 3, Central zone NPKS dose"
+          },
+          {
+            "text": "Recommended dose of 25: 60: 40:30 kg / ha of N: P: K: S in north plains and application of 5 kg Zn per ha through zinc sulphate is also recommended for better yields.",
+            "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+            "lines": "148-149",
+            "label": "NFSM nutrient dose (north plains - recorded for transparency, not used for Maharashtra)"
+          },
+          {
+            "text": "+pigeon pea in 4: 2 combinations are most popular inter-cropping system under",
+            "file": "pop_pdfs/icar_iisr_soybean_2023.txt",
+            "lines": "1098",
+            "label": "ICAR soybean + tur 4:2 intercrop, rainfed Maharashtra"
+          },
+          {
+            "text": "Under rainfed condition – 1600-2000 kg/ha and under Irrigated condition – 2000-2500 kg/ha.",
+            "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+            "lines": "177",
+            "label": "NFSM yield reference"
+          }
+        ]
+      },
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1150"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 11, row(s): Tropics (Dec planting) = 85 d; Central USA (May) = 140 d; Japan (June) = 150 d",
+          "caveat": "FAO-56 Table 11 is a cross-region envelope; the table itself states the lengths are examples from the listed regions and that local observations should be used. Read this as a plausible span, not a local figure."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1150 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1150 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1150 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1150 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1150 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1150 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1150"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "SOURCED_LOCAL_OVERRIDE",
+          "citation": "app/data/sources/pop_transcribed.json (soybean.soil_evidence) - Maharashtra package-of-practices; EcoCrop envelope overridden",
+          "added": [
+            "BLACK"
+          ]
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Soybeans'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Soybeans'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": null,
+      "sourcing_note": null
+    },
+    {
+      "id": "tur",
+      "scientific_name": "Cajanus cajan",
+      "seasons": [
+        "KHARIF"
+      ],
+      "duration_days": [
+        90,
+        365
+      ],
+      "water_need_class": "HIGH",
+      "temp_optimal_c": [
+        18.0,
+        38.0
+      ],
+      "temp_absolute_c": [
+        10.0,
+        45.0
+      ],
+      "rainfall_optimal_mm": [
+        600.0,
+        1500.0
+      ],
+      "rainfall_absolute_mm": [
+        400.0,
+        4000.0
+      ],
+      "ph_optimal": [
+        5.0,
+        7.0
+      ],
+      "ph_absolute": [
+        4.5,
+        8.4
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "light"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [],
+      "soil_types_optimal": [
+        "RED",
+        "ALLUVIAL",
+        "LATERITE",
+        "SANDY_LOAM"
+      ],
+      "soil_types_tolerated": [
+        "BLACK",
+        "CLAY_LOAM"
+      ],
+      "kc": {
+        "ini": [
+          0.4,
+          0.4
+        ],
+        "mid": [
+          1.15,
+          1.15
+        ],
+        "end": [
+          0.35,
+          0.35
+        ],
+        "max_height_m": [
+          0.4,
+          0.4
+        ],
+        "row": "Beans, dry and Pulses"
+      },
+      "max_height_m": [
+        0.4,
+        0.4
+      ],
+      "investment_level": "LOW",
+      "major_risks": [
+        "pod_borer",
+        "wilt",
+        "price_volatility"
+      ],
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 576"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 576 'Crop cycle' = 90-365 days",
+          "caveat": "FAO-56 Table 11 has no row for this crop, so EcoCrop's global crop-cycle envelope is used instead. It is wider than a real local season."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 576 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 576 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 576 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 576 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 576 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 576 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 576"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears in EcoCrop's Optimal texture list. eco_credit 1.0"
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Beans, dry and Pulses'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Beans, dry and Pulses'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": "FAO-56 Table 12 has no pigeon-pea row; the dry-beans/pulses row is used as a proxy.",
+      "sourcing_note": null
+    },
+    {
+      "id": "cotton",
+      "scientific_name": "Gossypium hirsutum",
+      "seasons": [
+        "KHARIF"
+      ],
+      "duration_days": [
+        180,
+        225
+      ],
+      "water_need_class": "HIGH",
+      "temp_optimal_c": [
+        22.0,
+        36.0
+      ],
+      "temp_absolute_c": [
+        15.0,
+        42.0
+      ],
+      "rainfall_optimal_mm": [
+        750.0,
+        1200.0
+      ],
+      "rainfall_absolute_mm": [
+        450.0,
+        1500.0
+      ],
+      "ph_optimal": [
+        6.0,
+        7.5
+      ],
+      "ph_absolute": [
+        5.0,
+        9.5
+      ],
+      "soil_texture_optimal": [
+        "heavy",
+        "medium"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light",
+        "organic"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "soil_types_optimal": [
+        "BLACK",
+        "CLAY_LOAM",
+        "RED",
+        "ALLUVIAL"
+      ],
+      "soil_types_tolerated": [
+        "SALINE",
+        "LATERITE",
+        "SANDY_LOAM"
+      ],
+      "kc": {
+        "ini": [
+          0.35,
+          0.35
+        ],
+        "mid": [
+          1.15,
+          1.2
+        ],
+        "end": [
+          0.5,
+          0.7
+        ],
+        "max_height_m": [
+          1.2,
+          1.5
+        ],
+        "row": "Cotton"
+      },
+      "max_height_m": [
+        1.2,
+        1.5
+      ],
+      "investment_level": "HIGH",
+      "major_risks": [
+        "pink_bollworm",
+        "price_volatility",
+        "water_stress"
+      ],
+      "pop": {
+        "season_note": "kharif, rainfed dominant in Maharashtra (Central zone)",
+        "sowing": {
+          "window": [
+            "06-15",
+            "07-15"
+          ],
+          "window_basis": "Event, not dates: DCD reckoner - 'Seeds of rainfed cotton are sown with onset of monsoon in central and south zones'. Start is the usual Maharashtra monsoon onset (mid-June) encoded as 06-15 and labelled an approximation; the end date is sourced directly: 'Sowing of Non Bt varieties before 15th July'.",
+          "approximation": "start date approximated from 'onset of monsoon'; end date is verbatim",
+          "quotes": [
+            {
+              "text": "Seeds of rainfed cotton are sown with onset of monsoon in central and south zones",
+              "file": "pop_pdfs/cotton_readyreckoner.txt",
+              "lines": "1697",
+              "label": "DCD Central zone sowing"
+            },
+            {
+              "text": "Sowing of Non Bt varieties before 15th July to avoid stress and bollworm infestation.",
+              "file": "pop_pdfs/cotton_readyreckoner.txt",
+              "lines": "1705",
+              "label": "DCD sowing deadline"
+            }
+          ]
+        },
+        "seed_rate_kg_ha": [
+          12,
+          15
+        ],
+        "seed_rate_note": "Rainfed deshi cotton 12-15 kg/ha (Central zone). Reckoner also gives irrigated deshi 18-20, hybrid rainfed 3-3.5 kg/ha.",
+        "fertilizer": {
+          "N": 40,
+          "P": 20,
+          "K": 20
+        },
+        "fertilizer_note": "Central zone deshi cotton. Reckoner: American cotton N50/P25/K25, hybrids N160/P80/K80. FYM or compost 2-3 t/ha 14-15 days before sowing.",
+        "quotes": [
+          {
+            "text": "Seed rate for south and central zones irrigated crop is 18 -20 kg / ha and rainfed 12 -15 kg / ha, Hybrid irrigated 2-3 kg / ha and rainfed 3-3.5 kg / ha.",
+            "file": "pop_pdfs/cotton_readyreckoner.txt",
+            "lines": "1724-1725",
+            "label": "DCD Central zone seed rate"
+          },
+          {
+            "text": "Recommended dose of fertilizers in central zone is N 40 kg / ha, P 20 kg / ha and K 20kg / ha for deshi cotton",
+            "file": "pop_pdfs/cotton_readyreckoner.txt",
+            "lines": "1726-1727",
+            "label": "DCD Central zone fertiliser (dhi/deshi row)"
+          },
+          {
+            "text": "Apply Farm Yard Manure (FYM) or compost @ 2 -3 tonnes / ha or vermi compost @ 2.5 tonnes / ha 14-15 days before sowing.",
+            "file": "pop_pdfs/cotton_readyreckoner.txt",
+            "lines": "1684-1685",
+            "label": "DCD FYM advisory"
+          }
+        ]
+      },
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1160"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 11, row(s): Egypt/Pakistan/California (Mar-May) = 195 d; California Desert (Mar) = 225 d; Yemen (Sept) = 195 d; Texas (Apr) = 180 d",
+          "caveat": "FAO-56 Table 11 is a cross-region envelope; the table itself states the lengths are examples from the listed regions and that local observations should be used. Read this as a plausible span, not a local figure."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1160 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1160 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1160 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1160 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1160 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1160 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1160"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears in EcoCrop's Optimal texture list. eco_credit 1.0"
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Cotton'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Cotton'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": null,
+      "sourcing_note": null
+    },
+    {
+      "id": "maize",
+      "scientific_name": "Zea mays ssp. mays",
+      "seasons": [
+        "KHARIF",
+        "RABI"
+      ],
+      "duration_days": [
+        125,
+        180
+      ],
+      "water_need_class": "MEDIUM",
+      "temp_optimal_c": [
+        18.0,
+        33.0
+      ],
+      "temp_absolute_c": [
+        10.0,
+        47.0
+      ],
+      "rainfall_optimal_mm": [
+        600.0,
+        1200.0
+      ],
+      "rainfall_absolute_mm": [
+        400.0,
+        1800.0
+      ],
+      "ph_optimal": [
+        5.0,
+        7.0
+      ],
+      "ph_absolute": [
+        4.5,
+        8.5
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "organic"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "soil_types_optimal": [
+        "RED",
+        "ALLUVIAL"
+      ],
+      "soil_types_tolerated": [
+        "BLACK",
+        "CLAY_LOAM",
+        "SALINE",
+        "LATERITE",
+        "SANDY_LOAM"
+      ],
+      "kc": {
+        "ini": [
+          0.3,
+          0.3
+        ],
+        "mid": [
+          1.2,
+          1.2
+        ],
+        "end": [
+          0.35,
+          0.6
+        ],
+        "max_height_m": [
+          2.0,
+          2.0
+        ],
+        "row": "Maize, Field (grain)"
+      },
+      "max_height_m": [
+        2.0,
+        2.0
+      ],
+      "investment_level": "MEDIUM",
+      "major_risks": [
+        "fall_armyworm",
+        "lodging"
+      ],
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 238663"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 11, row(s): East Africa, alt. (Apr) = 180 d; Arid Climate (Dec/Jan) = 140 d; Nigeria, humid (June) = 125 d; India, dry and cool (Oct) = 125 d; Spain (Apr) = 150 d; Idaho USA (Apr) = 170 d",
+          "caveat": "FAO-56 Table 11 is a cross-region envelope; the table itself states the lengths are examples from the listed regions and that local observations should be used. Read this as a plausible span, not a local figure."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 238663 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 238663 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 238663 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 238663 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 238663 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 238663 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 238663"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears in EcoCrop's Optimal texture list. eco_credit 1.0"
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Maize, Field (grain)'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Maize, Field (grain)'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": null,
+      "sourcing_note": "Cultivated maize. EcoCrop's generic 'Zea mays' record (id 2175) has blank soil texture and drainage cells; this subspecies record has both."
+    },
+    {
+      "id": "jowar",
+      "scientific_name": "Sorghum bicolor",
+      "seasons": [
+        "KHARIF",
+        "RABI"
+      ],
+      "duration_days": [
+        130,
+        140
+      ],
+      "water_need_class": "MEDIUM",
+      "temp_optimal_c": [
+        22.0,
+        35.0
+      ],
+      "temp_absolute_c": [
+        8.0,
+        40.0
+      ],
+      "rainfall_optimal_mm": [
+        400.0,
+        600.0
+      ],
+      "rainfall_absolute_mm": [
+        300.0,
+        700.0
+      ],
+      "ph_optimal": [
+        5.5,
+        7.5
+      ],
+      "ph_absolute": [
+        5.0,
+        8.0
+      ],
+      "soil_texture_optimal": [
+        "heavy",
+        "medium"
+      ],
+      "soil_texture_absolute": [
+        "wide"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "soil_types_optimal": [
+        "BLACK",
+        "CLAY_LOAM",
+        "RED",
+        "ALLUVIAL"
+      ],
+      "soil_types_tolerated": [
+        "LATERITE",
+        "SANDY_LOAM",
+        "SALINE"
+      ],
+      "kc": {
+        "ini": [
+          0.3,
+          0.3
+        ],
+        "mid": [
+          1.0,
+          1.1
+        ],
+        "end": [
+          0.55,
+          0.55
+        ],
+        "max_height_m": [
+          1.0,
+          2.0
+        ],
+        "row": "Sorghum - grain"
+      },
+      "max_height_m": [
+        1.0,
+        2.0
+      ],
+      "investment_level": "LOW",
+      "major_risks": [
+        "shoot_fly",
+        "bird_damage"
+      ],
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 48747"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 11, row(s): Sorghum, USA/Pakistan/Mediterranean (May/June) = 130 d; Sorghum, Arid Region (Mar/Apr) = 140 d",
+          "caveat": "FAO-56 Table 11 is a cross-region envelope; the table itself states the lengths are examples from the listed regions and that local observations should be used. Read this as a plausible span, not a local figure."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 48747 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 48747 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 48747 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 48747 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 48747 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 48747 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 48747"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears in EcoCrop's Optimal texture list. eco_credit 1.0"
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Sorghum - grain'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Sorghum - grain'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": null,
+      "sourcing_note": null
+    },
+    {
+      "id": "bajra",
+      "scientific_name": "Pennisetum glaucum",
+      "seasons": [
+        "KHARIF",
+        "SUMMER"
+      ],
+      "duration_days": [
+        105,
+        140
+      ],
+      "water_need_class": "LOW",
+      "temp_optimal_c": [
+        25.0,
+        35.0
+      ],
+      "temp_absolute_c": [
+        12.0,
+        40.0
+      ],
+      "rainfall_optimal_mm": [
+        400.0,
+        900.0
+      ],
+      "rainfall_absolute_mm": [
+        200.0,
+        1700.0
+      ],
+      "ph_optimal": [
+        5.0,
+        6.5
+      ],
+      "ph_absolute": [
+        4.5,
+        8.3
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "light"
+      ],
+      "soil_texture_absolute": [
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "soil_types_optimal": [
+        "RED",
+        "ALLUVIAL",
+        "LATERITE",
+        "SANDY_LOAM"
+      ],
+      "soil_types_tolerated": [
+        "SALINE"
+      ],
+      "kc": {
+        "ini": [
+          0.3,
+          0.3
+        ],
+        "mid": [
+          1.0,
+          1.0
+        ],
+        "end": [
+          0.3,
+          0.3
+        ],
+        "max_height_m": [
+          1.5,
+          1.5
+        ],
+        "row": "Millet"
+      },
+      "max_height_m": [
+        1.5,
+        1.5
+      ],
+      "investment_level": "LOW",
+      "major_risks": [
+        "drought",
+        "downy_mildew"
+      ],
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 8418"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 11, row(s): Millet, Pakistan (June) = 105 d; Millet, Central USA (Apr) = 140 d",
+          "caveat": "FAO-56 Table 11 is a cross-region envelope; the table itself states the lengths are examples from the listed regions and that local observations should be used. Read this as a plausible span, not a local figure."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 8418 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 8418 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 8418 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 8418 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 8418 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 8418 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 8418"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears in EcoCrop's Optimal texture list. eco_credit 1.0"
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Millet'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Millet'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": null,
+      "sourcing_note": null
+    },
+    {
+      "id": "groundnut",
+      "scientific_name": "Arachis hypogaea",
+      "seasons": [
+        "KHARIF",
+        "SUMMER"
+      ],
+      "duration_days": [
+        130,
+        140
+      ],
+      "water_need_class": "MEDIUM",
+      "temp_optimal_c": [
+        22.0,
+        32.0
+      ],
+      "temp_absolute_c": [
+        10.0,
+        45.0
+      ],
+      "rainfall_optimal_mm": [
+        600.0,
+        1500.0
+      ],
+      "rainfall_absolute_mm": [
+        400.0,
+        4000.0
+      ],
+      "ph_optimal": [
+        5.5,
+        6.5
+      ],
+      "ph_absolute": [
+        4.5,
+        8.5
+      ],
+      "soil_texture_optimal": [
+        "medium"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light",
+        "organic"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "low (<4 dS/m)"
+      ],
+      "soil_types_optimal": [
+        "RED",
+        "ALLUVIAL"
+      ],
+      "soil_types_tolerated": [
+        "BLACK",
+        "CLAY_LOAM",
+        "LATERITE",
+        "SANDY_LOAM"
+      ],
+      "kc": {
+        "ini": [
+          0.4,
+          0.4
+        ],
+        "mid": [
+          1.15,
+          1.15
+        ],
+        "end": [
+          0.6,
+          0.6
+        ],
+        "max_height_m": [
+          0.4,
+          0.4
+        ],
+        "row": "Groundnut (Peanut)"
+      },
+      "max_height_m": [
+        0.4,
+        0.4
+      ],
+      "investment_level": "MEDIUM",
+      "major_risks": [
+        "tikka_disease",
+        "pod_rot",
+        "rain_at_harvest"
+      ],
+      "pop": {
+        "season_note": "kharif (rabi and summer windows also published)",
+        "sowing": {
+          "window": [
+            "06-01",
+            "07-31"
+          ],
+          "window_basis": "Month band as published: 'Kharif-groundnut- June to July subject to onset of monsoon'. Rabi (November) and summer (February-March) windows are in the same quote but not modelled - the MVP recommends kharif crops in kharif.",
+          "window_basis_detail": "The published band is whole months, so the structured window spans 1 June to 31 July - no more precision than the source.",
+          "quotes": [
+            {
+              "text": "Kharif-groundnut- June to July subject to onset of monsoon, Rabi groundnut-November and Summer groundnut-February-March.",
+              "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+              "lines": "240-241",
+              "label": "NFSM sowing windows by season"
+            },
+            {
+              "text": "Sandy-loam soils rich in organic matter is considered as best.",
+              "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+              "lines": "244",
+              "label": "NFSM soil preference (agrees with the EcoCrop texture envelope; no override needed)"
+            }
+          ]
+        },
+        "seed_rate_kg_ha": [
+          95,
+          110
+        ],
+        "seed_rate_note": "Bunch types 100-110 kg/ha at 30x10 cm; spreading/semi-spreading 95-100 kg/ha at 45x10 cm.",
+        "quotes": [
+          {
+            "text": "100-110 kg seed/ha with 30x10 and a plant population of 3.33 lakh  per ha for bunch type groundnut varieties and 95 -100 kg seed per ha for spreading and semi - spreading varieties with a spacing of 45 x 10 cms",
+            "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+            "lines": "285-287",
+            "label": "NFSM seed rate and spacing"
+          }
+        ]
+      },
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2199"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 11, row(s): Dry season, West Africa = 130 d; High Latitudes = 140 d; Mediterranean (May; May/June) = 140 d",
+          "caveat": "FAO-56 Table 11 is a cross-region envelope; the table itself states the lengths are examples from the listed regions and that local observations should be used. Read this as a plausible span, not a local figure."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2199 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2199 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2199 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2199 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2199 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2199 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2199"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears in EcoCrop's Optimal texture list. eco_credit 1.0"
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Groundnut (Peanut)'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Groundnut (Peanut)'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": null,
+      "sourcing_note": null
+    },
+    {
+      "id": "onion",
+      "scientific_name": "Allium cepa",
+      "seasons": [
+        "RABI",
+        "KHARIF",
+        "SUMMER"
+      ],
+      "duration_days": [
+        150,
+        210
+      ],
+      "water_need_class": "HIGH",
+      "temp_optimal_c": [
+        12.0,
+        25.0
+      ],
+      "temp_absolute_c": [
+        4.0,
+        30.0
+      ],
+      "rainfall_optimal_mm": [
+        350.0,
+        600.0
+      ],
+      "rainfall_absolute_mm": [
+        300.0,
+        2800.0
+      ],
+      "ph_optimal": [
+        6.0,
+        7.0
+      ],
+      "ph_absolute": [
+        4.3,
+        8.3
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "organic"
+      ],
+      "soil_texture_absolute": [
+        "wide",
+        "organic"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "soil_types_optimal": [
+        "RED",
+        "ALLUVIAL"
+      ],
+      "soil_types_tolerated": [
+        "BLACK",
+        "LATERITE",
+        "SANDY_LOAM",
+        "CLAY_LOAM",
+        "SALINE"
+      ],
+      "kc": {
+        "ini": [
+          0.7,
+          0.7
+        ],
+        "mid": [
+          1.05,
+          1.05
+        ],
+        "end": [
+          0.75,
+          0.75
+        ],
+        "max_height_m": [
+          0.4,
+          0.4
+        ],
+        "row": "Onions - dry"
+      },
+      "max_height_m": [
+        0.4,
+        0.4
+      ],
+      "investment_level": "HIGH",
+      "major_risks": [
+        "thrips",
+        "price_volatility",
+        "storage_loss",
+        "export_policy"
+      ],
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 364"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 11, row(s): Onion (dry), Mediterranean (Apr) = 150 d; Onion (dry), Arid Region / California = 210 d",
+          "caveat": "FAO-56 Table 11 is a cross-region envelope; the table itself states the lengths are examples from the listed regions and that local observations should be used. Read this as a plausible span, not a local figure."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 364 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 364 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 364 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 364 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 364 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 364 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 364"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears in EcoCrop's Optimal texture list. eco_credit 1.0"
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Onions - dry'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Onions - dry'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": null,
+      "sourcing_note": null
+    },
+    {
+      "id": "sugarcane",
+      "scientific_name": "Saccharum officinarum",
+      "seasons": [
+        "PERENNIAL"
+      ],
+      "duration_days": [
+        405,
+        480
+      ],
+      "water_need_class": "HIGH",
+      "temp_optimal_c": [
+        24.0,
+        37.0
+      ],
+      "temp_absolute_c": [
+        15.0,
+        41.0
+      ],
+      "rainfall_optimal_mm": [
+        1500.0,
+        2000.0
+      ],
+      "rainfall_absolute_mm": [
+        1000.0,
+        5000.0
+      ],
+      "ph_optimal": [
+        5.0,
+        8.0
+      ],
+      "ph_absolute": [
+        4.5,
+        9.0
+      ],
+      "soil_texture_optimal": [
+        "heavy",
+        "medium"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "poorly (saturated >50% of year)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "soil_types_optimal": [
+        "BLACK",
+        "CLAY_LOAM",
+        "RED",
+        "ALLUVIAL"
+      ],
+      "soil_types_tolerated": [
+        "SALINE",
+        "LATERITE",
+        "SANDY_LOAM"
+      ],
+      "kc": {
+        "ini": [
+          0.4,
+          0.4
+        ],
+        "mid": [
+          1.25,
+          1.25
+        ],
+        "end": [
+          0.75,
+          0.75
+        ],
+        "max_height_m": [
+          3.0,
+          3.0
+        ],
+        "row": "Sugar Cane"
+      },
+      "max_height_m": [
+        3.0,
+        3.0
+      ],
+      "investment_level": "HIGH",
+      "major_risks": [
+        "water_stress",
+        "mill_payment_delay",
+        "red_rot"
+      ],
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1884"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 11, row(s): Sugarcane, virgin, Low Latitudes = 405 d; Sugarcane, virgin, Tropics = 480 d",
+          "caveat": "FAO-56 Table 11 is a cross-region envelope; the table itself states the lengths are examples from the listed regions and that local observations should be used. Read this as a plausible span, not a local figure."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1884 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1884 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1884 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1884 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1884 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1884 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 9432 (Saccharum barberi) - substituted because record 1884 has no soil texture data"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears in EcoCrop's Optimal texture list. eco_credit 1.0"
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Sugar Cane'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Sugar Cane'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": null,
+      "sourcing_note": "The Saccharum officinarum record has blank soil texture and drainage cells. Saccharum barberi (Indian cane) supplies those two fields only."
+    },
+    {
+      "id": "rice",
+      "scientific_name": "Oryza sativa",
+      "seasons": [
+        "KHARIF"
+      ],
+      "duration_days": [
+        150,
+        180
+      ],
+      "water_need_class": "HIGH",
+      "temp_optimal_c": [
+        20.0,
+        30.0
+      ],
+      "temp_absolute_c": [
+        10.0,
+        36.0
+      ],
+      "rainfall_optimal_mm": [
+        1500.0,
+        2000.0
+      ],
+      "rainfall_absolute_mm": [
+        1000.0,
+        4000.0
+      ],
+      "ph_optimal": [
+        5.5,
+        7.0
+      ],
+      "ph_absolute": [
+        4.5,
+        9.0
+      ],
+      "soil_texture_optimal": [
+        "wide"
+      ],
+      "soil_texture_absolute": [
+        "wide"
+      ],
+      "soil_drainage_optimal": [
+        "poorly (saturated >50% of year)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "low (<4 dS/m)"
+      ],
+      "soil_types_optimal": null,
+      "soil_types_tolerated": [
+        "BLACK",
+        "RED",
+        "LATERITE",
+        "ALLUVIAL",
+        "SANDY_LOAM",
+        "CLAY_LOAM"
+      ],
+      "kc": {
+        "ini": [
+          1.05,
+          1.05
+        ],
+        "mid": [
+          1.2,
+          1.2
+        ],
+        "end": [
+          0.6,
+          0.9
+        ],
+        "max_height_m": [
+          1.0,
+          1.0
+        ],
+        "row": "Rice"
+      },
+      "max_height_m": [
+        1.0,
+        1.0
+      ],
+      "investment_level": "MEDIUM",
+      "major_risks": [
+        "water_shortage",
+        "blast",
+        "heavy_rain_at_harvest"
+      ],
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1574"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 11, row(s): Tropics; Mediterranean (Dec; May) = 150 d; Tropics (May) = 180 d",
+          "caveat": "FAO-56 Table 11 is a cross-region envelope; the table itself states the lengths are examples from the listed regions and that local observations should be used. Read this as a plausible span, not a local figure."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1574 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1574 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1574 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1574 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1574 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1574 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1574"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears in EcoCrop's Optimal texture list. eco_credit 1.0"
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Rice'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Rice'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": null,
+      "sourcing_note": null
+    },
+    {
+      "id": "wheat",
+      "scientific_name": "Triticum aestivum",
+      "seasons": [
+        "RABI"
+      ],
+      "duration_days": [
+        120,
+        200
+      ],
+      "water_need_class": "MEDIUM",
+      "temp_optimal_c": [
+        15.0,
+        23.0
+      ],
+      "temp_absolute_c": [
+        5.0,
+        27.0
+      ],
+      "rainfall_optimal_mm": [
+        750.0,
+        900.0
+      ],
+      "rainfall_absolute_mm": [
+        300.0,
+        1600.0
+      ],
+      "ph_optimal": [
+        6.0,
+        7.0
+      ],
+      "ph_absolute": [
+        5.5,
+        8.5
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "organic"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "soil_types_optimal": [
+        "RED",
+        "ALLUVIAL"
+      ],
+      "soil_types_tolerated": [
+        "BLACK",
+        "CLAY_LOAM",
+        "SALINE"
+      ],
+      "kc": {
+        "ini": [
+          0.3,
+          0.3
+        ],
+        "mid": [
+          1.15,
+          1.15
+        ],
+        "end": [
+          0.25,
+          0.4
+        ],
+        "max_height_m": [
+          1.0,
+          1.0
+        ],
+        "row": "Spring Wheat"
+      },
+      "max_height_m": [
+        1.0,
+        1.0
+      ],
+      "investment_level": "MEDIUM",
+      "major_risks": [
+        "heat_wave_at_grain_fill",
+        "rust"
+      ],
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2114"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 11, row(s): Barley/Oats/Wheat, Central India (Nov) = 120 d; Barley/Oats/Wheat, 35-45 deg latitude (Mar/Apr) = 135 d; Barley/Oats/Wheat, East Africa (July) = 150 d; Barley/Oats/Wheat (Apr) = 130 d; Barley/Oats/Wheat (Nov) = 200 d; Barley/Oats/Wheat, California Desert (Dec) = 160 d",
+          "caveat": "FAO-56 Table 11 is a cross-region envelope; the table itself states the lengths are examples from the listed regions and that local observations should be used. Read this as a plausible span, not a local figure."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2114 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2114 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2114 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2114 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2114 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2114 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2114"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears in EcoCrop's Optimal texture list. eco_credit 1.0"
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Spring Wheat'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Spring Wheat'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": "Kc ini is the Cereals group value (0.3). The Winter Wheat row is not used because Maharashtra wheat is not winter-dormant.",
+      "sourcing_note": null
+    },
+    {
+      "id": "gram",
+      "scientific_name": "Cicer arietinum",
+      "seasons": [
+        "RABI"
+      ],
+      "duration_days": [
+        90,
+        180
+      ],
+      "water_need_class": "LOW",
+      "temp_optimal_c": [
+        15.0,
+        29.0
+      ],
+      "temp_absolute_c": [
+        7.0,
+        35.0
+      ],
+      "rainfall_optimal_mm": [
+        600.0,
+        1000.0
+      ],
+      "rainfall_absolute_mm": [
+        300.0,
+        1800.0
+      ],
+      "ph_optimal": [
+        6.0,
+        8.5
+      ],
+      "ph_absolute": [
+        4.7,
+        9.5
+      ],
+      "soil_texture_optimal": [
+        "heavy",
+        "medium"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "soil_types_optimal": [
+        "BLACK",
+        "CLAY_LOAM",
+        "RED",
+        "ALLUVIAL"
+      ],
+      "soil_types_tolerated": [
+        "SALINE",
+        "LATERITE",
+        "SANDY_LOAM"
+      ],
+      "kc": {
+        "ini": [
+          0.4,
+          0.4
+        ],
+        "mid": [
+          1.0,
+          1.0
+        ],
+        "end": [
+          0.35,
+          0.35
+        ],
+        "max_height_m": [
+          0.4,
+          0.4
+        ],
+        "row": "Chick pea"
+      },
+      "max_height_m": [
+        0.4,
+        0.4
+      ],
+      "investment_level": "LOW",
+      "major_risks": [
+        "pod_borer",
+        "wilt",
+        "unseasonal_rain"
+      ],
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2479"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2479 'Crop cycle' = 90-180 days",
+          "caveat": "FAO-56 Table 11 has no row for this crop, so EcoCrop's global crop-cycle envelope is used instead. It is wider than a real local season."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2479 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2479 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2479 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2479 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2479 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2479 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2479"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears in EcoCrop's Optimal texture list. eco_credit 1.0"
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Chick pea'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Chick pea'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": null,
+      "sourcing_note": null
+    },
+    {
+      "id": "moong",
+      "scientific_name": "Vigna radiata",
+      "seasons": [
+        "KHARIF",
+        "SUMMER"
+      ],
+      "duration_days": [
+        110,
+        110
+      ],
+      "water_need_class": "LOW",
+      "temp_optimal_c": [
+        21.0,
+        36.0
+      ],
+      "temp_absolute_c": [
+        8.0,
+        40.0
+      ],
+      "rainfall_optimal_mm": [
+        650.0,
+        900.0
+      ],
+      "rainfall_absolute_mm": [
+        500.0,
+        1250.0
+      ],
+      "ph_optimal": [
+        5.5,
+        6.2
+      ],
+      "ph_absolute": [
+        4.3,
+        8.3
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "organic"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "soil_types_optimal": [
+        "RED",
+        "ALLUVIAL"
+      ],
+      "soil_types_tolerated": [
+        "BLACK",
+        "CLAY_LOAM",
+        "SALINE",
+        "LATERITE",
+        "SANDY_LOAM"
+      ],
+      "kc": {
+        "ini": [
+          0.4,
+          0.4
+        ],
+        "mid": [
+          1.05,
+          1.05
+        ],
+        "end": [
+          0.35,
+          0.6
+        ],
+        "max_height_m": [
+          0.4,
+          0.4
+        ],
+        "row": "Green Gram and Cowpeas"
+      },
+      "max_height_m": [
+        0.4,
+        0.4
+      ],
+      "investment_level": "LOW",
+      "major_risks": [
+        "yellow_mosaic",
+        "rainy_spell_at_harvest"
+      ],
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2150"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 11, row(s): Green gram, cowpeas, Mediterranean (Mar) = 110 d",
+          "caveat": "FAO-56 Table 11 is a cross-region envelope; the table itself states the lengths are examples from the listed regions and that local observations should be used. Read this as a plausible span, not a local figure."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2150 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2150 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2150 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2150 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2150 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2150 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2150"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears in EcoCrop's Optimal texture list. eco_credit 1.0"
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Green Gram and Cowpeas'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Green Gram and Cowpeas'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": null,
+      "sourcing_note": null
+    },
+    {
+      "id": "urad",
+      "scientific_name": "Vigna mungo",
+      "seasons": [
+        "KHARIF"
+      ],
+      "duration_days": [
+        60,
+        130
+      ],
+      "water_need_class": "LOW",
+      "temp_optimal_c": [
+        22.0,
+        35.0
+      ],
+      "temp_absolute_c": [
+        8.0,
+        40.0
+      ],
+      "rainfall_optimal_mm": [
+        650.0,
+        900.0
+      ],
+      "rainfall_absolute_mm": [
+        530.0,
+        2430.0
+      ],
+      "ph_optimal": [
+        5.5,
+        6.5
+      ],
+      "ph_absolute": [
+        4.5,
+        7.5
+      ],
+      "soil_texture_optimal": [
+        "heavy",
+        "medium"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "soil_types_optimal": [
+        "BLACK",
+        "CLAY_LOAM",
+        "RED",
+        "ALLUVIAL"
+      ],
+      "soil_types_tolerated": [
+        "SALINE"
+      ],
+      "kc": {
+        "ini": [
+          0.4,
+          0.4
+        ],
+        "mid": [
+          1.15,
+          1.15
+        ],
+        "end": [
+          0.35,
+          0.35
+        ],
+        "max_height_m": [
+          0.4,
+          0.4
+        ],
+        "row": "Beans, dry and Pulses"
+      },
+      "max_height_m": [
+        0.4,
+        0.4
+      ],
+      "investment_level": "LOW",
+      "major_risks": [
+        "yellow_mosaic",
+        "leaf_crinkle"
+      ],
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2149"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2149 'Crop cycle' = 60-130 days",
+          "caveat": "FAO-56 Table 11 has no row for this crop, so EcoCrop's global crop-cycle envelope is used instead. It is wider than a real local season."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2149 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2149 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2149 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2149 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2149 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2149 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2149"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears in EcoCrop's Optimal texture list. eco_credit 1.0"
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Beans, dry and Pulses'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Beans, dry and Pulses'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": "FAO-56 Table 12 has no black-gram row; the dry-beans/pulses row is used as a proxy.",
+      "sourcing_note": null
+    },
+    {
+      "id": "sunflower",
+      "scientific_name": "Helianthus annuus",
+      "seasons": [
+        "KHARIF",
+        "RABI",
+        "SUMMER"
+      ],
+      "duration_days": [
+        130,
+        130
+      ],
+      "water_need_class": "MEDIUM",
+      "temp_optimal_c": [
+        17.0,
+        34.0
+      ],
+      "temp_absolute_c": [
+        5.0,
+        45.0
+      ],
+      "rainfall_optimal_mm": [
+        600.0,
+        1000.0
+      ],
+      "rainfall_absolute_mm": [
+        300.0,
+        1600.0
+      ],
+      "ph_optimal": [
+        6.0,
+        7.5
+      ],
+      "ph_absolute": [
+        5.5,
+        8.0
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "light"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "low (<4 dS/m)"
+      ],
+      "soil_types_optimal": [
+        "RED",
+        "ALLUVIAL",
+        "LATERITE",
+        "SANDY_LOAM"
+      ],
+      "soil_types_tolerated": [
+        "BLACK",
+        "CLAY_LOAM"
+      ],
+      "kc": {
+        "ini": [
+          0.35,
+          0.35
+        ],
+        "mid": [
+          1.0,
+          1.15
+        ],
+        "end": [
+          0.35,
+          0.35
+        ],
+        "max_height_m": [
+          2.0,
+          2.0
+        ],
+        "row": "Sunflower"
+      },
+      "max_height_m": [
+        2.0,
+        2.0
+      ],
+      "investment_level": "LOW",
+      "major_risks": [
+        "head_borer",
+        "bird_damage"
+      ],
+      "pop": {
+        "season_note": "all seasons possible; performs best rabi/spring",
+        "sowing": {
+          "window": null,
+          "window_basis": "The source publishes a planning rule, not a calendar window: plan sowing so flowering and seed filling avoid continuous rain and temperatures above 38 degC. No month band is transcribed rather than one being invented.",
+          "quotes": [
+            {
+              "text": "Sunflower can be cultivated in all the seasons but perform better during R abi or spring/early summer.",
+              "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+              "lines": "724-725",
+              "label": "NFSM season preference"
+            },
+            {
+              "text": "Sowing time should be so planned that the flowering and seed filling stages of the crop do not coincide with continuous rainy period or high temperatures above 38°C.",
+              "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+              "lines": "729-730",
+              "label": "NFSM sowing planning rule"
+            }
+          ]
+        },
+        "seed_rate_kg_ha": [
+          5,
+          5
+        ],
+        "seed_rate_note": "5 kg/ha achieves 55,000 plants/ha on heavy soil and 74,000/ha on light soils; spacing 60x30 cm (45x30 for short-duration dwarfs).",
+        "quotes": [
+          {
+            "text": "A seed rate of 5 kg/ha is adequate to achieve required plant population of 55,000/ha under heavy soil and 74,000/ha under light soils.",
+            "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+            "lines": "765-766",
+            "label": "NFSM seed rate and populations"
+          }
+        ]
+      },
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1191"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 11, row(s): Sunflower, Mediterranean/California (Apr/May) = 130 d",
+          "caveat": "FAO-56 Table 11 is a cross-region envelope; the table itself states the lengths are examples from the listed regions and that local observations should be used. Read this as a plausible span, not a local figure."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1191 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1191 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1191 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1191 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1191 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1191 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 1191"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears in EcoCrop's Optimal texture list. eco_credit 1.0"
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Sunflower'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Sunflower'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": null,
+      "sourcing_note": null
+    },
+    {
+      "id": "safflower",
+      "scientific_name": "Carthamus tinctorius",
+      "seasons": [
+        "RABI"
+      ],
+      "duration_days": [
+        125,
+        190
+      ],
+      "water_need_class": "MEDIUM",
+      "temp_optimal_c": [
+        20.0,
+        32.0
+      ],
+      "temp_absolute_c": [
+        5.0,
+        45.0
+      ],
+      "rainfall_optimal_mm": [
+        600.0,
+        1000.0
+      ],
+      "rainfall_absolute_mm": [
+        300.0,
+        1400.0
+      ],
+      "ph_optimal": [
+        6.5,
+        7.5
+      ],
+      "ph_absolute": [
+        5.0,
+        8.0
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "light"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "soil_types_optimal": [
+        "RED",
+        "ALLUVIAL",
+        "LATERITE",
+        "SANDY_LOAM",
+        "BLACK"
+      ],
+      "soil_types_tolerated": [
+        "CLAY_LOAM",
+        "SALINE"
+      ],
+      "kc": {
+        "ini": [
+          0.35,
+          0.35
+        ],
+        "mid": [
+          1.0,
+          1.15
+        ],
+        "end": [
+          0.25,
+          0.25
+        ],
+        "max_height_m": [
+          0.8,
+          0.8
+        ],
+        "row": "Safflower"
+      },
+      "max_height_m": [
+        0.8,
+        0.8
+      ],
+      "investment_level": "LOW",
+      "major_risks": [
+        "aphids",
+        "wilt"
+      ],
+      "pop": {
+        "season_note": "rabi on residual moisture",
+        "sowing": {
+          "window": [
+            "09-21",
+            "11-15"
+          ],
+          "window_basis": "Published band 'late September to mid of November' encoded with those bounds; the crop is rabi on residual soil moisture (same source, quoted).",
+          "quotes": [
+            {
+              "text": "could be sown from late September to mid of November",
+              "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+              "lines": "880",
+              "label": "NFSM sowing window"
+            },
+            {
+              "text": "Safflower is confined to residual moisture conditions during rabi season under Vertisols over an area of 0.18 million ha with production of 0.10 million tonnes",
+              "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+              "lines": "828-829",
+              "label": "NFSM system description (vertisols, Maharashtra named in the sentence)"
+            }
+          ]
+        },
+        "seed_rate_kg_ha": [
+          7.5,
+          20
+        ],
+        "seed_rate_note": "Depending on soil conditions; spacing 30x15 or 45x20 cm.",
+        "soil_optimal_add": [
+          "BLACK"
+        ],
+        "soil_evidence": "NFSM describes safflower as grown on vertisols in rabi - black cotton soil (BLACK, a vertisol) is local optimal practice, overriding the EcoCrop global texture envelope.",
+        "quotes": [
+          {
+            "text": "Seed Rate of 7.5 kg to 20 kg / ha is used depending upon soil conditions.",
+            "file": "pop_pdfs/nfsm_oilseeds_2018.txt",
+            "lines": "906",
+            "label": "NFSM seed rate"
+          }
+        ]
+      },
+      "provenance": {
+        "scientific_name": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2514"
+        },
+        "seasons": {
+          "status": "CURATED_CONVENTION",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "duration_days": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 11, row(s): Safflower, California USA (Apr) = 125 d; Safflower, High Latitudes (Mar) = 145 d; Safflower, Arid Region (Oct/Nov) = 190 d",
+          "caveat": "FAO-56 Table 11 is a cross-region envelope; the table itself states the lengths are examples from the listed regions and that local observations should be used. Read this as a plausible span, not a local figure."
+        },
+        "water_need_class": {
+          "status": "DERIVED",
+          "method": "seasonal_water_index = Kc mid (FAO-56 Table 12) x mid season days (FAO-56 Table 11). A relative consumptive-use indicator, not a millimetre figure.",
+          "limitations": "Kc x duration does not capture puddling and percolation losses (rice), residual-moisture rabi cropping on stored soil water (safflower, gram), or conveyance losses. Treat the class as a coarse ordering, not a water budget."
+        },
+        "temp_optimal_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2514 'Temperat. requir.' Optimal"
+        },
+        "temp_absolute_c": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2514 'Temperat. requir.' Absolute"
+        },
+        "rainfall_optimal_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2514 'Rainfall (annual)' Optimal"
+        },
+        "rainfall_absolute_mm": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2514 'Rainfall (annual)' Absolute"
+        },
+        "ph_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2514 'Soil PH' Optimal"
+        },
+        "ph_absolute": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2514 'Soil PH' Absolute"
+        },
+        "soil_texture": {
+          "status": "SOURCED",
+          "citation": "EcoCrop record 2514"
+        },
+        "soil_drainage_optimal": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil drainage' Optimal - advisory only in the MVP"
+        },
+        "soil_salinity": {
+          "status": "SOURCED",
+          "citation": "EcoCrop 'Soil salinity' Optimal/Absolute",
+          "applied": "SALINE soil is excluded from soil_types_optimal whenever the crop's optimal salinity band is low only, and excluded from soil_types_tolerated when the absolute band is also low only."
+        },
+        "soil_types_optimal": {
+          "status": "SOURCED_LOCAL_OVERRIDE",
+          "citation": "app/data/sources/pop_transcribed.json (safflower.soil_evidence) - Maharashtra package-of-practices; EcoCrop envelope overridden",
+          "added": [
+            "BLACK"
+          ]
+        },
+        "soil_types_tolerated": {
+          "status": "DERIVED",
+          "method": "Soils whose texture_class appears only in EcoCrop's Absolute texture list. eco_credit 0.7"
+        },
+        "kc": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Safflower'"
+        },
+        "max_height_m": {
+          "status": "SOURCED",
+          "citation": "FAO-56 Table 12, row 'Safflower'"
+        },
+        "investment_level": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        },
+        "major_risks": {
+          "status": "CURATED_UNVALIDATED",
+          "citation": "app/data/crop_agronomy_curated.json"
+        }
+      },
+      "kc_proxy_note": null,
+      "sourcing_note": null
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+# ============ Secrets — never commit ============
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ============ Databases — farmer data is never versioned ============
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# ============ Python ============
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ============ Node (feynman-local tooling install) ============
+node_modules/
+feynman-local/
+
+# ============ Agent tooling (machine-local) ============
+.agents/
+
+# ============ Runtime / machine-specific ============
+var/
+*.log
+tmp/
+
+# ============ OS junk ============
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# ============ Editor ============
+.vscode/
+.idea/
