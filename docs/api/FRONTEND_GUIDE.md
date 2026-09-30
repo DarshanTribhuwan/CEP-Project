@@ -49,7 +49,7 @@ Auth: `Authorization: Bearer <token>` on everything except register/login/health
 |---|---|---|
 | `/health` | GET | 200. Reports `encryption_at_rest`, `encryption_key_count`, retention policy verbatim. |
 | `/providers/status` | GET | 200. Which live data feeds are configured. |
-| `/crops` | GET | 200. **The knowledge base.** 16 crops, per-field provenance. Transcribed crops carry a `pop` block (sowing window, seed rate kg/ha, fertilizer NPKS, verbatim quotes with file+line citations). Crops without a transcription return `pop: null` — absence means "not yet sourced", never invent values client-side. |
+| `/crops` | GET | 200. **The knowledge base.** 16 crops, per-field provenance. Crops with sourced agronomy carry a `pop` block (sowing window, seed rate kg/ha, fertilizer NPKS, verbatim quotes) plus `pop_status: "verified"` and `pop_sources`; the rest return `pop: null`, `pop_status: "unavailable"`, and a localized `pop_message` to show as-is — never invent values client-side. |
 | `/soil-types` | GET | 200. 7 soils with texture class and derived `typical_crops`. |
 | `/enums` | GET | 200. Every enum + localized label — **hardcode no farmer-facing text**; pull labels from here (groups: season, soil_type, soil_rain_behaviour, feedback_reason, info_wanted, problem, resource, …). |
 | `/i18n/status` | GET | 200. Translation completeness per language. |
@@ -121,10 +121,14 @@ Rules for clients:
 2. **`window_basis` tells you the precision.** Some windows are exact dates
    (ICAR table), some are month bands, cotton's start is an event ("onset of
    monsoon") — say it the way the source says it.
-3. **`pop: null` = not yet transcribed.** Don't render a sowing window the
-   backend doesn't have. Currently transcribed: **soybean, cotton, groundnut,
-   sunflower, safflower**. The other 11 (cereals, pulses, onion, sugarcane,
-   rice) are still pending a state source.
+3. **Coverage status is a field, not an inference.** Every crop carries
+   `pop_status` (`"verified"` | `"unavailable"`), `pop_available` (bool), and
+   for unavailable crops a localized `pop_message` you can render directly:
+   show a "PoP data unavailable" card with that message, never a fake number.
+   Currently verified: **soybean, cotton, groundnut, sunflower, safflower**.
+   The other 11 (cereals, pulses, onion, sugarcane, rice) are pending a state
+   source — they return `pop_status: "unavailable"` honestly. Verified crops
+   also carry `pop_sources` (the cited files) for "who says?" questions.
 4. Fertilizer values are kg/ha of nutrient (N, P, K, S) — not product quantity.
 
 ---

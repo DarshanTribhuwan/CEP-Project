@@ -244,5 +244,6 @@
   "outcome.market": "Market used",
   "outcome.transport_cost": "Transport cost",
   "outcome.profit": "Profit / loss",
-  "outcome.notes": "Problems you faced"
+  "outcome.notes": "Problems you faced",
+  "pop.unavailable": "Verified package-of-practices data for this crop is not yet sourced from an authoritative publication, so sowing window, seed rate and fertilizer figures are not shown."
 }

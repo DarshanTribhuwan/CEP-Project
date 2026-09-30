@@ -152,3 +152,41 @@ def test_api_provenance_lists_the_pop_sources(client: TestClient):
     sources = response.json()["provenance"]["sources"]
     assert "package_of_practices" in sources
     assert sources["package_of_practices"]["verification"] == "VERBATIM_QUOTE"
+
+
+# ---------------------------------------------------------------------------
+# 5. Coverage status is machine-readable: verified vs unavailable
+
+#    A client must be able to distinguish "the API has verified PoP for this
+#    crop" from "PoP was never sourced for this crop" without inferring it from
+#    the absence of the block - and when unavailable, must receive a localized
+#    farmer-facing explanation instead of an empty card.
+# ---------------------------------------------------------------------------
+
+
+def test_api_declares_pop_status_per_crop(client: TestClient):
+    response = client.get("/api/v1/crops")
+    assert response.status_code == 200
+    for crop in response.json()["crops"]:
+        if crop["id"] in TRANSCRIBED_CROPS:
+            assert crop["pop_status"] == "verified", crop["id"]
+            assert crop["pop_available"] is True
+            assert crop["pop"], f"{crop['id']}: verified means the block is present"
+            assert crop.get("pop_sources"), (
+                f"{crop['id']}: verified PoP must name its source files"
+            )
+        else:
+            assert crop["pop_status"] == "unavailable", crop["id"]
+            assert crop["pop_available"] is False
+            assert crop["pop"] is None
+            assert crop["pop_message"], f"{crop['id']}: unavailable needs an explanation"
+
+
+def test_pop_unavailable_message_localizes(client: TestClient):
+    en = client.get("/api/v1/crops", params={"lang": "en"}).json()
+    mr = client.get("/api/v1/crops", params={"lang": "mr"}).json()
+    en_crop = next(c for c in en["crops"] if c["id"] not in TRANSCRIBED_CROPS)
+    mr_crop = next(c for c in mr["crops"] if c["id"] not in TRANSCRIBED_CROPS)
+    assert en_crop["pop_message"] != mr_crop["pop_message"], (
+        "the unavailable notice must localize, not fall back to one language"
+    )

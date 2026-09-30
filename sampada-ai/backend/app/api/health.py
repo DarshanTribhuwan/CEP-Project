@@ -175,34 +175,49 @@ def crops(lang: str = Depends(get_lang)) -> dict[str, Any]:
     """
     return {
         "provenance": crop_provenance(),
-        "crops": [
-            {
-                "id": crop.id,
-                "name": {"code": crop.id, "label": crop.name(lang)},
-                "scientific_name": crop.scientific_name,
-                "seasons": crop.seasons,
-                "duration_days": crop.duration_days,
-                "water_need_class": crop.water_need_class,
-                "temp_optimal_c": crop.temp_optimal_c,
-                "temp_absolute_c": crop.temp_absolute_c,
-                "rainfall_optimal_mm": crop.rainfall_optimal_mm,
-                "rainfall_absolute_mm": crop.rainfall_absolute_mm,
-                "ph_optimal": crop.ph_optimal,
-                "ph_absolute": crop.ph_absolute,
-                "soil_types_optimal": crop.soil_types_optimal,
-                "soil_types_tolerated": crop.soil_types_tolerated,
-                "kc": crop.kc,
-                "major_risks": crop.major_risks,
-                "investment_level": crop.investment_level,
-                # Advisory package-of-practices block; absent for crops with no
-                # local transcription, so a client can never mistake silence
-                # for "no recommendation exists".
-                "pop": crop.pop,
-                "provenance": crop.provenance,
-            }
-            for crop in load_crops().values()
-        ],
+        "crops": [_crop_entry(crop, lang) for crop in load_crops().values()],
     }
+
+
+def _crop_entry(crop: Any, lang: str) -> dict[str, Any]:
+    """One crop for ``GET /crops``, with explicit PoP coverage status.
+
+    ``pop_status`` lets a client distinguish "verified PoP exists" from "never
+    sourced" without inferring it from the block's absence, and unavailable
+    crops carry a localized farmer-facing explanation instead of an empty card.
+    PoP is advisory metadata: no consumer of this endpoint changes scoring,
+    so a missing block degrades the display, never the recommendation.
+    """
+    pop = crop.pop
+    entry: dict[str, Any] = {
+        "id": crop.id,
+        "name": {"code": crop.id, "label": crop.name(lang)},
+        "scientific_name": crop.scientific_name,
+        "seasons": crop.seasons,
+        "duration_days": crop.duration_days,
+        "water_need_class": crop.water_need_class,
+        "temp_optimal_c": crop.temp_optimal_c,
+        "temp_absolute_c": crop.temp_absolute_c,
+        "rainfall_optimal_mm": crop.rainfall_optimal_mm,
+        "rainfall_absolute_mm": crop.rainfall_absolute_mm,
+        "ph_optimal": crop.ph_optimal,
+        "ph_absolute": crop.ph_absolute,
+        "soil_types_optimal": crop.soil_types_optimal,
+        "soil_types_tolerated": crop.soil_types_tolerated,
+        "kc": crop.kc,
+        "major_risks": crop.major_risks,
+        "investment_level": crop.investment_level,
+        "pop": pop,
+        "pop_status": "verified" if pop else "unavailable",
+        "pop_available": pop is not None,
+        "provenance": crop.provenance,
+    }
+    if pop:
+        entry["pop_sources"] = sorted({q["file"] for q in pop.get("quotes", []) if q.get("file")})
+    else:
+        # Localized at the edge: language affects presentation only.
+        entry["pop_message"] = t(lang, "pop.unavailable")
+    return entry
 
 
 @router.get("/soil-types", summary="Soil type reference table")
