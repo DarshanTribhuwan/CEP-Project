@@ -18,6 +18,30 @@ Recent entries:
 - 2026-09-12: installed local Feynman under `feynman-local/`; verified local run path
 - 2026-09-12: added `docs/research/FEYNMAN_PROJECT.md` and `.agents/skills/feynman/SAMPADA.md`
 
+## 2026-09-30 — git init + explicit PoP coverage status
+
+- **Verified (measured):** full suite 237/237 green on Python 3.14 (the 3.13
+  install is gone from the machine); live server health shows
+  `encryption_at_rest: enabled`, `data_mode: live` after moving
+  `SAMPADA_ENC_KEY` into `backend/.env` (git-ignored; 16/16 mobiles and all
+  farm locations re-encrypted at rest by the boot pass).
+- **Diagnosed:** one crash on user startup — a stale OS-level
+  `SAMPADA_ENC_KEY` from an earlier manual session overrode the correct `.env`
+  value (loader prefers existing env vars). `_decode_key` now prints a
+  truncated value plus the exact remediation (fresh terminal / unset var).
+- **Repo:** `git init` at project root (was 5 months with no VCS). Root
+  `.gitignore` excludes `.env`, `*.db`, `var/`, `node_modules/`,
+  `feynman-local/`, `.agents/`. Baseline commit `73e4c08` (147 files).
+- **Added:** `pop_status` (`verified`|`unavailable`), `pop_available`,
+  `pop_sources`, and localized `pop_message` (en/mr/hi) on `GET /crops` —
+  clients now distinguish sourced PoP from not-yet-sourced without inferring
+  from null, per the data-governance review. Advisory only: scoring never
+  reads PoP (verified by grep: zero `pop` references in the recommendation
+  pipeline). Commit `e9d7217`.
+- **Open:** MPKV publication for the 11 remaining crops; native-speaker review
+  of the new mr/hi `pop.unavailable` strings (drafted, unverified); OTP
+  delivery; rain calibration.
+
 ## 2026-09-17 — documentation drift audit
 
 - **Verified (measured):** the five `SAMPADA_AI_800_Page_Documentation/*.docx`
