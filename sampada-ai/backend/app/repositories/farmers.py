@@ -21,12 +21,21 @@ import hmac
 import json
 import secrets
 import sqlite3
+import time
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from ..core import crypto
+from ..core.config import settings
 from ..core.db import get_conn, now_iso
 
 PBKDF2_ITERATIONS = 200_000
+
+# A session token stops working this long after it was issued. UNVALIDATED
+# DEFAULT, deliberately generous: mobile-first farmers should not be logged
+# out mid-season, but a database leak must not hand over sessions that work
+# forever. Revocation (logout) stays immediate and independent of this.
+TOKEN_TTL_DAYS = 30
 
 
 def hash_pin(pin: str, salt: str | None = None) -> tuple[str, str]:
@@ -133,17 +142,52 @@ def issue_token(farmer_id: int) -> str:
     return token
 
 
+def _token_ttl_days() -> int:
+    """Configurable session lifetime; the constant above is the default."""
+    try:
+        return int(settings.get("backend.token_ttl_days", TOKEN_TTL_DAYS))
+    except (TypeError, ValueError):
+        return TOKEN_TTL_DAYS
+
+
+def _token_created_at(value: str) -> datetime | None:
+    """Parse a token's ``created_at`` stamp, or None when unreadable.
+
+    An unreadable stamp must not read as "issued right now" (which would
+    extend its life every boot) nor crash the request: the token is treated
+    as expired, the safe direction for a security check.
+    """
+    try:
+        return datetime.fromisoformat(value)
+    except (TypeError, ValueError):
+        return None
+
+
 def farmer_for_token(token: str) -> dict[str, Any] | None:
+    """Resolve a live session token, or None.
+
+    None covers invalid, revoked AND expired tokens: the endpoint maps all
+    three to the same 401, so the response never tells an attacker which of
+    the three conditions held.
+    """
     with get_conn() as conn:
         row = conn.execute(
             """
-            SELECT f.* FROM auth_tokens t
+            SELECT f.*, t.created_at AS token_created_at
+            FROM auth_tokens t
             JOIN farmers f ON f.id = t.farmer_id
             WHERE t.token_hash = ?
             """,
             (hash_token(token),),
         ).fetchone()
         if row is None:
+            return None
+        created = _token_created_at(row["token_created_at"])
+        ttl_days = _token_ttl_days()
+        expired = created is None or (
+            time.time() - created.timestamp() > ttl_days * 86400
+        )
+        if expired:
             return None
         conn.execute(
             "UPDATE auth_tokens SET last_used_at = ? WHERE token_hash = ?",

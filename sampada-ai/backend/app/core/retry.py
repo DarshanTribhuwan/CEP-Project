@@ -25,11 +25,31 @@ API key is final: retrying it just delays an honest "unavailable" by seconds.
 from __future__ import annotations
 
 import random
+import re
 import time
 from dataclasses import dataclass, field
 from typing import Any, Callable, TypeVar
 
 T = TypeVar("T")
+
+# Provider URLs carry credentials (the data.gov.in feed takes ``?api-key=``),
+# and httpx exception texts embed the full request URL. Any string derived
+# from a transport exception therefore passes through :func:`redact_secrets`
+# before it can reach a log, a provenance note or an API response.
+_URL_WITH_QUERY_RE = re.compile(r"(https?://[^'\"\s<>]+?)\?[^'\"\s<>]*")
+
+
+def redact_secrets(text: str) -> str:
+    """Strip query strings from any URL embedded in an exception message.
+
+    ``Server error '502 Bad Gateway' for url 'https://host/path?api-key=X'``
+    becomes ``... for url 'https://host/path?<redacted>'``. The host and path
+    stay - they are exactly what a debuggable failure message needs - while
+    everything after ``?`` (credentials among it) is dropped.
+    """
+    if not text:
+        return text
+    return _URL_WITH_QUERY_RE.sub(r"\1?<redacted>", text)
 
 # Attempt counts and delays are UNVALIDATED DEFAULTS chosen for politeness to
 # free public APIs: three attempts spread over roughly 0.6s + 1.5s of waiting.
@@ -81,8 +101,13 @@ class RetryOutcome:
 
     @property
     def failure_summary(self) -> str:
-        """A short human-readable trace, e.g. ``502 Service Unavailable -> timeout``."""
-        parts = [item.error or "unknown" for item in self.attempts if item.failed]
+        """A short human-readable trace, e.g. ``502 Service Unavailable -> timeout``.
+
+        Re-redacted here as defence in depth: the individual attempt errors
+        were redacted when recorded, but this property is the string that
+        actually travels into provenance reasons, so it re-applies the rule.
+        """
+        parts = [redact_secrets(item.error) if item.error else "unknown" for item in self.attempts if item.failed]
         return " -> ".join(parts) if parts else "no failure"
 
 
@@ -188,7 +213,10 @@ def retry_call(
                 status = getattr(getattr(exc, "response", None), "status_code", None)
             record = Attempt(
                 number=number,
-                error=f"{type(exc).__name__}: {exc}" if str(exc) else type(exc).__name__,
+                # Redacted at the record point: exception texts embed full
+                # request URLs, and provider URLs carry credentials in their
+                # query strings. Nothing downstream should ever see them.
+                error=(redact_secrets(f"{type(exc).__name__}: {exc}") if str(exc) else type(exc).__name__),
                 status_code=status if isinstance(status, int) else None,
                 delay_before_seconds=delay,
             )

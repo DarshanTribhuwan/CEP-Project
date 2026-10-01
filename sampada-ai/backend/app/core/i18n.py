@@ -24,7 +24,7 @@ from typing import Any
 
 from .config import LOCALES_DIR, settings
 
-_LANG_RE = re.compile(r"^[a-z]{2}(-[A-Za-z0-9]+)?$")
+_LANG_RE = re.compile(r"^[a-zA-Z]{2}(-[A-Za-z0-9]+)?$")
 
 
 @lru_cache(maxsize=None)
@@ -57,6 +57,9 @@ def match_lang(candidate: str | None) -> str | None:
     # "mr-IN,en;q=0.8" -> ["mr-IN", "en"]
     for chunk in str(candidate).split(","):
         tag = chunk.split(";")[0].strip().replace("_", "-")
+        # Case-insensitive: clients send "HI", "Hi-IN" and "hi" with equal
+        # standing. BCP-47 tags are case-insensitive by specification.
+        tag = tag.lower()
         if not tag or not _LANG_RE.match(tag):
             continue
         if tag in supported:

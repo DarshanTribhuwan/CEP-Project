@@ -34,7 +34,11 @@ def health() -> dict[str, Any]:
         "default_language": settings.default_language,
         "supported_languages": supported_languages(),
         "data_mode": settings.data_mode,
-        "database": str(db_path()),
+        # Named, not pathed: a diagnostic endpoint describes the database file
+        # without advertising the machine's directory layout. Operators who
+        # need the location have the config; a response body that travels
+        # through logs and screenshots should not carry it.
+        "database": db_path().name,
         # Encryption at rest: report the real state. "Disabled" here means
         # the database currently stores mobile numbers and locations in
         # clear text - the honest thing is to surface that, not bury it.

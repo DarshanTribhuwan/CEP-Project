@@ -527,3 +527,52 @@ regressions. Spec §8.5, README, and this notebook updated.
 Maharashtra package-of-practices (ICAR/MPKV), native-speaker review of mr/hi,
 `rain_behaviour_likelihood` calibration, OTP delivery, secret-manager
 integration for key storage.
+
+## 2026-10-01 — external audit corrections (security & correctness)
+
+A 19-point audit list arrived from outside the project. Most items were already
+true by design — provenance on every response, honest unavailability, weight
+redistribution with `effective_weight`, explicit (never automatic) promotion,
+MEASURED/PARTIAL/UNMEASURED evidence classes, token hashing, PBKDF2 PINs,
+per-farmer ownership (404 not 403). The audit's value was finding the gaps
+between "usually" and "always":
+
+**Bugs fixed (all found by inspection, verified red-then-green):**
+
+1. *Tokens never expired* (§3). `auth_tokens.created_at` existed; nothing read
+   it. Tokens now die after `backend.token_ttl_days` (default 30, configurable).
+   Expired ≡ invalid ≡ revoked in the response: all three are the same 401.
+   An unreadable `created_at` stamp counts as expired — the safe direction.
+2. *API key could leak through failure text* (§2/§17). httpx exception messages
+   embed the full request URL, and the data.gov.in feed takes `?api-key=`.
+   `retry.py` now redacts query strings from every recorded attempt error and
+   re-redacts `failure_summary` (defence in depth — the property that actually
+   travels into `unavailable_reason`).
+3. *No handler for unexpected exceptions* (§14). An unhandled error returned a
+   raw traceback. New `Exception` handler: logs server-side (method, path,
+   exception type — never the message), answers the structured envelope with a
+   generic message.
+4. *Validation handler could itself crash* (§14/§15). Pydantic v2 puts raw
+   `ValueError` objects in `errors()['ctx']`, which are not JSON-serializable —
+   a malformed request produced a broken 500 instead of 422. Only safe fields
+   travel now; unknown `ctx` values are stringified.
+5. *`/health` returned the absolute database path* (§16). Diagnostics now name
+   the file (`sampada.db`), not the directory layout of the machine.
+6. *`?lang=HI` fell to the default language* (§9). The BCP-47 regex was
+   lowercase-only; tags are now lowercased before matching, so `HI`, `Hi-IN`,
+   `hi_IN` all resolve like their lowercase forms.
+7. *Test suite could adopt the developer's real keys* (§2). conftest popped
+   `SAMPADA_DATA_GOV_IN_KEY` but not `SAMPADA_ENC_KEY`/`SAMPADA_ENC_KEYS`.
+   All three are now cleared before the app imports.
+
+**Verification:** 269/269 tests (32 new regression tests in
+`tests/test_audit_regressions.py`), plus a live-server journey
+(`var/audit_journey.py`, 21 checks) covering register→login→farm→soil→
+recommendation→feedback→outcome→evaluation, cross-farmer access denial, and
+both token rejections. `/docs` and `/health` re-checked on the live boot.
+
+**Deliberately not changed:** the six factor weights remain unvalidated
+defaults (documented as such — no test count inflation by renaming config),
+PoP stays `null` for the 11 unsourced crops, and no promotion happens without
+the operator's explicit decision. The audit's "do not fabricate" rule was
+already the project's core rule; it survived the audit unchanged.

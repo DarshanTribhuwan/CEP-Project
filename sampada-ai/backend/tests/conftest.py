@@ -32,12 +32,19 @@ _config_text = _config_text.replace(
 # resource id and no API key regardless of what the developer's machine has
 # (an exported variable, or backend/.env - which is never read here anyway,
 # because the app loads .env from beside SAMPADA_CONFIG, and this is a temp
-# directory). If the resource-id literal below ever drifts from config.toml,
-# the tests that depend on this fail loudly rather than quietly making live calls.
+# directory). The encryption keys are popped for the same reason. If the
+# resource-id literal below ever drifts from config.toml, the tests that
+# depend on this fail loudly rather than quietly making live calls.
 _config_text = _config_text.replace(
     'resource_id = "9ef84268-d588-465a-a308-a864a43d0070"', 'resource_id = ""'
 )
 os.environ.pop("SAMPADA_DATA_GOV_IN_KEY", None)
+# Same rule for the encryption key: a developer with backend/.env holding
+# SAMPADA_ENC_KEY must not have that key silently adopted by the test run.
+# (The app loads .env from beside SAMPADA_CONFIG, which is the temp dir, but
+# an OS-exported variable would still win - so it is popped explicitly.)
+os.environ.pop("SAMPADA_ENC_KEY", None)
+os.environ.pop("SAMPADA_ENC_KEYS", None)
 # Keep the outbound-response cache inside the temp directory too, so a test run
 # never reads or writes the developer's real cache.
 _config_text = _config_text.replace(

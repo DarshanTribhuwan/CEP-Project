@@ -12,6 +12,7 @@ from __future__ import annotations
 import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
+from typing import Any
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
@@ -99,13 +100,51 @@ async def api_error_handler(request: Request, exc: ApiError) -> JSONResponse:
 async def validation_error_handler(
     request: Request, exc: RequestValidationError
 ) -> JSONResponse:
+    """Pydantic v2 leaves raw ValueError objects inside ``errors()['ctx']``;
+    they are not JSON-serializable, so the handler itself would crash and the
+    client would see a broken 500 for a malformed request. Only the safe,
+    serializable fields travel; anything else is stringified."""
+    safe_details: list[dict[str, Any]] = []
+    for raw in exc.errors():
+        entry: dict[str, Any] = {
+            key: value for key, value in raw.items() if key in {"loc", "msg", "type", "input"}
+        }
+        ctx = raw.get("ctx")
+        if isinstance(ctx, dict):
+            entry["ctx"] = {
+                key: value if isinstance(value, (str, int, float, bool, list, dict)) else str(value)
+                for key, value in ctx.items()
+            }
+        safe_details.append(entry)
     return JSONResponse(
         status_code=422,
         content={
             "error": {
                 "code": "validation_failed",
                 "message": "the request body or parameters failed validation",
-                "details": exc.errors(),
+                "details": safe_details,
+            }
+        },
+    )
+
+
+# ---------------------------------------------------------------------------
+# Unexpected errors: log server-side, answer with a safe generic envelope.
+# No traceback, SQL statement, file path or internal detail ever reaches the
+# client - the same rule the project applies to missing data, applied to
+# failures.
+# ---------------------------------------------------------------------------
+@app.exception_handler(Exception)
+async def unhandled_error_handler(request: Request, exc: Exception) -> JSONResponse:
+    logger.exception(
+        "unhandled error on %s %s: %s", request.method, request.url.path, type(exc).__name__
+    )
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error": {
+                "code": "internal_error",
+                "message": "an unexpected error occurred; it has been logged for the operator",
             }
         },
     )
