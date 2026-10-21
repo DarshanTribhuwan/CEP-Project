@@ -14,9 +14,46 @@ Mark uncertain items as `unverified` when needed.
 
 Recent entries:
 
+- 2026-10-01: Marathi voice-to-voice assistant (first pass) — see below
 - 2026-09-12: read Chat.pdf fully; confirmed SAMPADA AI scope and MVP definition
 - 2026-09-12: installed local Feynman under `feynman-local/`; verified local run path
 - 2026-09-12: added `docs/research/FEYNMAN_PROJECT.md` and `.agents/skills/feynman/SAMPADA.md`
+
+## 2026-10-01 — Marathi voice-to-voice assistant (first pass)
+
+- **Added:** `sampada-ai/frontend/voice/` — spoken interface: mic → Bhashini ASR
+  → brain → sentence splitter → Bhashini TTS → speaker, with barge-in. 72
+  assertions, no network needed. On `feat/voice-mr-v2v`, not merged.
+- **Verified (live):** both Bhashini routes reachable. `POST /v1/asr` returns 415
+  without a multipart body; `POST /v1/synthesize` returns 401 without a key. The
+  `language` field on these two routes takes a display name (`"Marathi"`), not the
+  ISO code the pipeline API uses. **No key was available, so no audio has
+  actually round-tripped through Bhashini** — every speech claim is unverified.
+- **Verified (live, local backend):** the grounded path answered PoP for soybean
+  and cotton, a real 7-day Open-Meteo forecast, and a recommendation carrying
+  `is_provisional` with 4 unavailable inputs. Market correctly returned 503
+  (`SAMPADA_DATA_GOV_IN_KEY` unset) and was spoken as a refusal, not an error.
+- **Bug found and fixed by the tests:** crop matching failed on inflected
+  Marathi. `कांदा` is not a substring of `कांद्याची`, so "कांद्याची बियाणे किती"
+  matched nothing and fell through to the first row of the table — answering a
+  question about onion with soybean figures. Now matched on the consonant
+  skeleton, and an unnamed crop produces a question rather than a guess.
+- **Second bug, same origin:** the reference intent chain used `||` with `&&` and
+  no parentheses, which made the crop-implies-PoP clause fire before the specific
+  price and weather intents. "सोयाबीनचा भाव काय आहे" was answered with the package
+  of practices. Specific intents are now tested first.
+- **Design note:** the API's 503 message names an environment variable. That is
+  correct for an operator and useless spoken aloud, so the reason is surfaced in
+  the on-screen log and the spoken line stays farmer-facing. No operator text is
+  read to a farmer anywhere in this path.
+- **Open:** no conversation history, so Marathi follow-ups that rely on pronouns
+  lose their referent. Intent matching is keyword-based, not a classifier. The
+  soil path asks for a lab test but cannot yet hold a two-turn conversation to
+  collect the evidence. The LLM path is a prompt, not a guarantee — it can still
+  answer a price from memory, and nothing it says about a number is cited.
+- **Deliberate trade-off:** keys live in the browser and in localStorage, per the
+  call made for this iteration. Before this ships they belong in the backend, and
+  these modules become a thin client of `/api/v1/voice/*`.
 
 ## 2026-09-30 — git init + explicit PoP coverage status
 

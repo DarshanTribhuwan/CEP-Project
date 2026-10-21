@@ -65,7 +65,8 @@ python -m uvicorn app.main:app --reload --port 8000
 │   │   ├── tests/            # 237 tests
 │   │   ├── ml/               # model artifacts
 │   │   └── .env.example      # secrets template (real .env is git-ignored)
-│   └── frontend/             # reserved — frontend work lands here
+│   └── frontend/
+│       └── voice/            # Marathi voice-to-voice assistant (Bhashini ASR/TTS)
 ├── docs/
 │   ├── api/FRONTEND_GUIDE.md # ← start here for UI/voice work (32 routes)
 │   └── spec/MVP_SPEC.md      # the spec, with open items marked
@@ -83,7 +84,7 @@ python -m uvicorn app.main:app --reload --port 8000
 ## Contributing
 
 Feature branches + PRs only; `main` stays green. See [CONTRIBUTING.md](CONTRIBUTING.md).
-Frontend and voice-assistant work: read [docs/api/FRONTEND_GUIDE.md](docs/api/FRONTEND_GUIDE.md), then branch into `sampada-ai/frontend/`.
+Frontend and voice-assistant work: read [docs/api/FRONTEND_GUIDE.md](docs/api/FRONTEND_GUIDE.md), then branch into `sampada-ai/frontend/`. The Marathi voice assistant is at [sampada-ai/frontend/voice/](sampada-ai/frontend/voice/README.md) — run it with `npm test` (no network) and `npx serve -l 5173`.
 
 ## Open items (tracked in the lab notebook)
 
