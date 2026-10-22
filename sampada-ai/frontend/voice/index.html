@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAMPADA AI — मराठी आवाज</title>
+<style>
+  :root{
+    --bg:#f2f5f0; --card:#fff; --line:#dce3d8; --ink:#1c2a20; --dim:#6b7d70;
+    --green:#2e7d4f; --green-d:#215c3a; --green-l:#e2f1e7;
+    --amber:#a8690f; --amber-l:#fcf1dd; --red:#ab403c; --red-l:#f9e9e8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.55 "Nirmala UI","Segoe UI",system-ui,sans-serif}
+  header{background:var(--green);color:#fff;padding:14px 18px;
+         display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  header h1{margin:0;font-size:19px}
+  header .tag{opacity:.85;font-size:12.5px}
+  header .spacer{margin-left:auto}
+  button{font:inherit;cursor:pointer}
+  .ghost{background:transparent;color:#fff;border:1.5px solid #ffffff66;border-radius:9px;
+         padding:6px 12px;font-size:13.5px}
+  main{max-width:760px;margin:0 auto;padding:14px 16px 60px}
+
+  .notice{background:var(--amber-l);border:1px solid #ecd9b4;color:var(--amber);
+          border-radius:9px;padding:8px 12px;font-size:13px}
+  .caps{display:block;margin-top:8px;font-size:12.5px}
+  .caps.ok{color:var(--green-d)}
+  .caps.warn{color:var(--amber)}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;
+         padding:13px 15px;margin:14px 0}
+
+  #status{padding:8px 12px;border-radius:9px;background:var(--green-l);
+          color:var(--green-d);font-size:14px;margin:12px 0}
+  #status[data-kind=listening]{background:var(--amber-l);color:var(--amber)}
+  #status[data-kind=error]{background:var(--red-l);color:var(--red)}
+  #status[data-kind=thinking]{background:#eef2ec;color:var(--dim)}
+
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  #mic{width:66px;height:66px;border-radius:50%;border:none;background:var(--green);
+       color:#fff;font-size:26px;line-height:1}
+  #mic.rec{background:var(--red);animation:pulse 1.1s infinite}
+  @keyframes pulse{50%{box-shadow:0 0 0 12px #ab403c33}}
+  #speak{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);
+         background:#fff;font-size:18px}
+  #speak.on{border-color:var(--green);background:var(--green-l)}
+
+  .meter{height:6px;background:#e6ebe3;border-radius:3px;overflow:hidden;flex:1;min-width:120px}
+  .meter i{display:block;height:100%;width:0;background:var(--green);transition:width .08s}
+  .level{font-variant-numeric:tabular-nums;color:var(--dim);font-size:12.5px;min-width:32px}
+
+  #log{height:300px;overflow:auto;border:1px solid var(--line);border-radius:9px;
+       padding:11px 13px;background:#fbfcfa;margin:12px 0}
+  .turn{padding:7px 0;border-bottom:1px solid #eef1ec;white-space:pre-wrap}
+  .turn:last-child{border-bottom:none}
+  .turn.farmer{color:var(--green-d);font-weight:600}
+  .turn.assistant{color:var(--ink)}
+  .turn.system{color:var(--red);font-size:13px}
+
+  .input-row{display:flex;gap:8px;margin-top:10px}
+  #text{flex:1;padding:9px 11px;border:1px solid var(--line);border-radius:9px;
+        font:inherit;background:#fff;color:var(--ink)}
+  #text:focus{outline:2px solid #9ecdb2;border-color:var(--green)}
+  #send{background:var(--green);color:#fff;border:none;border-radius:9px;padding:9px 16px}
+
+  #settings{display:none;background:#fff;border-bottom:1px solid var(--line);
+            padding:12px 18px}
+  body.show-settings #settings{display:block}
+  #settings .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+                  gap:11px;max-width:920px;margin:0 auto}
+  #settings label{display:block;font-size:12.5px;color:var(--dim);margin-bottom:4px}
+  #settings input,#settings select{width:100%;padding:7px 9px;border:1px solid var(--line);
+                  border-radius:8px;font:inherit;background:#fff;color:var(--ink)}
+  .muted{color:var(--dim);font-size:12.5px}
+</style>
+</head>
+<body>
+
+  <header>
+    <h1>🌾 SAMPADA AI</h1>
+    <span class="tag">मराठी आवाज → आवाज</span>
+    <span class="spacer"></span>
+    <button class="ghost" id="toggle-settings">⚙ सेटिंग्ज</button>
+  </header>
+
+<div id="settings">
+  <div class="grid">
+    <div>
+      <label>Bhashini API key</label>
+      <input id="bhashini-key" type="password" placeholder="X-API-KEY">
+      <div class="muted">रिकामा असेल तर ब्राउझरचा वापर होतो.</div>
+    </div>
+    <div>
+      <label>LLM API key</label>
+      <input id="llm-key" type="password" placeholder="Bearer key">
+      <div class="muted">रिकामा असेल तर उत्तर बॅकएंडच्या माहितीवरून.</div>
+    </div>
+    <div>
+      <label>LLM model</label>
+      <input id="llm-model" placeholder="gpt-5.6-luna">
+    </div>
+    <div>
+      <label>TTS voice</label>
+      <select id="tts-voice">
+        <option>Female1</option>
+        <option>Male1</option>
+        <option>Neutral</option>
+      </select>
+    </div>
+    <div>
+      <label>Backend API base</label>
+      <input id="api-base" placeholder="http://127.0.0.1:8000/api/v1">
+    </div>
+    <div>
+      <label>भाषा</label>
+      <select id="lang">
+        <option value="mr">मराठी</option>
+        <option value="hi">हिन्दी</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+  </div>
+  <div class="row" style="margin-top:11px">
+    <button id="save-settings" class="send">जतन करा</button>
+    <button id="clear-settings" class="ghost" style="color:var(--green-d);border-color:var(--green)">रद्द करा</button>
+  </div>
+</div>
+
+<main>
+  <div class="notice">
+    हे अंदाज आणि विश्वास पातळी देते — कधीही हमी नाही. माहिती उपलब्ध नसेल तेव्हा ते स्पष्ट सांगितले जाते.
+    <span class="caps" id="caps"></span>
+  </div>
+
+  <div id="status">सुरू होत आहे…</div>
+
+  <div class="panel">
+    <div class="row">
+      <button id="mic" title="बोला">🎤</button>
+      <button id="speak" title="थांबवा">⏹</button>
+      <div class="meter"><i id="meter"></i></div>
+      <span class="level" id="level">0.00</span>
+    </div>
+    <div class="input-row">
+      <input id="text" placeholder="किंवा येथे लिहा…">
+      <button id="send">पाठवा</button>
+    </div>
+  </div>
+
+  <div id="log"></div>
+</main>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

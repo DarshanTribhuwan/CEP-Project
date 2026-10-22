@@ -1,0 +1,11 @@
+{
+  "name": "sampada-voice",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Marathi voice-to-voice assistant for SAMPADA AI (Bhashini ASR/TTS + streaming LLM, with a backend-grounded fallback).",
+  "scripts": {
+    "test": "node test/sentences.test.mjs && node test/speaker.test.mjs && node test/stt.test.mjs && node test/brain.test.mjs && node test/grounded.test.mjs",
+    "start": "npx --yes serve -l 5173 ."
+  }
+}
