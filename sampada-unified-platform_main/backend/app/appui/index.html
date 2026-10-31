@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAMPADA AI</title>
+<style>
+  :root{
+    --bg:#f2f5f0; --card:#fff; --line:#dce3d8; --ink:#1c2a20; --dim:#6b7d70;
+    --green:#2e7d4f; --green-d:#215c3a; --green-l:#e2f1e7;
+    --amber:#a8690f; --amber-l:#fcf1dd; --red:#ab403c; --red-l:#f9e9e8;
+    --blue:#29648c; --blue-l:#e7f0f6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.55 "Segoe UI",system-ui,sans-serif}
+  header{background:var(--green);color:#fff;padding:14px 18px;
+         display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  header h1{margin:0;font-size:19px;letter-spacing:.02em}
+  header .tag{opacity:.85;font-size:12.5px}
+  header select{margin-left:auto;background:#ffffff22;color:#fff;border:1px solid #ffffff55;
+                border-radius:7px;padding:4px 8px}
+  header select option{color:var(--ink)}
+  main{max-width:920px;margin:0 auto;padding:14px 16px 60px}
+  .notice{background:var(--amber-l);border:1px solid #ecd9b4;color:var(--amber);
+          border-radius:9px;padding:8px 12px;font-size:13px;margin:10px 0}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;
+        margin:14px 0;overflow:hidden}
+  .step>h2{margin:0;padding:11px 15px;font-size:15.5px;background:var(--green-l);
+           color:var(--green-d);display:flex;align-items:center;gap:9px}
+  .step>h2 .n{background:var(--green-d);color:#fff;border-radius:50%;
+              width:22px;height:22px;display:inline-flex;align-items:center;
+              justify-content:center;font-size:12px}
+  .step .in{padding:13px 15px}
+  .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:11px}
+  label{display:block;font-size:12.5px;color:var(--dim);margin:9px 0 4px}
+  input,select{width:100%;padding:8px 10px;border:1px solid var(--line);
+               border-radius:8px;font-size:14px;background:#fff;color:var(--ink)}
+  input:focus,select:focus{outline:2px solid #9ecdb2;border-color:var(--green)}
+  button{background:var(--green);border:none;color:#fff;border-radius:9px;
+         padding:9px 16px;font-size:14.5px;cursor:pointer;margin-top:12px}
+  button:hover{background:var(--green-d)}
+  button:disabled{opacity:.55;cursor:wait}
+  button.ghost{background:transparent;color:var(--green-d);border:1.5px solid var(--green)}
+  .banner{border-radius:9px;padding:10px 13px;margin:12px 0;font-size:14px}
+  .banner.ok{background:var(--green-l);color:var(--green-d);border:1px solid #bcdcc7}
+  .banner.warn{background:var(--amber-l);color:var(--amber);border:1px solid #ecd9b4}
+  .banner.err{background:var(--red-l);color:var(--red);border:1px solid #eac5c2}
+  .banner.err small{display:block;color:#93504d;margin-top:3px}
+  .kv{width:100%;border-collapse:collapse;margin:9px 0;font-size:14px}
+  .kv td{padding:6px 4px;border-bottom:1px solid #eef1ec;vertical-align:top}
+  .kv td.k{color:var(--dim);width:44%}
+  .kv td.v{text-align:right;font-weight:600}
+  .kv td.v.num{font-variant-numeric:tabular-nums}
+  table.list{border-collapse:collapse;width:100%;margin:9px 0;font-size:13.5px}
+  .list th{background:#eef2ec;color:var(--dim);font-weight:600}
+  .list th,.list td{border:1px solid var(--line);padding:5px 9px;text-align:left}
+  .list td.num{text-align:right;font-variant-numeric:tabular-nums}
+  .opts{display:flex;flex-wrap:wrap;gap:9px}
+  .opt{border:1.5px solid var(--line);background:#fff;border-radius:9px;
+       padding:7px 11px;font-size:13.5px;cursor:pointer}
+  .opt.on{border-color:var(--green);background:var(--green-l);color:var(--green-d);font-weight:600}
+  .opt.warn.on{border-color:var(--amber);background:var(--amber-l);color:var(--amber)}
+  .rank1{border-left:4px solid var(--green)}
+  .chip{display:inline-block;background:var(--blue-l);color:var(--blue);
+        border-radius:14px;padding:2px 10px;font-size:12px;margin:2px 3px 2px 0}
+  .chip.warn{background:var(--amber-l);color:var(--amber)}
+  .muted{color:var(--dim);font-size:12.5px;margin:5px 0}
+  .hidden{display:none}
+  .hint{font-size:12px;color:var(--dim);margin-top:5px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🌾 SAMPADA AI</h1>
+  <span class="tag">मार्गदर्शक — अंदाज आणि विश्वास पातळी, कधीही हमी नाही</span>
+  <select id="lang" aria-label="language">
+    <option value="en">English</option>
+    <option value="mr">मराठी</option>
+    <option value="hi">हिन्दी</option>
+  </select>
+</header>
+<main>
+  <div class="notice" id="honesty">
+    This system gives estimates with confidence levels — never guarantees.
+    Where information is unavailable, it says so instead of guessing.
+  </div>
+
+  <!-- 1. IDENTITY ------------------------------------------------------->
+  <section class="step">
+    <h2><span class="n">1</span><span data-i="s1">Who you are</span></h2>
+    <div class="in">
+      <div class="row">
+        <div><label data-i="name">Name</label><input id="f-name" value="Demo Farmer"></div>
+        <div><label data-i="mobile">Mobile (10 digits)</label><input id="f-mobile" maxlength="10" inputmode="numeric"></div>
+        <div><label data-i="pin">PIN (4–8 digits)</label><input id="f-pin" maxlength="8" inputmode="numeric" value="1234"></div>
+      </div>
+      <button id="b-register" data-i="register">Create account</button>
+      <button id="b-login" class="ghost" data-i="login">Log in</button>
+      <div id="auth-out"></div>
+    </div>
+  </section>
+
+  <!-- 2. FARM ----------------------------------------------------------->
+  <section class="step" id="step-farm">
+    <h2><span class="n">2</span><span data-i="s2">Your farm</span></h2>
+    <div class="in">
+      <div class="row">
+        <div><label data-i="label">Farm name</label><input id="f-label" value="Home farm"></div>
+        <div><label data-i="area">Area</label><input id="f-area" type="number" min="0.1" step="0.1" value="5"></div>
+        <div><label data-i="unit">Unit</label><select id="f-unit"></select></div>
+        <div><label data-i="irrigation">Irrigation</label><select id="f-irrigation"></select></div>
+        <div><label data-i="water">Water source</label><select id="f-water"></select></div>
+        <div><label data-i="district">District</label><input id="f-district" value="Pune"></div>
+        <div><label data-i="taluka">Taluka</label><input id="f-taluka" value="Baramati"></div>
+        <div><label data-i="village">Village</label><input id="f-village" value="Demo village"></div>
+        <div><label>Latitude</label><input id="f-lat" type="number" step="0.0001" value="18.15"></div>
+        <div><label>Longitude</label><input id="f-lon" type="number" step="0.0001" value="74.58"></div>
+      </div>
+      <button id="b-farm" data-i="savefarm" disabled>Save farm</button>
+      <div id="farm-out"></div>
+      <div id="farm-kv"></div>
+    </div>
+  </section>
+
+  <!-- 3. SOIL ----------------------------------------------------------->
+  <section class="step" id="step-soil">
+    <h2><span class="n">3</span><span data-i="s3">Your soil</span></h2>
+    <div class="in">
+      <div class="opts" id="soil-know">
+        <span class="opt" data-v="no" data-i="soil_unknown">I don't know my soil type</span>
+        <span class="opt on" data-v="yes" data-i="soil_known">I know my soil type</span>
+      </div>
+      <div class="row">
+        <div id="wrap-soil-type"><label data-i="soiltype">Soil type</label><select id="f-soiltype"></select></div>
+        <div><label data-i="rainbeh">After rain, the soil…</label><select id="f-rainbeh"></select></div>
+      </div>
+      <button id="b-soil" data-i="checksoil" disabled>Check my soil</button>
+      <div id="soil-out"></div>
+      <div id="soil-kv"></div>
+    </div>
+  </section>
+
+  <!-- 4. WHAT THE SYSTEM SEES ------------------------------------------->
+  <section class="step" id="step-live">
+    <h2><span class="n">4</span><span data-i="s4">Weather &amp; prices for your farm</span></h2>
+    <div class="in">
+      <button id="b-live" data-i="fetchlive" disabled>Show my weather and prices</button>
+      <div id="live-out"></div>
+    </div>
+  </section>
+
+  <!-- 5. RECOMMENDATION ------------------------------------------------->
+  <section class="step" id="step-rec">
+    <h2><span class="n">5</span><span data-i="s5">What to grow this season</span></h2>
+    <div class="in">
+      <div class="row">
+        <div><label data-i="season">Season</label><select id="f-season"></select></div>
+        <div><label data-i="crops">Only consider (optional)</label><select id="f-include" multiple size="3"></select></div>
+      </div>
+      <div class="hint" data-i="cropshint">Leave empty for all crops. Hold Ctrl / Cmd to pick several.</div>
+      <button id="b-rec" data-i="getrec" disabled>Get my recommendation</button>
+      <div id="rec-out"></div>
+    </div>
+  </section>
+
+  <!-- 6. FEEDBACK + OUTCOME --------------------------------------------->
+  <section class="step hidden" id="step-follow">
+    <h2><span class="n">6</span><span data-i="s6">Did you follow it? What happened?</span></h2>
+    <div class="in">
+      <div class="opts" id="follow-opts">
+        <span class="opt" data-v="YES" data-i="f_yes">Yes, I followed it</span>
+        <span class="opt" data-v="PARTIAL" data-i="f_partial">Partly</span>
+        <span class="opt warn" data-v="NO" data-i="f_no">No</span>
+      </div>
+      <div class="row">
+        <div><label data-i="freason">Why? (when not followed)</label><select id="f-freason"></select></div>
+      </div>
+      <button id="b-follow" data-i="savefollow">Record my answer</button>
+      <div id="follow-out"></div>
+      <div id="wrap-outcome">
+        <div class="muted" data-i="outcome_intro">At season's end, record what actually happened — this is what lets the system learn and improve.</div>
+        <div class="row">
+          <div><label data-i="o_yield">Yield (quintal)</label><input id="o-yield" type="number" min="0" step="0.01"></div>
+          <div><label data-i="o_cost">Cost (₹)</label><input id="o-cost" type="number" min="0" step="1"></div>
+          <div><label data-i="o_price">Sale price (₹/quintal)</label><input id="o-price" type="number" min="0" step="1"></div>
+          <div><label data-i="o_transport">Transport cost (₹)</label><input id="o-transport" type="number" min="0" step="1"></div>
+          <div><label data-i="o_market">Market</label><input id="o-market"></div>
+        </div>
+        <button id="b-outcome" data-i="saveoutcome">Record season result</button>
+        <div id="outcome-out"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="muted" id="foot"></div>
+</main>
+
+<script>
+"use strict";
+const API = "/api/v1";
+let TOKEN = null;
+let FARM_ID = null;
+let REC_ID = null;
+let TOP_CROP = null;
+let EN = {};            // enum groups: { group: {CODE: label} }
+let CROPS = [];         // [{code,label}]
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g,
+  c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const lang = () => $("lang").value;
+const fmt = (n, d=2) => (n===null||n===undefined) ? "—" : Number(n).toFixed(d).replace(/(\.\d*?)0+$/, "$1").replace(/\.$/, "");
+const money = n => (n===null||n===undefined) ? "—" : "₹" + Number(n).toLocaleString("en-IN");
+const pct = n => (n===null||n===undefined) ? "—" : Math.round(n*100) + "%";
+
+/* ------------------------------------------------------------------ i18n */
+const UI = {
+  en: {s1:"Who you are", s2:"Your farm", s3:"Your soil", s4:"Weather & prices for your farm",
+       s5:"What to grow this season", s6:"Did you follow it? What happened?",
+       name:"Name", mobile:"Mobile (10 digits)", pin:"PIN (4–8 digits)",
+       register:"Create account", login:"Log in",
+       label:"Farm name", area:"Area", unit:"Unit", irrigation:"Irrigation",
+       water:"Water source", district:"District", taluka:"Taluka", village:"Village",
+       savefarm:"Save farm", soil_known:"I know my soil type",
+       soil_unknown:"I don't know my soil type", soiltype:"Soil type",
+       rainbeh:"After rain, the soil…", checksoil:"Check my soil",
+       fetchlive:"Show my weather and prices",
+       season:"Season", crops:"Only consider (optional)",
+       cropshint:"Leave empty for all crops. Hold Ctrl / Cmd to pick several.",
+       getrec:"Get my recommendation",
+       f_yes:"Yes, I followed it", f_partial:"Partly", f_no:"No",
+       freason:"Why? (when not followed)", savefollow:"Record my answer",
+       outcome_intro:"At season's end, record what actually happened — this is what lets the system learn and improve.",
+       o_yield:"Yield (quintal)", o_cost:"Cost (₹)", o_price:"Sale price (₹/quintal)",
+       o_transport:"Transport cost (₹)", o_market:"Market",
+       saveoutcome:"Record season result"},
+  mr: {s1:"तुम्ही कोण", s2:"तुमचे शेत", s3:"तुमची जमीन", s4:"तुमच्या शेतासाठी हवामान व भाव",
+       s5:"या हंगामात काय लावावे", s6:"मार्गदर्शन पाळले? नंतर काय झाले?",
+       name:"नाव", mobile:"मोबाईल (अंक 10)", pin:"पिन (4–8 अंक)",
+       register:"खाते तयार करा", login:"लॉग इन",
+       label:"शेताचे नाव", area:"क्षेत्र", unit:"एकक", irrigation:"सिंचन",
+       water:"पाण्याचा स्रोत", district:"जिल्हा", taluka:"तालुका", village:"गाव",
+       savefarm:"शेत जतन करा", soil_known:"माझा जमीन प्रकार माहीत आहे",
+       soil_unknown:"माझा जमीन प्रकार माहीत नाही", soiltype:"जमीन प्रकार",
+       rainbeh:"पाऊस झाल्यावर जमीन…", checksoil:"माझी जमीन तपासा",
+       fetchlive:"माझे हवामान व भाव दाखवा",
+       season:"हंगाम", crops:"फक्त या पिकांविषयी (ऐच्छिक)",
+       cropshint:"सर्व पिकांसाठी रिकामे ठेवा. अनेक निवडण्यासाठी Ctrl / Cmd दाबून ठेवा.",
+       getrec:"माझी शिफारस मिळवा",
+       f_yes:"हो, पाळले", f_partial:"अंशतः", f_no:"नाही",
+       freason:"का? (पाळले नाही तर)", savefollow:"माझे उत्तर नोंदवा",
+       outcome_intro:"हंगामाच्या शेवटी प्रत्यक्ष काय झाले ते नोंदवा — यावरूनच सिस्टीम शिकते.",
+       o_yield:"उत्पादन (क्विंटल)", o_cost:"खर्च (₹)", o_price:"विक्री भाव (₹/क्विंटल)",
+       o_transport:"वाहतूक खर्च (₹)", o_market:"बाजार",
+       saveoutcome:"हंगामाचा निकाल नोंदवा"},
+  hi: {s1:"आप कौन हैं", s2:"आपका खेत", s3:"आपकी मिट्टी", s4:"आपके खेत के लिए मौसम व भाव",
+       s5:"इस मौसम में क्या बोएँ", s6:"सलाह मानी? बाद में क्या हुआ?",
+       name:"नाम", mobile:"मोबाइल (10 अंक)", pin:"पिन (4–8 अंक)",
+       register:"खाता बनाएँ", login:"लॉग इन",
+       label:"खेत का नाम", area:"क्षेत्रफल", unit:"इकाई", irrigation:"सिंचाई",
+       water:"पानी का स्रोत", district:"जिला", taluka:"तहसील", village:"गाँव",
+       savefarm:"खेत सहेजें", soil_known:"मेरी मिट्टी का प्रकार पता है",
+       soil_unknown:"मेरी मिट्टी का प्रकार नहीं पता", soiltype:"मिट्टी का प्रकार",
+       rainbeh:"बारिश के बाद मिट्टी…", checksoil:"मेरी मिट्टी जाँचें",
+       fetchlive:"मेरा मौसम व भाव दिखाएँ",
+       season:"मौसम", crops:"केवल ये फसलें (वैकल्पिक)",
+       cropshint:"सभी फसलों के लिए खाली छोड़ें. कई चुनने के लिए Ctrl / Cmd दबाए रखें.",
+       getrec:"मेरी सिफ़ारिश पाएँ",
+       f_yes:"हाँ, मानी", f_partial:"आंशिक रूप से", f_no:"नहीं",
+       freason:"क्यों? (न मानने पर)", savefollow:"मेरा उत्तर दर्ज करें",
+       outcome_intro:"मौसम के अंत में वास्तव में क्या हुआ, वह दर्ज करें — इसी से सिस्टम सीखता है.",
+       o_yield:"उपज (क्विंटल)", o_cost:"लागत (₹)", o_price:"बिक्री भाव (₹/क्विंटल)",
+       o_transport:"परिवहन लागत (₹)", o_market:"मंडी",
+       saveoutcome:"मौसम का परिणाम दर्ज करें"},
+};
+function applyLang() {
+  const L = UI[lang()];
+  document.querySelectorAll("[data-i]").forEach(el => {
+    const v = L[el.dataset.i]; if (v) el.textContent = v;
+  });
+  document.title = "SAMPADA AI — " + (lang()==="en" ? "Guide" : "मार्गदर्शक");
+  const honesty = {
+    en:"This system gives estimates with confidence levels — never guarantees. Where information is unavailable, it says so instead of guessing.",
+    mr:"ही प्रणाली अंदाज आणि विश्वास पातळी देते — कधीही हमी नाही. माहिती उपलब्ध नसेल तेव्हा अंदाज लावण्याऐवजी ते स्पष्ट सांगितले जाते.",
+    hi:"यह सिस्टम अनुमान और विश्वास स्तर देता है — कभी गारंटी नहीं. जानकारी उपलब्ध न हो तो अंदाज़ा लगाने के बजाय साफ़ कहा जाता है.",
+  };
+  $("honesty").textContent = honesty[lang()];
+  $("foot").textContent = {
+    en:"Decision support only. The farmer decides. Estimates are not guarantees of price, yield or profit.",
+    mr:"हा केवळ निर्णय-सहाय्य आहे. अंतिम निर्णय शेतकरी घेतो. अंदाज ही भाव, उत्पादन किंवा नफ्याची हमी नाहीत.",
+    hi:"यह केवल निर्णय-सहायता है. अंतिम निर्णय किसान लेता है. अनुमान भाव, उपज या लाभ की गारंटी नहीं हैं.",
+  }[lang()];
+  fillSelects();
+}
+
+/* ------------------------------------------------------------------ api */
+async function api(method, path, body) {
+  const headers = {"Content-Type":"application/json"};
+  if (TOKEN) headers["Authorization"] = "Bearer " + TOKEN;
+  const sep = path.includes("?") ? "&" : "?";
+  const res = await fetch(API + path + sep + "lang=" + lang(),
+                          {method, headers, body: body ? JSON.stringify(body) : undefined});
+  let payload = null;
+  try { payload = await res.json(); } catch { /* no body */ }
+  return {status: res.status, ok: res.ok, payload};
+}
+function errMsg(r) {
+  const e = r.payload && r.payload.error;
+  if (!e) return "Network problem — is the server running?";
+  return {message: e.message, code: e.code};
+}
+
+/* -------------------------------------------------------------- banners */
+function banner(el, r, okText) {
+  if (r.ok) { el.innerHTML = `<div class="banner ok">${esc(okText)}</div>`; return true; }
+  const e = errMsg(r);
+  el.innerHTML = `<div class="banner err">${esc(e.message || "Something went wrong")}<small>code: ${esc(e.code || r.status)}</small></div>`;
+  return false;
+}
+
+/* -------------------------------------------------------------- selects */
+function option(group, code) {
+  return (EN[group] && EN[group][code]) || code;
+}
+function setOptions(sel, group, entries) {
+  const list = entries || Object.entries(EN[group] || {})
+    .map(([code, label]) => ({code, label}));
+  sel.innerHTML = "";
+  for (const item of list) {
+    const o = document.createElement("option");
+    o.value = item.code; o.textContent = item.label;
+    sel.appendChild(o);
+  }
+}
+function fillSelects() {
+  setOptions($("f-unit"), "land_unit");
+  setOptions($("f-irrigation"), "irrigation_type");
+  setOptions($("f-water"), "water_source");
+  setOptions($("f-soiltype"), "soil_type");
+  setOptions($("f-rainbeh"), "soil_rain_behaviour");
+  setOptions($("f-season"), "season",
+    (EN.season ? Object.keys(EN.season) : ["KHARIF","RABI","SUMMER"])
+      .filter(c => c !== "PERENNIAL").map(code => ({code, label: option("season", code)})));
+  setOptions($("f-freason"), "feedback_reason");
+  const inc = $("f-include");
+  inc.innerHTML = "";
+  for (const c of CROPS) {
+    const o = document.createElement("option");
+    o.value = c.code; o.textContent = c.label;
+    inc.appendChild(o);
+  }
+}
+
+/* --------------------------------------------------------------- boot */
+async function boot() {
+  const [enumsR, cropsR] = await Promise.all([api("GET","/enums"), api("GET","/crops")]);
+  if (enumsR.ok) {
+    const raw = enumsR.payload.enums || {};
+    EN = Object.fromEntries(Object.entries(raw).map(([g, list]) =>
+      [g, Object.fromEntries(list.map(o => [o.code, o.label]))]));
+  }
+  if (cropsR.ok) CROPS = (cropsR.payload.crops || [])
+    .map(c => ({code: c.id, label: c.name.label}))
+    .sort((a,b) => a.label.localeCompare(b.label));
+  applyLang();
+}
+$("lang").onchange = applyLang;
+
+/* toggle chips -----------------------------------------------------------*/
+document.querySelectorAll(".opts").forEach(box => {
+  box.addEventListener("click", ev => {
+    const t = ev.target.closest(".opt"); if (!t) return;
+    box.querySelectorAll(".opt").forEach(o => o.classList.remove("on"));
+    t.classList.add("on");
+    if (box.id === "soil-know")
+      $("wrap-soil-type").classList.toggle("hidden", t.dataset.v === "no");
+  });
+});
+
+/* 1. auth -------------------------------------------------------------*/
+function authHeaders(){ return TOKEN ? {Authorization:"Bearer "+TOKEN} : {}; }
+
+$("b-register").onclick = async function () {
+  this.disabled = true;
+  const r = await api("POST","/auth/register",{
+    name: $("f-name").value.trim() || "Farmer",
+    mobile: $("f-mobile").value.trim(),
+    pin: $("f-pin").value.trim(),
+    language: lang(),
+  });
+  this.disabled = false;
+  if (banner($("auth-out"), r,
+      r.payload ? `Welcome, ${r.payload.farmer.name}! Your account is ready.` : "Registered."))
+    afterAuth(r.payload.access_token);
+};
+$("b-login").onclick = async function () {
+  this.disabled = true;
+  const r = await api("POST","/auth/login",{
+    mobile: $("f-mobile").value.trim(), pin: $("f-pin").value.trim(),
+  });
+  this.disabled = false;
+  if (banner($("auth-out"), r,
+      r.payload ? `Welcome back, ${r.payload.farmer.name}!` : "Logged in."))
+    afterAuth(r.payload.access_token);
+};
+function afterAuth(token) {
+  TOKEN = token;
+  document.querySelectorAll("#step-farm button, #step-soil button, #step-live button, #step-rec button")
+    .forEach(b => b.disabled = false);
+}
+
+/* 2. farm -------------------------------------------------------------*/
+$("b-farm").onclick = async function () {
+  if (!TOKEN) { $("farm-out").innerHTML = `<div class="banner warn">Create an account or log in first.</div>`; return; }
+  this.disabled = true;
+  const body = {
+    label: $("f-label").value.trim(),
+    land_area: Number($("f-area").value),
+    land_unit: $("f-unit").value,
+    irrigation_type: $("f-irrigation").value,
+    water_source: $("f-water").value,
+    district: $("f-district").value.trim(),
+    taluka: $("f-taluka").value.trim(),
+    village: $("f-village").value.trim(),
+    latitude: parseFloat($("f-lat").value),
+    longitude: parseFloat($("f-lon").value),
+  };
+  let r;
+  if (FARM_ID) {
+    r = await api("PATCH", `/farms/${FARM_ID}`, body);
+  } else {
+    r = await api("POST","/farms", body);
+    if (r.ok) FARM_ID = r.payload.id;
+  }
+  this.disabled = false;
+  if (banner($("farm-out"), r, "Farm saved.")) renderFarm(r.payload);
+};
+function renderFarm(f) {
+  $("farm-kv").innerHTML = `
+    <table class="kv">
+      <tr><td class="k">${esc(UI[lang()].label)}</td><td class="v">${esc(f.label)}</td></tr>
+      <tr><td class="k">${esc(UI[lang()].area)}</td>
+          <td class="v num">${fmt(f.land_area_ha,2)} ha (${fmt(f.land_area_input,2)} ${esc(option("land_unit", f.land_unit))})</td></tr>
+      <tr><td class="k">${esc(UI[lang()].irrigation)}</td><td class="v">${esc(option("irrigation_type", f.irrigation_type))}</td></tr>
+      <tr><td class="k">${esc(UI[lang()].water)}</td><td class="v">${esc(f.water_source ? option("water_source", f.water_source) : "—")}</td></tr>
+      <tr><td class="k">${esc(UI[lang()].village)}</td><td class="v">${esc([f.village,f.taluka,f.district].filter(Boolean).join(", ")||"—")}</td></tr>
+    </table>`;
+}
+
+/* 3. soil -------------------------------------------------------------*/
+$("b-soil").onclick = async function () {
+  if (!TOKEN || !FARM_ID) { $("soil-out").innerHTML = `<div class="banner warn">Save your farm first (step 2).</div>`; return; }
+  this.disabled = true;
+  const knows = $("soil-know").querySelector(".on").dataset.v === "yes";
+  const body = { knows_soil_type: knows, after_rain_behaviour: $("f-rainbeh").value };
+  if (knows) body.soil_type = $("f-soiltype").value;
+  const r = await api("POST", `/farms/${FARM_ID}/soil/estimate`, body);
+  this.disabled = false;
+  if (!banner($("soil-out"), r, "Soil check complete.")) return;
+  const s = r.payload;
+  const dist = Object.entries(s.distribution)
+    .map(([code, p]) => ({code, label: option("soil_type", code), p}))
+    .sort((a,b) => b.p - a.p);
+  $("soil-kv").innerHTML = `
+    <table class="kv">
+      <tr><td class="k">${esc(UI[lang()].soiltype)}</td>
+          <td class="v">${s.top_soil_type ? esc(s.top_soil_type.label) : "—"}</td></tr>
+      <tr><td class="k">Confidence</td>
+          <td class="v">${pct(s.confidence)} (${esc(s.confidence_band.label || s.confidence_band)})</td></tr>
+      ${s.needs_lab_test ? `<tr><td class="k">Advice</td><td class="v">${esc(s.advice)}</td></tr>` : ""}
+    </table>
+    ${dist.map(d => `<div class="chip">${esc(d.label)} · ${pct(d.p)}</div>`).join("")}
+    ${s.needs_lab_test ? `<div class="banner warn">${esc(s.advice)}</div>` : ""}`;
+};
+
+/* 4. weather + prices --------------------------------------------------*/
+$("b-live").onclick = async function () {
+  if (!TOKEN || !FARM_ID) { $("live-out").innerHTML = `<div class="banner warn">Save your farm first (step 2).</div>`; return; }
+  this.disabled = true;
+  $("live-out").innerHTML = "";
+  const w = await api("GET", `/weather?farm_id=${FARM_ID}&days=7`);
+  if (w.ok) {
+    const days = w.payload.days.map(d => `
+      <tr><td>${esc(d.day)}</td><td class="num">${fmt(d.temp_max_c,1)}°</td>
+          <td class="num">${fmt(d.temp_min_c,1)}°</td>
+          <td class="num">${fmt(d.rainfall_mm,1)}</td></tr>`).join("");
+    $("live-out").insertAdjacentHTML("beforeend", `
+      <table class="kv">
+        <tr><td class="k">Source</td><td class="v">${esc(w.payload.provenance.source_name)}
+            (${esc(w.payload.provenance.data_source)}${w.payload.provenance.is_stale ? ", stale" : ""})</td></tr>
+        <tr><td class="k">7-day total rain</td><td class="v num">${fmt(w.payload.total_rainfall_mm,1)} mm</td></tr>
+        <tr><td class="k">Mean daytime high</td><td class="v num">${fmt(w.payload.mean_temp_max_c,1)} °C</td></tr>
+      </table>
+      <table class="list"><thead><tr><th>Date</th><th>High °C</th><th>Low °C</th><th>Rain mm</th></tr></thead><tbody>${days}</tbody></table>`);
+  } else {
+    const e = errMsg(w);
+    $("live-out").insertAdjacentHTML("beforeend",
+      `<div class="banner err">Weather unavailable right now<small>${esc(e.message)}</small></div>`);
+  }
+  let marketShown = 0;
+  for (const crop of CROPS.slice(0, 3)) {
+    const m = await api("GET", `/market/prices?crop_id=${encodeURIComponent(crop.code)}&farm_id=${FARM_ID}&days=60`);
+    if (m.ok) {
+      marketShown += 1;
+      const recs = m.payload.records.slice(-8).reverse().map(rec => `
+        <tr><td>${esc(rec.price_date||"")}</td><td>${esc(rec.market||"—")}</td>
+            <td class="num">${rec.modal_price==null?"—":money(rec.modal_price)}</td>
+            <td class="num">${rec.min_price==null?"—":money(rec.min_price)}</td>
+            <td class="num">${rec.max_price==null?"—":money(rec.max_price)}</td></tr>`).join("");
+      $("live-out").insertAdjacentHTML("beforeend", `
+        <div class="muted" style="margin-top:12px">${esc(m.payload.crop.label)} — mandi prices (${esc(m.payload.district||"—")})</div>
+        <table class="list"><thead><tr><th>Date</th><th>Market</th><th>Modal</th><th>Min</th><th>Max</th></tr></thead><tbody>${recs}</tbody></table>
+        <div class="muted">${esc(m.payload.provenance.data_source)}${m.payload.provenance.is_stale ? " · stale" : ""}</div>`);
+    } else if (m.payload && m.payload.error && m.payload.error.code === "data_unavailable" && marketShown === 0) {
+      // One honest notice for the source, not one per crop - the reason is
+      // configuration-level, not crop-level.
+      $("live-out").insertAdjacentHTML("beforeend",
+        `<div class="banner warn">Mandi prices unavailable right now<small>${esc(m.payload.error.message||"")}</small></div>`);
+      break;
+    } else {
+      $("live-out").insertAdjacentHTML("beforeend",
+        `<div class="banner warn">${esc(crop.label)}: mandi prices unavailable<small>${esc(errMsg(m).message||"")}</small></div>`);
+    }
+  }
+  this.disabled = false;
+};
+
+/* 5. recommendation -----------------------------------------------------*/
+$("b-rec").onclick = async function () {
+  if (!TOKEN || !FARM_ID) { $("rec-out").innerHTML = `<div class="banner warn">Save your farm first (step 2).</div>`; return; }
+  this.disabled = true;
+  $("rec-out").innerHTML = "";
+  const include = [...$("f-include").selectedOptions].map(o => o.value);
+  const body = { farm_id: FARM_ID, season: $("f-season").value };
+  if (include.length) body.include_crops = include;
+  const r = await api("POST","/recommendations", body);
+  this.disabled = false;
+  if (!r.ok) { banner($("rec-out"), r, ""); return; }
+  const out = r.payload;
+
+  const COMPONENT = {
+    soil: {en:"Soil information", mr:"मातीची माहिती", hi:"मिट्टी की जानकारी"},
+    weather: {en:"Weather", mr:"हवामान", hi:"मौसम"},
+    market_price: {en:"Mandi prices", mr:"बाजारभाव", hi:"मंडी भाव"},
+    farmer_history: {en:"Your farm's history", mr:"तुमच्या शेताचा इतिहास", hi:"आपके खेत का इतिहास"},
+    community_saturation: {en:"Community signals", mr:"समुदायाची माहिती", hi:"समुदाय के संकेत"},
+    transport_and_policy: {en:"Transport & policy", mr:"वाहतूक व धोरण", hi:"परिवहन और नीति"},
+  };
+  for (const item of out.unavailable_inputs) {
+    const name = (COMPONENT[item.component] || {})[lang()] || item.component;
+    if (item.component === "transport_and_policy") {
+      // A standing scope note, not a problem with this farm's data.
+      $("rec-out").insertAdjacentHTML("beforeend", `<div class="muted">${esc(name)}: ${esc(item.reason)}</div>`);
+    } else {
+      $("rec-out").insertAdjacentHTML("beforeend",
+        `<div class="banner warn">${esc(name)}: unavailable<small>${esc(item.reason)}</small></div>`);
+    }
+  }
+  for (const o of out.options) {
+    const pe = o.price_estimate;
+    $("rec-out").insertAdjacentHTML("beforeend", `
+      <div class="step ${o.rank===1?"rank1":""}" style="margin:10px 0">
+        <h2 style="background:${o.rank===1?"var(--green-l)":"#f2f4f0"}">
+          <span class="n">${o.rank}</span>${esc(o.crop.label)}
+          ${o.rank===1 ? '<span class="tag" style="margin-left:auto;font-size:12px">Top choice</span>' : ""}
+        </h2>
+        <div class="in">
+          <table class="kv">
+            <tr><td class="k">Suitability score</td><td class="v num">${fmt(o.final_score)}</td></tr>
+            <tr><td class="k">Confidence</td>
+                <td class="v">${pct(o.confidence)} (${esc(o.confidence_band.label||o.confidence_band)})</td></tr>
+            <tr><td class="k">Agronomic fit</td><td class="v num">${fmt(o.suitability)}</td></tr>
+            ${pe ? `<tr><td class="k">Expected price (next ${esc(pe.horizon_days)} days)</td>
+                        <td class="v num">${money(pe.low)} – ${money(pe.high)}<br>
+                        <span style="font-weight:400;color:var(--dim)">typical ${money(pe.mid)} · confidence ${pct(pe.confidence)}</span></td></tr>`
+                 : `<tr><td class="k">Price estimate</td><td class="v">—</td></tr>`}
+            ${o.pilot_plot_ha ? `<tr><td class="k">Try first on a small plot</td><td class="v num">${fmt(o.pilot_plot_ha,2)} ha</td></tr>` : ""}
+          </table>
+          <div>${o.reasons.map(rs => `
+            <span class="chip ${rs.evidence==="unavailable"?"warn":""}">${esc(rs.message)}</span>`).join("")}</div>
+        </div>
+      </div>`);
+  }
+  if (out.stale_inputs?.length)
+    for (const s of out.stale_inputs)
+      $("rec-out").insertAdjacentHTML("beforeend",
+        `<div class="banner warn">${esc(s.note)}</div>`);
+  $("rec-out").insertAdjacentHTML("beforeend",
+    `<div class="notice">${out.disclaimers.map(esc).join("<br>")}</div>`);
+
+  // Fetch the stored evidence so feedback/outcome can reference real ids.
+  const stored = await api("GET", `/recommendations?farm_id=${FARM_ID}&limit=1`);
+  if (stored.ok && Array.isArray(stored.payload) && stored.payload[0]) {
+    REC_ID = stored.payload[0].id;
+    TOP_CROP = stored.payload[0].crop_id;
+  }
+  if (REC_ID && out.options?.length) $("step-follow").classList.remove("hidden");
+};
+
+/* 6. feedback + outcome --------------------------------------------------*/
+$("b-follow").onclick = async function () {
+  if (!REC_ID) { $("follow-out").innerHTML = `<div class="banner warn">Get a recommendation first (step 5).</div>`; return; }
+  this.disabled = true;
+  const followed = $("follow-opts").querySelector(".on").dataset.v;
+  const body = { followed };
+  if (followed !== "YES") body.reason = $("f-freason").value;
+  const r = await api("POST", `/recommendations/${REC_ID}/feedback`, body);
+  this.disabled = false;
+  banner($("follow-out"), r, "Thank you — your answer was recorded. This is how the system learns what actually works.");
+  if (r.ok) $("wrap-outcome").classList.remove("hidden");
+};
+$("b-outcome").onclick = async function () {
+  this.disabled = true;
+  const body = {
+    farm_id: FARM_ID, crop_id: TOP_CROP, recommendation_id: REC_ID,
+    season: $("f-season").value, year: new Date().getFullYear(),
+  };
+  const num = (id) => { const v = $(id).value; return v===""?undefined:Number(v); };
+  body.yield_quintal = num("o-yield");
+  body.cost_inr = num("o-cost");
+  body.sell_price_inr_per_quintal = num("o-price");
+  body.transport_cost_inr = num("o-transport");
+  if ($("o-market").value.trim()) body.market = $("o-market").value.trim();
+  const r = await api("POST","/outcomes", body);
+  this.disabled = false;
+  if (banner($("outcome-out"), r,
+      r.payload ? `Season recorded. Estimated profit: ${r.payload.profit_inr==null?"not computable from what you entered":money(r.payload.profit_inr)}` : "Recorded."))
+    $("outcome-out").insertAdjacentHTML("beforeend",
+      `<div class="muted">This outcome is now linked to the recommendation that was made — future weight validation will use it (with time-based held-out separation).</div>`);
+};
+
+boot();
+</script>
+</body>
+</html>

@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SAMPADA AI — Agricultural Intelligence Platform</title>
+  <meta name="description" content="AI-powered agricultural decision support for Indian farmers. Soil analysis, crop recommendations, voice assistant, and market intelligence in one platform.">
+  <meta name="theme-color" content="#245C3A">
+
+  <!-- Design System -->
+  <link rel="stylesheet" href="/frontend/css/style.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- Cursor Glow Effect -->
+<div id="cursor-glow" aria-hidden="true"></div>
+
+<div class="app-shell">
+
+<!-- ====================================================================
+     PUBLIC EXPERIENCE
+     ==================================================================== -->
+<div id="view-public">
+
+  <!-- Public Navigation -->
+  <nav class="public-nav" id="public-nav" aria-label="Main navigation">
+    <a class="nav-brand" href="/">
+      <div class="nav-brand-icon">🌾</div>
+      <div>
+        <div class="nav-brand-name">SAMPADA AI</div>
+        <span class="nav-brand-tag">Agricultural Intelligence</span>
+      </div>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#intelligence">Intelligence</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <select class="topbar-lang-select" id="public-lang-select" aria-label="Language">
+        <option value="en">🇬🇧 EN</option>
+        <option value="mr">🇮🇳 MR</option>
+        <option value="hi">🇮🇳 HI</option>
+      </select>
+      <button class="btn-ghost btn-open-auth" data-auth-mode="login">Sign In</button>
+      <button class="btn-primary btn-open-auth" data-auth-mode="register">Get Started</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section" id="home">
+    <div class="hero-bg-art" aria-hidden="true">
+      <div class="hero-bg-blob blob-1"></div>
+      <div class="hero-bg-blob blob-2"></div>
+      <div class="hero-bg-blob blob-3"></div>
+    </div>
+
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Community-Aware Agricultural Intelligence · Maharashtra, India
+      </div>
+
+      <h1 class="hero-headline">
+        Better decisions begin<br>with better <span class="accent">farm intelligence.</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        SAMPADA combines scientific soil physics, 15-day satellite weather, live APMC market data,
+        and Groq-powered AI reasoning to help Indian farmers make confident, informed decisions every season.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn-primary btn-lg btn-open-auth" data-auth-mode="register">
+          🚜 Start for Free
+        </button>
+        <button class="btn-secondary btn-open-auth" data-auth-mode="login">
+          Sign In to Dashboard
+        </button>
+      </div>
+
+      <div class="hero-scroll-hint">
+        <span>SCROLL TO EXPLORE</span>
+        <div class="scroll-arrow">↓</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features">
+    <div class="section-container">
+      <div class="text-center reveal">
+        <div class="section-label">Platform Features</div>
+        <h2 class="section-title">Everything a farmer needs,<br>in one place.</h2>
+        <p class="section-subtitle" style="margin: 0 auto;">
+          Six integrated modules working together — from soil upload to market prices to voice queries in Marathi.
+        </p>
+      </div>
+
+      <div class="feature-grid" style="margin-top: 3.5rem;">
+        <div class="feature-card reveal">
+          <div class="feature-icon">🤖</div>
+          <h3>AI Agronomist</h3>
+          <p>Ask any farming question in natural language. Groq's Llama 3.3 70B model, with live web search, delivers expert agronomic guidance grounded in your actual farm data.</p>
+        </div>
+
+        <div class="feature-card reveal">
+          <div class="feature-icon">🌱</div>
+          <h3>Soil Health Card Analysis</h3>
+          <p>Upload your government Soil Health Card (PDF or image) directly in the AI chat. SAMPADA extracts pH, nitrogen, phosphorus, potassium, and micronutrients for tailored advice.</p>
+        </div>
+
+        <div class="feature-card reveal">
+          <div class="feature-icon">🌾</div>
+          <h3>Crop Recommendations</h3>
+          <p>Multi-factor engine weighing soil suitability, monsoon timing, APMC market trends, water availability, and past crop rotation history for each plot.</p>
+        </div>
+
+        <div class="feature-card reveal">
+          <div class="feature-icon">🎙️</div>
+          <h3>Voice Assistant</h3>
+          <p>Speak naturally in Marathi, Hindi, or English. Real-time speech recognition sends your question to the AI and reads the response aloud — no typing needed.</p>
+        </div>
+
+        <div class="feature-card reveal">
+          <div class="feature-icon">📜</div>
+          <h3>Farm &amp; Soil History</h3>
+          <p>Chronological timeline of crop seasons, soil tests, and harvest outcomes. Each season's data makes the next recommendation more precise.</p>
+        </div>
+
+        <div class="feature-card reveal">
+          <div class="feature-icon">📊</div>
+          <h3>Market Intelligence</h3>
+          <p>Live APMC mandi commodity prices, MSP comparisons, and market arrival data for Maharashtra's major agricultural markets.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how-it-works" style="background: var(--ivory); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="section-container">
+      <div class="text-center reveal">
+        <div class="section-label">Simple Process</div>
+        <h2 class="section-title">Up and running in minutes.</h2>
+      </div>
+
+      <div class="how-steps">
+        <div class="how-step reveal">
+          <div class="step-num">1</div>
+          <h3>Register Your Farm</h3>
+          <p>Create a free account with your mobile number, then register your plot with GPS location, area, and irrigation type.</p>
+        </div>
+        <div class="how-step reveal">
+          <div class="step-num">2</div>
+          <h3>Add Soil Data</h3>
+          <p>Upload your Soil Health Card or select your soil type. SAMPADA estimates nutrient profiles using verified soil science models.</p>
+        </div>
+        <div class="how-step reveal">
+          <div class="step-num">3</div>
+          <h3>Get Recommendations</h3>
+          <p>Run the seasonal crop engine to see ranked recommendations with confidence scores, or ask the AI Agronomist directly.</p>
+        </div>
+        <div class="how-step reveal">
+          <div class="step-num">4</div>
+          <h3>Track &amp; Improve</h3>
+          <p>Record your harvest outcomes. Each season's data feeds back into smarter future recommendations for your specific plots.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intelligence Section (Mandi Rates preview) -->
+  <section id="intelligence">
+    <div class="section-container">
+      <div class="flex justify-between items-center flex-wrap gap-4 reveal" style="margin-bottom: 2.5rem;">
+        <div>
+          <div class="section-label">Market Intelligence</div>
+          <h2 class="section-title" style="margin-bottom: 0.5rem;">Live Maharashtra Mandi Rates</h2>
+          <p class="section-subtitle">Real-time APMC commodity arrivals and MSP comparisons.</p>
+        </div>
+        <button class="btn-primary btn-open-auth" data-auth-mode="login">
+          Sign In for Full Access →
+        </button>
+      </div>
+
+      <div class="mandi-rates-grid reveal">
+        <div class="mandi-card">
+          <div class="mandi-crop">Soybean · सोयाबीन</div>
+          <div class="mandi-price">₹4,890</div>
+          <div class="mandi-msp">MSP: ₹4,600/Q</div>
+        </div>
+        <div class="mandi-card">
+          <div class="mandi-crop">Cotton · कापूस</div>
+          <div class="mandi-price">₹7,450</div>
+          <div class="mandi-msp">MSP: ₹7,122/Q</div>
+        </div>
+        <div class="mandi-card">
+          <div class="mandi-crop">Onion · कांदा</div>
+          <div class="mandi-price">₹2,250</div>
+          <div class="mandi-msp">Market Active</div>
+        </div>
+        <div class="mandi-card">
+          <div class="mandi-crop">Tur / Arhar · तूर</div>
+          <div class="mandi-price">₹9,800</div>
+          <div class="mandi-msp">MSP: ₹7,550/Q</div>
+        </div>
+        <div class="mandi-card">
+          <div class="mandi-crop">Wheat · गहू</div>
+          <div class="mandi-price">₹2,275</div>
+          <div class="mandi-msp">MSP: ₹2,275/Q</div>
+        </div>
+        <div class="mandi-card">
+          <div class="mandi-crop">Sugarcane · ऊस</div>
+          <div class="mandi-price">₹3,200</div>
+          <div class="mandi-msp">FRP: ₹3,150/Q</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section style="background: var(--forest); color: white; padding: 6rem 2rem; text-align: center;">
+    <div style="max-width: 640px; margin: 0 auto;" class="reveal">
+      <div class="section-label" style="color: var(--lime); margin-bottom: 1rem;">Start Today · Free Forever</div>
+      <h2 style="font-family: 'Fraunces', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; letter-spacing: -0.025em; margin-bottom: 1rem; color: white;">
+        Your farm's intelligence platform awaits.
+      </h2>
+      <p style="color: rgba(255,255,255,0.75); font-size: 1.05rem; margin-bottom: 2.5rem; line-height: 1.7;">
+        Join thousands of Maharashtra farmers using SAMPADA AI to make better, more confident decisions every season.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-lime btn-lg btn-open-auth" data-auth-mode="register">
+          🌱 Create Free Account
+        </button>
+        <button class="btn-ghost btn-open-auth" data-auth-mode="login" style="color: rgba(255,255,255,0.8);">
+          Already registered? Sign In
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span>🌾</span>
+        <span>SAMPADA AI</span>
+      </div>
+      <div class="footer-copy">
+        © 2026 SAMPADA AI · Community Agricultural Intelligence Platform · Maharashtra, India
+      </div>
+      <div style="display:flex; gap: 0.75rem; flex-wrap: wrap;">
+        <button class="btn-ghost btn-open-auth" data-auth-mode="login" style="color:rgba(255,255,255,0.6); font-size:0.8rem;">Sign In</button>
+        <button class="btn-ghost btn-open-auth" data-auth-mode="register" style="color:rgba(255,255,255,0.6); font-size:0.8rem;">Register</button>
+      </div>
+    </div>
+  </footer>
+
+</div>
+<!-- /view-public -->
+
+
+<!-- ====================================================================
+     AUTHENTICATED EXPERIENCE (LEFT SIDEBAR LAYOUT)
+     ==================================================================== -->
+<div id="view-authenticated">
+  <div class="auth-shell">
+
+    <!-- ---- LEFT SIDEBAR ---- -->
+    <aside class="app-sidebar" id="app-sidebar" aria-label="Application navigation">
+
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-icon">🌾</div>
+        <div>
+          <div class="sidebar-brand-name">SAMPADA AI</div>
+          <span class="sidebar-brand-sub">Agricultural Intelligence</span>
+        </div>
+      </div>
+
+      <!-- Active Farm Switcher -->
+      <div class="sidebar-farm-selector">
+        <label for="active-farm-select">Active Plot</label>
+        <select class="sidebar-farm-select" id="active-farm-select" title="Switch active farm plot"></select>
+      </div>
+
+      <!-- Primary Navigation -->
+      <nav class="sidebar-nav" aria-label="Farmer portal navigation">
+        <div class="sidebar-section-label">Overview</div>
+        <button class="sidebar-nav-btn active" data-tab="dashboard" aria-label="Overview">
+          <span class="nav-icon">🏠</span>
+          <span>Overview</span>
+        </button>
+
+        <div class="sidebar-section-label">My Farm</div>
+        <button class="sidebar-nav-btn" data-tab="farm-setup" aria-label="My Farm">
+          <span class="nav-icon">🚜</span>
+          <span>My Farm</span>
+        </button>
+        <button class="sidebar-nav-btn" data-tab="history" aria-label="Soil and Crop History">
+          <span class="nav-icon">📜</span>
+          <span>Soil &amp; Crop History</span>
+        </button>
+        <button class="sidebar-nav-btn" data-tab="recommendations" aria-label="Crop Recommendations">
+          <span class="nav-icon">🌾</span>
+          <span>Crop Recommendations</span>
+        </button>
+
+        <div class="sidebar-section-label">AI &amp; Voice</div>
+        <button class="sidebar-nav-btn" data-tab="ai" aria-label="AI Agronomist">
+          <span class="nav-icon">🤖</span>
+          <span>AI Agronomist</span>
+        </button>
+        <button class="sidebar-nav-btn" data-tab="voice" aria-label="Voice Assistant">
+          <span class="nav-icon">🎙️</span>
+          <span>Voice Assistant</span>
+        </button>
+
+        <div class="sidebar-section-label">Intelligence</div>
+        <button class="sidebar-nav-btn" data-tab="weather" aria-label="Weather and Soil">
+          <span class="nav-icon">🌤️</span>
+          <span>Weather &amp; Soil</span>
+        </button>
+        <button class="sidebar-nav-btn" data-tab="market" aria-label="Market Intelligence">
+          <span class="nav-icon">📊</span>
+          <span>Market Intelligence</span>
+        </button>
+        <button class="sidebar-nav-btn" data-tab="outcomes" aria-label="Harvest and Outcomes">
+          <span class="nav-icon">🏆</span>
+          <span>Harvest &amp; Outcomes</span>
+        </button>
+      </nav>
+
+      <!-- Bottom Profile -->
+      <div class="sidebar-bottom">
+        <div class="profile-avatar" id="sidebar-avatar">F</div>
+        <div class="profile-info">
+          <div class="profile-name" id="sidebar-farmer-name">Farmer</div>
+          <div class="profile-sub">SAMPADA Member</div>
+        </div>
+        <button class="btn-danger" id="btn-logout" title="Sign out" style="padding:0.3rem 0.55rem; font-size:0.75rem;">↩</button>
+      </div>
+
+    </aside>
+    <!-- /app-sidebar -->
+
+
+    <!-- ---- MAIN CONTENT ---- -->
+    <div class="app-main" id="app-main">
+
+      <!-- Topbar -->
+      <header class="app-topbar">
+        <div class="flex items-center gap-3">
+          <button class="sidebar-toggle-btn" id="sidebar-toggle" aria-label="Toggle navigation">☰</button>
+          <span class="topbar-page-title" id="topbar-title">Overview</span>
+        </div>
+        <div class="topbar-right">
+          <select class="topbar-lang-select" id="global-lang-select" aria-label="Language">
+            <option value="en">English</option>
+            <option value="mr">मराठी</option>
+            <option value="hi">हिन्दी</option>
+          </select>
+          <span style="font-size:0.82rem; color:var(--muted-text);">
+            👤 <strong id="nav-farmer-name" style="color:var(--dark-text);">Farmer</strong>
+          </span>
+        </div>
+      </header>
+
+
+      <!-- ============================================================
+           TAB 1: OVERVIEW / DASHBOARD
+           ============================================================ -->
+      <section class="page-content view-section active" id="section-dashboard">
+
+        <div class="overview-greeting">
+          <div class="greeting-sub">Farmer Dashboard</div>
+          <h1 class="greeting-title">Namaskar, <span id="dash-farmer-greeting">Farmer</span> 👋</h1>
+          <p class="text-muted mt-1" style="font-size:0.9rem;">
+            Active plot: <strong id="dash-active-farm-name" style="color:var(--dark-text);">Home Farm</strong>
+            · <span id="dash-active-farm-loc" style="color:var(--muted-text);">Baramati, Pune</span>
+          </p>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-label">Plot Land Area</div>
+            <div class="stat-value" id="dash-active-farm-area">5.0 Acres</div>
+            <div class="stat-sub">Cultivable Land</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Water &amp; Irrigation</div>
+            <div class="stat-value" id="dash-active-farm-irrigation" style="font-size:1.2rem;">Drip (Well)</div>
+            <div class="stat-sub">Source Registered</div>
+          </div>
+          <div class="stat-card" id="dash-weather-box">
+            <div class="stat-label">Weather at Farm GPS</div>
+            <div class="stat-value" style="color:var(--forest);">29°C</div>
+            <div class="stat-sub">Rain: 15% · 15-day Forecast</div>
+          </div>
+          <div class="stat-card" style="cursor:pointer;" onclick="window.sampadaApp.switchTab('ai')">
+            <div class="stat-label">AI Agronomist</div>
+            <div class="stat-value" style="font-size:1.2rem; color:var(--forest);">Ask Now →</div>
+            <div class="stat-sub">Groq Llama 3.3 70B</div>
+          </div>
+        </div>
+
+        <!-- Crop Recommendation Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">Seasonal Crop Decision Engine</div>
+              <div class="panel-subtitle">Multi-factor recommendations: soil, weather, market, history.</div>
+            </div>
+            <div class="flex items-center gap-3">
+              <select class="form-control" id="dash-season-select" style="width:auto; padding:0.45rem 0.85rem; font-size:0.85rem;">
+                <option value="KHARIF">Kharif (Monsoon)</option>
+                <option value="RABI">Rabi (Winter)</option>
+                <option value="SUMMER">Summer</option>
+              </select>
+              <button class="btn-primary" id="btn-get-rec">
+                Calculate Recommendations
+              </button>
+            </div>
+          </div>
+          <div class="rec-cards-grid" id="dash-recommendations-grid">
+            <div style="text-align:center; padding:2.5rem; color:var(--muted-text); grid-column:1/-1; font-size:0.9rem;">
+              Click <strong>Calculate Recommendations</strong> to generate ranked crop suitability options for this plot.
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="flex gap-3 flex-wrap mt-4">
+          <button class="btn-primary" onclick="window.sampadaApp.switchTab('ai')">
+            🤖 Ask AI Agronomist
+          </button>
+          <button class="btn-secondary" onclick="window.sampadaApp.switchTab('history')">
+            📜 View Farm History
+          </button>
+          <button class="btn-secondary" onclick="document.getElementById('modal-add-crop-history').classList.add('open')">
+            ➕ Record Crop Season
+          </button>
+        </div>
+
+      </section>
+
+
+      <!-- ============================================================
+           TAB 2: MY FARM
+           ============================================================ -->
+      <section class="page-content view-section" id="section-farm-setup" style="display:none;">
+
+        <div class="flex justify-between items-center flex-wrap gap-3" style="margin-bottom:1.75rem;">
+          <div>
+            <h1 style="font-size:1.6rem; font-weight:800; letter-spacing:-0.025em; color:var(--dark-text);">My Farm</h1>
+            <p class="text-muted" style="font-size:0.88rem; margin-top:0.25rem;">Manage plot details, GPS location, irrigation, and soil profile.</p>
+          </div>
+          <button class="btn-secondary" id="btn-detect-gps">
+            📍 <span id="gps-status-indicator">Auto-Detect GPS Location</span>
+          </button>
+        </div>
+
+        <!-- Farm Details Panel -->
+        <div class="panel" style="margin-bottom:1.5rem;">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">Farm Land &amp; GPS Setup</div>
+              <div class="panel-subtitle">Update plot acreage, irrigation methods, and precise GPS coordinates.</div>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="f-farm-label">Farm / Plot Name</label>
+              <input class="form-control" id="f-farm-label" value="Home Farm" placeholder="e.g. North Field">
+            </div>
+            <div class="form-group">
+              <label for="f-area">Land Area</label>
+              <input class="form-control" id="f-area" type="number" step="0.1" value="5.0">
+            </div>
+            <div class="form-group">
+              <label for="f-unit">Land Unit</label>
+              <select class="form-control" id="f-unit"></select>
+            </div>
+            <div class="form-group">
+              <label for="f-irrigation">Irrigation Type</label>
+              <select class="form-control" id="f-irrigation"></select>
+            </div>
+            <div class="form-group">
+              <label for="f-water">Water Source</label>
+              <select class="form-control" id="f-water"></select>
+            </div>
+            <div class="form-group">
+              <label for="f-district">District</label>
+              <input class="form-control" id="f-district" value="Pune">
+            </div>
+            <div class="form-group">
+              <label for="f-taluka">Taluka</label>
+              <input class="form-control" id="f-taluka" value="Baramati">
+            </div>
+            <div class="form-group">
+              <label for="f-village">Village</label>
+              <input class="form-control" id="f-village" value="Demo Village">
+            </div>
+            <div class="form-group">
+              <label for="f-lat">Latitude</label>
+              <input class="form-control" id="f-lat" type="number" step="0.0001" value="18.15">
+            </div>
+            <div class="form-group">
+              <label for="f-lon">Longitude</label>
+              <input class="form-control" id="f-lon" type="number" step="0.0001" value="74.58">
+            </div>
+          </div>
+          <div style="margin-top:1.5rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+            <button class="btn-primary" id="btn-save-farm">Save Plot Details</button>
+            <div id="farm-save-status" style="font-size:0.83rem;"></div>
+          </div>
+        </div>
+
+        <!-- Soil Health Profile Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">Soil Health Profile</div>
+              <div class="panel-subtitle">Record your observed soil type and moisture drainage behavior. Upload a Soil Health Card for detailed analysis.</div>
+            </div>
+            <button class="btn-secondary" id="btn-upload-soil-farm" onclick="document.getElementById('soil-card-file-input-farm').click()">
+              📎 Upload Soil Health Card
+            </button>
+            <input type="file" id="soil-card-file-input-farm" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
+          </div>
+          <div id="farm-soil-card-preview" style="display:none;"></div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="f-soiltype">Soil Type</label>
+              <select class="form-control" id="f-soiltype"></select>
+            </div>
+            <div class="form-group">
+              <label for="f-rainbeh">After rainfall, soil behaviour?</label>
+              <select class="form-control" id="f-rainbeh"></select>
+            </div>
+          </div>
+          <div style="margin-top:1.5rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+            <button class="btn-primary" id="btn-save-soil">Confirm Soil Record</button>
+            <div id="soil-save-status" style="font-size:0.83rem;"></div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- ============================================================
+           TAB 3: SOIL & CROP HISTORY
+           ============================================================ -->
+      <section class="page-content view-section" id="section-history" style="display:none;">
+
+        <div class="flex justify-between items-center flex-wrap gap-3" style="margin-bottom:1.75rem;">
+          <div>
+            <h1 style="font-size:1.6rem; font-weight:800; letter-spacing:-0.025em; color:var(--dark-text);">Soil &amp; Crop History</h1>
+            <p class="text-muted" style="font-size:0.88rem; margin-top:0.25rem;">
+              Chronological timeline of past seasons, soil tests, and harvest outcomes.
+            </p>
+          </div>
+          <div class="flex gap-2 flex-wrap">
+            <button class="btn-secondary" onclick="document.getElementById('soil-card-file-input-history').click()">
+              📎 Upload Soil Card
+            </button>
+            <input type="file" id="soil-card-file-input-history" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
+            <button class="btn-primary" onclick="document.getElementById('modal-add-crop-history').classList.add('open')">
+              ➕ Record Past Season
+            </button>
+          </div>
+        </div>
+
+        <div id="farm-history-timeline">
+          <div style="padding:3rem; text-align:center; color:var(--muted-text);">Loading farm history...</div>
+        </div>
+
+      </section>
+
+
+      <!-- ============================================================
+           TAB 4: CROP RECOMMENDATIONS
+           ============================================================ -->
+      <section class="page-content view-section" id="section-recommendations" style="display:none;">
+
+        <div style="margin-bottom:1.75rem;">
+          <h1 style="font-size:1.6rem; font-weight:800; letter-spacing:-0.025em; color:var(--dark-text);">Crop Recommendations</h1>
+          <p class="text-muted" style="font-size:0.88rem; margin-top:0.25rem;">
+            Multi-factor engine: soil suitability, weather, market prices, water, and rotation history.
+          </p>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">Seasonal Crop Decision Engine</div>
+              <div class="panel-subtitle">Select a season to compute ranked suitability scores for your active plot.</div>
+            </div>
+            <div class="flex items-center gap-3">
+              <select class="form-control" id="rec-season-select" style="width:auto; padding:0.45rem 0.85rem; font-size:0.85rem;">
+                <option value="KHARIF">Kharif (Monsoon)</option>
+                <option value="RABI">Rabi (Winter)</option>
+                <option value="SUMMER">Summer</option>
+              </select>
+              <button class="btn-primary" id="btn-get-rec-page">Calculate Recommendations</button>
+            </div>
+          </div>
+          <div class="rec-cards-grid" id="rec-cards-grid">
+            <div style="text-align:center; padding:2.5rem; color:var(--muted-text); grid-column:1/-1; font-size:0.9rem;">
+              Click <strong>Calculate Recommendations</strong> to generate ranked crop options for this plot.
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- ============================================================
+           TAB 5: AI AGRONOMIST
+           ============================================================ -->
+      <section class="page-content view-section" id="section-ai" style="display:none; padding:1.25rem 1.75rem;">
+
+        <div class="ai-chat-layout">
+
+          <!-- Chat Sidebar -->
+          <div class="chat-sidebar-panel">
+            <div class="chat-sidebar-head">
+              <button class="btn-primary w-full" id="btn-new-chat">
+                ✦ New Consultation
+              </button>
+            </div>
+            <div class="chat-history-list" id="chat-history-list"></div>
+          </div>
+
+          <!-- Chat Main -->
+          <div class="chat-main-panel">
+            <div class="chat-topbar">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="chip-badge badge-verified">👤 Farmer Context</span>
+                <span class="chip-badge badge-time" id="chat-upload-status">📄 No Soil Card</span>
+              </div>
+              <label style="display:flex; align-items:center; gap:0.4rem; font-size:0.82rem; cursor:pointer; color:var(--muted-text);">
+                <input type="checkbox" id="toggle-web-search" checked>
+                <span>Live DDG Search</span>
+              </label>
+            </div>
+
+            <div class="chat-messages-box" id="chat-messages-box">
+              <!-- Messages rendered by JS -->
+            </div>
+
+            <div class="chat-composer">
+              <!-- Attachment Preview -->
+              <div id="composer-attachment-preview" class="composer-attachment-preview" style="display:none;">
+                <span>📄</span>
+                <span id="composer-file-name">No file</span>
+                <button class="composer-remove-file" id="btn-remove-attachment" title="Remove">✕</button>
+              </div>
+
+              <div class="composer-row">
+                <button class="chat-attach-btn" id="btn-attach-soil" title="Upload Soil Health Card (PDF/JPG/PNG)">
+                  📎
+                </button>
+                <input type="file" id="soil-card-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
+                <input class="chat-input" id="chat-input-text" placeholder="Ask about crops, soil, weather, fertilizers, or market prices...">
+                <button class="chat-send-btn" id="btn-chat-send" title="Send">
+                  ➤
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ============================================================
+           TAB 6: VOICE ASSISTANT
+           ============================================================ -->
+      <section class="page-content view-section" id="section-voice" style="display:none;">
+
+        <div class="voice-container">
+          <h1 class="voice-title" id="voice-heading">मराठी आवाज कृषी सल्लागार</h1>
+          <p class="voice-subtitle" id="voice-subheading">माईकवर टॅप करा आणि मराठी किंवा हिंदीत कोणताही शेतीविषयक प्रश्न विचारा</p>
+
+          <div style="display:flex; justify-content:center; gap:0.75rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+            <select class="form-control" id="voice-lang-select" style="max-width:240px;">
+              <option value="mr-IN">🎙️ मराठी (Marathi Voice)</option>
+              <option value="hi-IN">🎙️ हिन्दी (Hindi Voice)</option>
+              <option value="en-IN">🎙️ English (Indian)</option>
+            </select>
+            <button class="btn-secondary" id="btn-test-voice-sample" style="padding:0.45rem 0.9rem; font-size:0.82rem;">
+              🔊 आवाज तपासा (Test Voice)
+            </button>
+          </div>
+
+          <div class="mic-stage">
+            <div class="voice-ring" id="voice-ring-1"></div>
+            <div class="voice-ring" id="voice-ring-2"></div>
+            <button class="mic-btn" id="btn-voice-mic" aria-label="Start voice recording" title="Tap to start voice recording">🎙️</button>
+          </div>
+
+          <!-- Soundwave animation bars -->
+          <div class="voice-waveform" id="voice-waveform" style="display:none; justify-content:center; align-items:center; gap:4px; height:28px; margin-bottom:1rem;">
+            <span class="wave-bar"></span>
+            <span class="wave-bar"></span>
+            <span class="wave-bar"></span>
+            <span class="wave-bar"></span>
+            <span class="wave-bar"></span>
+            <span class="wave-bar"></span>
+            <span class="wave-bar"></span>
+            <span class="wave-bar"></span>
+          </div>
+
+          <div>
+            <span class="voice-status-pill" id="voice-status-pill">
+              बोलण्यासाठी माईक दाबा · Tap Mic to Speak
+            </span>
+          </div>
+
+          <!-- Quick Prompt Chips -->
+          <div class="voice-prompts" style="margin-top:1.25rem;">
+            <button class="prompt-chip" type="button">🌾 या हंगामात कोणते पीक लावावे?</button>
+            <button class="prompt-chip" type="button">🧅 कांदा बाजारभाव आणि सल्ला</button>
+            <button class="prompt-chip" type="button">💧 ठिबक सिंचनाने पाणी व्यवस्थापन</button>
+            <button class="prompt-chip" type="button">🌱 काळ्या जमिनीत सोयाबीनचे खत व्यवस्थापन</button>
+          </div>
+
+          <!-- Fallback or Direct Text Query -->
+          <div style="margin: 1.5rem auto 1rem; max-width: 520px;">
+            <div style="display:flex; gap:0.5rem;">
+              <input type="text" id="voice-text-fallback" class="form-control" placeholder="किंवा येथे प्रश्न टाइप करा (Or type question)..." style="flex:1;">
+              <button class="btn-primary" id="btn-voice-send-text" style="white-space:nowrap; padding:0.6rem 1.2rem;">
+                बोलून सांगा 🚀
+              </button>
+            </div>
+            <div id="voice-mic-tip" style="font-size:0.75rem; color:var(--dim-text); margin-top:0.4rem; text-align:center;">
+              💡 माईक परवानगी आवश्यक आहे. परवानगी नाकारल्यास वरील बॉक्समध्ये टाइप करूनही आवाज ऐकता येईल.
+            </div>
+          </div>
+
+          <!-- Transcript & Answer Display -->
+          <div class="voice-transcript" id="voice-transcript-content" style="margin-top:1.5rem; text-align:left;">
+            <div style="color:var(--muted-text); text-align:center;">
+              येथे आपला आवाज आणि SAMPADA AI चा ऑडिओ सल्ला दिसेल...
+            </div>
+          </div>
+
+          <!-- Audio Playback Controls -->
+          <div style="display:flex; justify-content:center; gap:0.75rem; margin-top:1rem;">
+            <button class="btn-secondary" id="btn-replay-voice" style="display:none;">
+              🔊 पुन्हा ऐका (Replay Audio)
+            </button>
+            <button class="btn-secondary" id="btn-stop-voice" style="display:none; color:var(--red); border-color:rgba(220,38,38,0.3);">
+              ⏹️ आवाज थांबवा (Stop Voice)
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- ============================================================
+           TAB 7: WEATHER & SOIL
+           ============================================================ -->
+      <section class="page-content view-section" id="section-weather" style="display:none;">
+        <div style="margin-bottom:1.75rem;">
+          <h1 style="font-size:1.6rem; font-weight:800; letter-spacing:-0.025em; color:var(--dark-text);">Weather &amp; Soil</h1>
+          <p class="text-muted" style="font-size:0.88rem; margin-top:0.25rem;">Live weather forecast and soil conditions for your GPS location.</p>
+        </div>
+        <div id="weather-panel">
+          <div style="padding:2rem; text-align:center; color:var(--muted-text);">Loading weather data...</div>
+        </div>
+      </section>
+
+
+      <!-- ============================================================
+           TAB 8: MARKET INTELLIGENCE
+           ============================================================ -->
+      <section class="page-content view-section" id="section-market" style="display:none;">
+        <div style="margin-bottom:1.75rem;">
+          <h1 style="font-size:1.6rem; font-weight:800; letter-spacing:-0.025em; color:var(--dark-text);">Market Intelligence</h1>
+          <p class="text-muted" style="font-size:0.88rem; margin-top:0.25rem;">Live APMC mandi prices and MSP comparisons for Maharashtra.</p>
+        </div>
+        <div id="market-panel">
+          <div style="padding:2rem; text-align:center; color:var(--muted-text);">Loading market data...</div>
+        </div>
+      </section>
+
+
+      <!-- ============================================================
+           TAB 9: HARVEST & OUTCOMES
+           ============================================================ -->
+      <section class="page-content view-section" id="section-outcomes" style="display:none;">
+        <div class="flex justify-between items-center flex-wrap gap-3" style="margin-bottom:1.75rem;">
+          <div>
+            <h1 style="font-size:1.6rem; font-weight:800; letter-spacing:-0.025em; color:var(--dark-text);">Harvest &amp; Outcomes</h1>
+            <p class="text-muted" style="font-size:0.88rem; margin-top:0.25rem;">Recorded harvest outcomes and farm performance history.</p>
+          </div>
+          <button class="btn-primary" onclick="document.getElementById('modal-add-outcome').classList.add('open')">
+            ➕ Record Harvest Outcome
+          </button>
+        </div>
+        <div id="outcomes-panel">
+          <div style="padding:2rem; text-align:center; color:var(--muted-text);">Loading outcomes...</div>
+        </div>
+      </section>
+
+    </div>
+    <!-- /app-main -->
+
+  </div>
+</div>
+<!-- /view-authenticated -->
+
+</div>
+<!-- /app-shell -->
+
+
+<!-- ====================================================================
+     MODAL: AUTHENTICATION
+     ==================================================================== -->
+<div class="modal-overlay" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <span style="font-size:1.35rem;">🌾</span>
+        <h2 id="auth-modal-title" style="font-size:1.2rem; font-weight:800; color:var(--dark-text);">Farmer Access</h2>
+      </div>
+      <button class="modal-close-btn btn-close-modal" aria-label="Close">✕</button>
+    </div>
+
+    <!-- Auth Tabs -->
+    <div class="auth-nav-tabs">
+      <button class="auth-tab-btn active" id="tab-auth-login">Sign In</button>
+      <button class="auth-tab-btn" id="tab-auth-register">Create Account</button>
+    </div>
+
+    <!-- Login Pane -->
+    <div id="auth-pane-login">
+      <div class="error-banner" id="login-error-msg" style="display:none;"></div>
+
+      <div style="margin-bottom:1.25rem;">
+        <div style="font-size:0.73rem; color:var(--dim-text); font-weight:600; margin-bottom:0.4rem; letter-spacing:0.04em; text-transform:uppercase;">Quick Demo Accounts</div>
+        <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+          <span class="demo-chip" id="btn-fill-demo1">Demo Farmer · 9076411451</span>
+          <span class="demo-chip" id="btn-fill-demo2">Console Demo · 9317362680</span>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label for="login-mobile">Mobile Number (10 digits)</label>
+        <input class="form-control" id="login-mobile" maxlength="10" inputmode="numeric" placeholder="e.g. 9076411451" value="9076411451">
+      </div>
+
+      <div class="form-group" style="margin-bottom:1.5rem;">
+        <label for="login-pin">Security PIN (4–8 digits)</label>
+        <input class="form-control" id="login-pin" type="password" maxlength="8" inputmode="numeric" placeholder="e.g. 1234" value="1234">
+      </div>
+
+      <button class="btn-primary w-full" id="btn-submit-login">Sign In to Dashboard</button>
+    </div>
+
+    <!-- Register Pane -->
+    <div id="auth-pane-register" style="display:none;">
+      <div class="error-banner" id="reg-error-msg" style="display:none;"></div>
+
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label for="reg-name">Full Farmer Name</label>
+        <input class="form-control" id="reg-name" placeholder="e.g. Ramesh Patil">
+      </div>
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label for="reg-mobile">Mobile Number (10 digits, starts with 6–9)</label>
+        <input class="form-control" id="reg-mobile" maxlength="10" inputmode="numeric" placeholder="e.g. 9822123456">
+      </div>
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label for="reg-pin">Create Security PIN (4–8 digits)</label>
+        <input class="form-control" id="reg-pin" type="password" maxlength="8" inputmode="numeric" placeholder="e.g. 5678">
+      </div>
+      <div class="form-group" style="margin-bottom:1.5rem;">
+        <label for="reg-lang">Preferred Language</label>
+        <select class="form-control" id="reg-lang">
+          <option value="mr">मराठी (Marathi)</option>
+          <option value="hi">हिन्दी (Hindi)</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
+      <button class="btn-primary w-full" id="btn-submit-register">Create Account &amp; Access Dashboard</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ====================================================================
+     MODAL: ADD PAST CROP SEASON
+     ==================================================================== -->
+<div class="modal-overlay" id="modal-add-crop-history" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 style="font-size:1.2rem; font-weight:800; color:var(--dark-text);">Record Past Crop Season</h2>
+      <button class="modal-close-btn btn-close-modal" aria-label="Close">✕</button>
+    </div>
+    <p class="text-muted" style="font-size:0.83rem; margin-bottom:1.25rem;">
+      Add historical crops to improve nutrient depletion scoring and rotation recommendations.
+    </p>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="hist-crop-id">Select Crop</label>
+        <select class="form-control crop-select-field" id="hist-crop-id"></select>
+      </div>
+      <div class="form-group">
+        <label for="hist-season">Season</label>
+        <select class="form-control" id="hist-season"></select>
+      </div>
+      <div class="form-group">
+        <label for="hist-year">Harvest Year</label>
+        <input class="form-control" id="hist-year" type="number" min="1990" max="2026" value="2025">
+      </div>
+      <div class="form-group">
+        <label for="hist-yield">Yield (Quintals)</label>
+        <input class="form-control" id="hist-yield" type="number" step="0.1" placeholder="e.g. 24.5">
+      </div>
+      <div class="form-group">
+        <label for="hist-cost">Cultivation Cost (₹)</label>
+        <input class="form-control" id="hist-cost" type="number" placeholder="e.g. 28000">
+      </div>
+      <div class="form-group">
+        <label for="hist-price">Mandi Sale Price (₹/Q)</label>
+        <input class="form-control" id="hist-price" type="number" placeholder="e.g. 4850">
+      </div>
+      <div class="form-group">
+        <label for="hist-market">Market / Mandi Name</label>
+        <input class="form-control" id="hist-market" placeholder="e.g. Baramati APMC">
+      </div>
+    </div>
+    <div class="flex gap-3 mt-6">
+      <button class="btn-primary flex-1" id="btn-submit-crop-history">Save Season Record</button>
+      <button class="btn-secondary btn-close-modal">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ====================================================================
+     MODAL: RECORD HARVEST OUTCOME
+     ==================================================================== -->
+<div class="modal-overlay" id="modal-add-outcome" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 style="font-size:1.2rem; font-weight:800; color:var(--dark-text);">Record Harvest Outcome</h2>
+      <button class="modal-close-btn btn-close-modal" aria-label="Close">✕</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="out-crop-id">Crop</label>
+        <select class="form-control crop-select-field" id="out-crop-id"></select>
+      </div>
+      <div class="form-group">
+        <label for="out-season">Season</label>
+        <select class="form-control" id="out-season">
+          <option value="KHARIF">Kharif</option>
+          <option value="RABI">Rabi</option>
+          <option value="SUMMER">Summer</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="out-year">Year</label>
+        <input class="form-control" id="out-year" type="number" min="2000" max="2026" value="2025">
+      </div>
+      <div class="form-group">
+        <label for="out-yield">Yield (Quintals)</label>
+        <input class="form-control" id="out-yield" type="number" step="0.1" placeholder="e.g. 24.5">
+      </div>
+      <div class="form-group">
+        <label for="out-cost">Cost (₹)</label>
+        <input class="form-control" id="out-cost" type="number" placeholder="e.g. 28000">
+      </div>
+      <div class="form-group">
+        <label for="out-price">Sale Price (₹/Q)</label>
+        <input class="form-control" id="out-price" type="number" placeholder="e.g. 4850">
+      </div>
+      <div class="form-group">
+        <label for="out-profit">Net Profit (₹)</label>
+        <input class="form-control" id="out-profit" type="number" placeholder="Auto-calculated">
+      </div>
+      <div class="form-group">
+        <label for="out-market">Market / Mandi</label>
+        <input class="form-control" id="out-market" placeholder="e.g. Baramati APMC">
+      </div>
+    </div>
+    <div class="form-group mt-4">
+      <label for="out-notes">Notes (optional)</label>
+      <input class="form-control" id="out-notes" placeholder="Any observations about the season...">
+    </div>
+    <div class="flex gap-3 mt-6">
+      <button class="btn-primary flex-1" id="btn-save-outcome">Save Harvest Outcome</button>
+      <button class="btn-secondary btn-close-modal">Cancel</button>
+    </div>
+    <div id="outcome-save-status" style="margin-top:0.75rem; font-size:0.83rem;"></div>
+  </div>
+</div>
+
+
+<!-- Mobile Sidebar Backdrop -->
+<div id="sidebar-backdrop" style="display:none; position:fixed; inset:0; background:rgba(32,37,31,0.4); z-index:45; backdrop-filter:blur(2px);" onclick="window.sampadaApp?.closeSidebar()"></div>
+
+
+<!-- Master App Bundle -->
+<script type="module" src="/frontend/js/app.js"></script>
+
+</body>
+</html>

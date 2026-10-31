@@ -1,0 +1,40 @@
+{
+  "_meta": {
+    "generated_from": "var/history/backtest_report.json",
+    "generated_at": "2026-09-23",
+    "method": "walk-forward backtest of the price estimator; see app/evaluation/backtest.py",
+    "data_source": "Agmarknet variety-wise daily prices via data.gov.in (resource 35985678-0d79-46b4-9ed6-6f13308a1d24), Maharashtra districts",
+    "rule": "reliability = clamp(pooled_coverage / 0.8, 0.5, 1.0), pooled per crop over evaluated weeks",
+    "coverage_target": 0.8,
+    "horizon_days": 7,
+    "caveat": "measurements of the backtested sample, not a general accuracy guarantee; re-run the backtest after every estimator change",
+    "default_reliability_note": "crops not measured yet get default_reliability and a visible reason code; an absent/malformed file makes the feature inert (reliability 1.0 everywhere)"
+  },
+  "default_reliability": 0.75,
+  "crops": {
+    "onion": {
+      "reliability": 0.71,
+      "evidence": {
+        "pooled_coverage": 0.5678,
+        "evaluated_weeks": 317,
+        "mae_pct_of_mean": 22.39
+      }
+    },
+    "soybean": {
+      "reliability": 0.99,
+      "evidence": {
+        "pooled_coverage": 0.7913,
+        "evaluated_weeks": 369,
+        "mae_pct_of_mean": 5.26
+      }
+    },
+    "tur": {
+      "reliability": 0.65,
+      "evidence": {
+        "pooled_coverage": 0.5217,
+        "evaluated_weeks": 46,
+        "mae_pct_of_mean": 16.94
+      }
+    }
+  }
+}

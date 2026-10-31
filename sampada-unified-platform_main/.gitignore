@@ -1,0 +1,36 @@
+# Environment variables & Secrets (CRITICAL: Never commit to GitHub)
+.env
+*.env
+backend/.env
+
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# macOS System Files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# IDE & Editor Settings
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Node / JS dependencies (if any)
+node_modules/
+npm-debug.log*
+
+# Database & Log files
+*.log
