@@ -1,0 +1,89 @@
+{
+  "_meta": {
+    "purpose": "Demo market price data so the MVP can be exercised end to end without an Agmarknet API key.",
+    "verification": "SYNTHETIC",
+    "warning": "THIS IS INVENTED DATA. These prices were made up by the development team to test the software. They are NOT Agmarknet prices, NOT real mandi prices, and must never be shown to a farmer, quoted in a report, or used to justify a recommendation.",
+    "how_it_is_activated": "Only loaded when data.mode = \"sample\" in config.toml. Responses are tagged is_demo = true and the API returns a DEMO banner.",
+    "district_label": "Pune (DEMO)"
+  },
+  "records": {
+    "soybean": [
+      { "commodity": "Soyabean", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/10/2025", "min_price": 4000, "max_price": 4600, "modal_price": 4300 },
+      { "commodity": "Soyabean", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/11/2025", "min_price": 4100, "max_price": 4700, "modal_price": 4400 },
+      { "commodity": "Soyabean", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/12/2025", "min_price": 4200, "max_price": 4800, "modal_price": 4500 },
+      { "commodity": "Soyabean", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/01/2026", "min_price": 4300, "max_price": 4900, "modal_price": 4600 },
+      { "commodity": "Soyabean", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/02/2026", "min_price": 4400, "max_price": 5000, "modal_price": 4700 },
+      { "commodity": "Soyabean", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/03/2026", "min_price": 4500, "max_price": 5100, "modal_price": 4800 },
+      { "commodity": "Soyabean", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/04/2026", "min_price": 4400, "max_price": 5000, "modal_price": 4650 },
+      { "commodity": "Soyabean", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/05/2026", "min_price": 4200, "max_price": 4900, "modal_price": 4550 },
+      { "commodity": "Soyabean", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/06/2026", "min_price": 4100, "max_price": 4800, "modal_price": 4450 },
+      { "commodity": "Soyabean", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/07/2026", "min_price": 4200, "max_price": 4900, "modal_price": 4600 },
+      { "commodity": "Soyabean", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/08/2026", "min_price": 4300, "max_price": 5000, "modal_price": 4700 },
+      { "commodity": "Soyabean", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/09/2026", "min_price": 4400, "max_price": 5100, "modal_price": 4800 }
+    ],
+    "tur": [
+      { "commodity": "Arhar (Tur)", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/10/2025", "min_price": 6200, "max_price": 7000, "modal_price": 6600 },
+      { "commodity": "Arhar (Tur)", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/11/2025", "min_price": 6400, "max_price": 7200, "modal_price": 6800 },
+      { "commodity": "Arhar (Tur)", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/12/2025", "min_price": 6600, "max_price": 7500, "modal_price": 7100 },
+      { "commodity": "Arhar (Tur)", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/01/2026", "min_price": 6900, "max_price": 7800, "modal_price": 7350 },
+      { "commodity": "Arhar (Tur)", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/02/2026", "min_price": 7000, "max_price": 8000, "modal_price": 7500 },
+      { "commodity": "Arhar (Tur)", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/03/2026", "min_price": 6800, "max_price": 7700, "modal_price": 7250 },
+      { "commodity": "Arhar (Tur)", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/04/2026", "min_price": 6500, "max_price": 7400, "modal_price": 6950 },
+      { "commodity": "Arhar (Tur)", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/05/2026", "min_price": 6300, "max_price": 7100, "modal_price": 6700 },
+      { "commodity": "Arhar (Tur)", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/06/2026", "min_price": 6100, "max_price": 6900, "modal_price": 6500 },
+      { "commodity": "Arhar (Tur)", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/07/2026", "min_price": 6200, "max_price": 7000, "modal_price": 6600 },
+      { "commodity": "Arhar (Tur)", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/08/2026", "min_price": 6400, "max_price": 7200, "modal_price": 6800 },
+      { "commodity": "Arhar (Tur)", "market": "DEMO Mandi A", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/09/2026", "min_price": 6500, "max_price": 7300, "modal_price": 6900 }
+    ],
+    "onion": [
+      { "commodity": "Onion", "market": "DEMO Mandi B", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/10/2025", "min_price": 1800, "max_price": 3200, "modal_price": 2500 },
+      { "commodity": "Onion", "market": "DEMO Mandi B", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/11/2025", "min_price": 1400, "max_price": 2800, "modal_price": 2100 },
+      { "commodity": "Onion", "market": "DEMO Mandi B", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/12/2025", "min_price": 900, "max_price": 1700, "modal_price": 1300 },
+      { "commodity": "Onion", "market": "DEMO Mandi B", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/01/2026", "min_price": 1000, "max_price": 1900, "modal_price": 1450 },
+      { "commodity": "Onion", "market": "DEMO Mandi B", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/02/2026", "min_price": 1200, "max_price": 2200, "modal_price": 1700 },
+      { "commodity": "Onion", "market": "DEMO Mandi B", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/03/2026", "min_price": 1500, "max_price": 2900, "modal_price": 2200 },
+      { "commodity": "Onion", "market": "DEMO Mandi B", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/04/2026", "min_price": 1600, "max_price": 3100, "modal_price": 2350 },
+      { "commodity": "Onion", "market": "DEMO Mandi B", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/05/2026", "min_price": 1300, "max_price": 2600, "modal_price": 1950 },
+      { "commodity": "Onion", "market": "DEMO Mandi B", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/06/2026", "min_price": 1100, "max_price": 2300, "modal_price": 1700 },
+      { "commodity": "Onion", "market": "DEMO Mandi B", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/07/2026", "min_price": 1250, "max_price": 2500, "modal_price": 1875 },
+      { "commodity": "Onion", "market": "DEMO Mandi B", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/08/2026", "min_price": 1450, "max_price": 2750, "modal_price": 2100 },
+      { "commodity": "Onion", "market": "DEMO Mandi B", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/09/2026", "min_price": 1600, "max_price": 3000, "modal_price": 2300 }
+    ],
+    "cotton": [
+      { "commodity": "Cotton", "market": "DEMO Mandi C", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/10/2025", "min_price": 6600, "max_price": 7300, "modal_price": 6950 },
+      { "commodity": "Cotton", "market": "DEMO Mandi C", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/11/2025", "min_price": 6700, "max_price": 7400, "modal_price": 7050 },
+      { "commodity": "Cotton", "market": "DEMO Mandi C", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/12/2025", "min_price": 6800, "max_price": 7600, "modal_price": 7200 },
+      { "commodity": "Cotton", "market": "DEMO Mandi C", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/01/2026", "min_price": 7000, "max_price": 7800, "modal_price": 7400 },
+      { "commodity": "Cotton", "market": "DEMO Mandi C", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/02/2026", "min_price": 7100, "max_price": 7900, "modal_price": 7500 },
+      { "commodity": "Cotton", "market": "DEMO Mandi C", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/03/2026", "min_price": 7000, "max_price": 7800, "modal_price": 7400 },
+      { "commodity": "Cotton", "market": "DEMO Mandi C", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/04/2026", "min_price": 6900, "max_price": 7700, "modal_price": 7300 },
+      { "commodity": "Cotton", "market": "DEMO Mandi C", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/05/2026", "min_price": 6900, "max_price": 7600, "modal_price": 7250 },
+      { "commodity": "Cotton", "market": "DEMO Mandi C", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/06/2026", "min_price": 7000, "max_price": 7700, "modal_price": 7350 },
+      { "commodity": "Cotton", "market": "DEMO Mandi C", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/07/2026", "min_price": 7100, "max_price": 7800, "modal_price": 7450 },
+      { "commodity": "Cotton", "market": "DEMO Mandi C", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/08/2026", "min_price": 7200, "max_price": 7900, "modal_price": 7550 },
+      { "commodity": "Cotton", "market": "DEMO Mandi C", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/09/2026", "min_price": 7300, "max_price": 8000, "modal_price": 7650 }
+    ],
+    "gram": [
+      { "commodity": "Bengal Gram", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/01/2026", "min_price": 5000, "max_price": 5600, "modal_price": 5300 },
+      { "commodity": "Bengal Gram", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/02/2026", "min_price": 5100, "max_price": 5700, "modal_price": 5400 },
+      { "commodity": "Bengal Gram", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/03/2026", "min_price": 5200, "max_price": 5800, "modal_price": 5500 },
+      { "commodity": "Bengal Gram", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/04/2026", "min_price": 5100, "max_price": 5700, "modal_price": 5400 },
+      { "commodity": "Bengal Gram", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/05/2026", "min_price": 5000, "max_price": 5600, "modal_price": 5300 },
+      { "commodity": "Bengal Gram", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/06/2026", "min_price": 4900, "max_price": 5500, "modal_price": 5200 },
+      { "commodity": "Bengal Gram", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/07/2026", "min_price": 5000, "max_price": 5600, "modal_price": 5300 },
+      { "commodity": "Bengal Gram", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/08/2026", "min_price": 5100, "max_price": 5700, "modal_price": 5400 },
+      { "commodity": "Bengal Gram", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/09/2026", "min_price": 5200, "max_price": 5800, "modal_price": 5500 }
+    ],
+    "jowar": [
+      { "commodity": "Jowar", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/01/2026", "min_price": 2200, "max_price": 3000, "modal_price": 2600 },
+      { "commodity": "Jowar", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/02/2026", "min_price": 2300, "max_price": 3100, "modal_price": 2700 },
+      { "commodity": "Jowar", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/03/2026", "min_price": 2400, "max_price": 3200, "modal_price": 2800 },
+      { "commodity": "Jowar", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/04/2026", "min_price": 2300, "max_price": 3100, "modal_price": 2700 },
+      { "commodity": "Jowar", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/05/2026", "min_price": 2200, "max_price": 3000, "modal_price": 2600 },
+      { "commodity": "Jowar", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/06/2026", "min_price": 2200, "max_price": 2900, "modal_price": 2550 },
+      { "commodity": "Jowar", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/07/2026", "min_price": 2300, "max_price": 3000, "modal_price": 2650 },
+      { "commodity": "Jowar", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/08/2026", "min_price": 2400, "max_price": 3100, "modal_price": 2750 },
+      { "commodity": "Jowar", "market": "DEMO Mandi D", "district": "Pune (DEMO)", "state": "Maharashtra", "date": "01/09/2026", "min_price": 2400, "max_price": 3200, "modal_price": 2800 }
+    ]
+  }
+}

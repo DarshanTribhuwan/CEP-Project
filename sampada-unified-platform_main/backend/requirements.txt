@@ -1,0 +1,18 @@
+# SAMPADA AI - backend MVP dependencies
+#
+# Deliberately minimal. Everything below is already required to run the MVP;
+# there is no ORM because the persistence layer uses the stdlib `sqlite3`
+# module (see app/core/db.py). Add dependencies only when a module needs them.
+
+fastapi>=0.115,<1.0
+uvicorn[standard]>=0.30
+pydantic>=2.7,<3.0
+httpx>=0.27
+
+# Encryption at rest for personal identifiers (mobile numbers, farm
+# locations): AES-256-GCM via app/core/crypto.py. Standard, audited
+# implementation - no hand-rolled crypto anywhere in the project.
+cryptography>=42,<46
+
+# Dev / test only
+pytest>=8.0

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAMPADA AI — API Console</title>
+<style>
+  :root {
+    --bg: #101418; --panel: #171d24; --panel2: #1e2630; --line: #2a3542;
+    --text: #dbe4ee; --dim: #8aa0b6; --accent: #4cc38a; --amber: #e0a458;
+    --red: #e06c75; --blue: #61afef; --mono: "Cascadia Code", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 14px/1.5 "Segoe UI", system-ui, sans-serif; }
+  header { padding: 14px 20px; border-bottom: 1px solid var(--line);
+           display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  header h1 { margin: 0; font-size: 17px; }
+  header .note { color: var(--dim); font-size: 12px; }
+  header select { background: var(--panel2); color: var(--text);
+                  border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; }
+  .wrap { display: grid; grid-template-columns: 280px 1fr; min-height: calc(100vh - 55px); }
+  nav { border-right: 1px solid var(--line); padding: 14px; }
+  nav h2 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+           color: var(--dim); margin: 16px 4px 6px; }
+  button.ep { display: block; width: 100%; text-align: left; margin: 3px 0;
+              background: var(--panel); color: var(--text); border: 1px solid var(--line);
+              border-radius: 7px; padding: 7px 10px; cursor: pointer; font-size: 13px; }
+  button.ep:hover { background: var(--panel2); border-color: var(--blue); }
+  button.ep .m { color: var(--accent); font-family: var(--mono); font-size: 11px; margin-right: 6px; }
+  button.ep.authless .m { color: var(--dim); }
+  #journey { background: var(--accent); color: #08130d; font-weight: 600;
+             border: none; border-radius: 8px; padding: 9px 12px; width: 100%;
+             cursor: pointer; font-size: 14px; margin-bottom: 4px; }
+  #journey:disabled { opacity: .55; cursor: wait; }
+  main { padding: 16px 20px; overflow: auto; }
+  .placeholder { color: var(--dim); margin-top: 40px; text-align: center; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+          margin-bottom: 14px; overflow: hidden; }
+  .card > .head { display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+                  padding: 9px 12px; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .card .m { font-family: var(--mono); font-size: 11px; color: var(--blue); }
+  .card .path { font-family: var(--mono); font-size: 12px; }
+  .pill { margin-left: auto; font-family: var(--mono); font-size: 11px;
+          border-radius: 20px; padding: 2px 9px; }
+  .pill.s2 { background: #123527; color: var(--accent); }
+  .pill.s4 { background: #3a2c14; color: var(--amber); }
+  .pill.s5 { background: #3a1a1e; color: var(--red); }
+  .ms { color: var(--dim); font-family: var(--mono); font-size: 11px; }
+  .card .body { padding: 10px 12px; }
+  .card .body.hidden { display: none; }
+  pre { margin: 0; font-family: var(--mono); font-size: 12px; white-space: pre-wrap;
+        word-break: break-word; color: var(--text); }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 12.5px; }
+  th, td { border: 1px solid var(--line); padding: 4px 8px; text-align: left; }
+  th { background: var(--panel2); color: var(--dim); font-weight: 600; }
+  .err { color: var(--red); font-family: var(--mono); font-size: 12px; }
+  .legend { color: var(--dim); font-size: 11px; margin: 2px 4px 10px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>SAMPADA AI — API Console</h1>
+  <span class="note">renders API responses verbatim — the console adds no data of its own.
+  Unavailable sources appear exactly as the API reports them (503 data_unavailable).</span>
+  <select id="lang" title="language for API calls">
+    <option value="en">en</option><option value="mr">mr</option><option value="hi">hi</option>
+  </select>
+</header>
+<div class="wrap">
+  <nav>
+    <button id="journey">▶ Run full journey</button>
+    <div class="legend">register → farm → soil → weather → mandi → recommendation → feedback → outcome → stored evidence</div>
+    <h2>Meta (no auth)</h2>
+    <button class="ep authless" data-m="GET" data-p="/health">GET /health</button>
+    <button class="ep authless" data-m="GET" data-p="/providers/status">GET /providers/status</button>
+    <button class="ep authless" data-m="GET" data-p="/i18n/status">GET /i18n/status</button>
+    <button class="ep authless" data-m="GET" data-p="/enums">GET /enums</button>
+    <button class="ep authless" data-m="GET" data-p="/onboarding/questions">GET /onboarding/questions</button>
+    <button class="ep authless" data-m="GET" data-p="/crops">GET /crops</button>
+    <button class="ep authless" data-m="GET" data-p="/soil-types">GET /soil-types</button>
+    <h2>Farmer &amp; farm</h2>
+    <button class="ep" data-m="GET" data-p="/auth/me">GET /auth/me</button>
+    <button class="ep" data-m="POST" data-p="/auth/register" data-b="register">POST /auth/register</button>
+    <button class="ep" data-m="POST" data-p="/auth/login" data-b="login">POST /auth/login</button>
+    <button class="ep" data-m="POST" data-p="/farms" data-b="farm">POST /farms</button>
+    <button class="ep" data-m="GET" data-p="/farms">GET /farms</button>
+    <h2>Data &amp; decisions</h2>
+    <button class="ep" data-m="GET" data-p="/weather?days=7">GET /weather</button>
+    <button class="ep" data-m="GET" data-p="/market/prices?crop_id=soybean&amp;days=90">GET /market/prices</button>
+    <button class="ep" data-m="POST" data-p="/recommendations" data-b="recommendation">POST /recommendations</button>
+    <button class="ep" data-m="GET" data-p="/recommendations?farm_id={farm_id}">GET /recommendations</button>
+    <button class="ep" data-m="GET" data-p="/outcomes?farm_id={farm_id}">GET /outcomes</button>
+  </nav>
+  <main id="out"><div class="placeholder">Pick an endpoint on the left, or run the full journey.</div></main>
+</div>
+
+<script>
+"use strict";
+const API = "/api/v1";
+let TOKEN = null;
+let CTX = { farm_id: null, rec_id: null, crop_id: null };
+
+const $out = document.getElementById("out");
+const lang = () => document.getElementById("lang").value;
+
+const BODIES = {
+  register: () => ({
+    name: "Console Demo",
+    mobile: "9" + Math.floor(100000000 + Math.random() * 899999999),
+    language: lang(), pin: "1234",
+  }),
+  login: () => ({ mobile: "9876543210", pin: "1234" }),
+  farm: () => ({
+    label: "Console Farm", land_area: 5, land_unit: "ACRE",
+    irrigation_type: "PARTIAL", water_source: "BOREWELL",
+    district: "Pune", taluka: "Baramati", village: "Consolewadi",
+    latitude: 18.15, longitude: 74.58,
+  }),
+  soil: () => ({ knows_soil_type: true, soil_type: "BLACK", after_rain_behaviour: "HOLDS_LONG" }),
+  recommendation: () => ({ farm_id: CTX.farm_id, season: "KHARIF" }),
+  feedback: () => ({ followed: "YES", reason: "OTHER", comment: "recorded from the API console" }),
+  outcome: () => ({
+    farm_id: CTX.farm_id, crop_id: CTX.crop_id, recommendation_id: CTX.rec_id,
+    season: "KHARIF", year: new Date().getFullYear(),
+    area_ha: 0.5, yield_quintal: 1.2, cost_inr: 15000,
+    sell_price_inr_per_quintal: 4600, market: "Console Mandi", transport_cost_inr: 1200,
+  }),
+};
+
+function fill(p) {
+  return p.replace("{farm_id}", CTX.farm_id ?? "")
+          .replace("{rec_id}", CTX.rec_id ?? "");
+}
+
+async function call(method, path, bodyKind) {
+  const url = API + fill(path) + (path.includes("?") ? "&" : "?") + "lang=" + lang();
+  const t0 = performance.now();
+  const headers = { "Content-Type": "application/json" };
+  if (TOKEN) headers["Authorization"] = "Bearer " + TOKEN;
+  let status = 0, payload = null, netErr = null;
+  try {
+    const res = await fetch(url, { method, headers, body: bodyKind ? JSON.stringify(BODIES[bodyKind]()) : undefined });
+    status = res.status;
+    payload = await res.json().catch(() => null);
+  } catch (e) { netErr = e; }
+  const ms = Math.round(performance.now() - t0);
+
+  if (payload && payload.access_token) TOKEN = payload.access_token;
+  if (payload && Array.isArray(payload)) {
+    const farm = payload.find(r => r && r.id && r.rank === 1);
+    if (farm) { CTX.rec_id = farm.id; CTX.crop_id = farm.crop_id; }
+  }
+  if (payload && payload.options && payload.options[0]) {
+    CTX.crop_id = payload.options[0].crop.code;
+  }
+
+  renderCard({ method, path: fill(path), status, ms, payload, netErr });
+  return payload;
+}
+
+function renderCard(r) {
+  if ($out.querySelector(".placeholder")) $out.innerHTML = "";
+  const card = document.createElement("div");
+  card.className = "card";
+  const cls = r.status >= 500 ? "s5" : r.status >= 400 ? "s4" : "s2";
+  const head = `
+    <div class="head">
+      <span class="m">${r.method}</span><span class="path">${r.path}</span>
+      <span class="pill ${cls}">${r.netErr ? "network error" : r.status}</span>
+      <span class="ms">${r.ms} ms</span>
+    </div>`;
+  let body = "";
+  if (r.netErr) body = `<div class="err">${String(r.netErr)}</div>`;
+  else if (r.payload === null) body = `<div class="err">no JSON body</div>`;
+  else {
+    const tbl = tableFor(r.payload);
+    body = (tbl || "") + "<pre>" + JSON.stringify(r.payload, null, 2) + "</pre>";
+  }
+  card.innerHTML = head + `<div class="body">${body}</div>`;
+  card.querySelector(".head").onclick = () => card.querySelector(".body").classList.toggle("hidden");
+  $out.prepend(card);
+}
+
+function tableFor(p) {
+  const rows = Array.isArray(p) ? p : (p.records || p.options || p.outcomes);
+  if (!Array.isArray(rows) || !rows.length || typeof rows[0] !== "object") return "";
+  const cols = Object.keys(rows[0]).slice(0, 8);
+  const head = cols.map(c => `<th>${c}</th>`).join("");
+  const body = rows.slice(0, 25).map(r =>
+    "<tr>" + cols.map(c => {
+      let v = r[c];
+      if (v && typeof v === "object") v = v.label ?? v.code ?? JSON.stringify(v).slice(0, 40);
+      return `<td>${v ?? ""}</td>`;
+    }).join("") + "</tr>").join("");
+  const cap = rows.length > 25 ? ` (first 25 of ${rows.length})` : "";
+  return `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table><div class="legend">${rows.length} row(s)${cap}</div>`;
+}
+
+document.querySelectorAll("button.ep").forEach(b => {
+  b.onclick = async () => {
+    const p = b.dataset.p;
+    const bodyKind = b.dataset.b;
+    let payload = await call(b.dataset.m, p, bodyKind);
+    // soil estimate right after creating a farm, so the flow stays one-click
+    if (bodyKind === "farm" && payload && payload.id) {
+      CTX.farm_id = payload.id;
+      await call("POST", `/farms/${CTX.farm_id}/soil/estimate`, "soil");
+    }
+  };
+});
+
+document.getElementById("journey").onclick = async function () {
+  this.disabled = true; $out.innerHTML = "";
+  TOKEN = null; CTX = { farm_id: null, rec_id: null, crop_id: null };
+  const reg = await call("POST", "/auth/register", "register");
+  if (reg && reg.access_token) {
+    const farm = await call("POST", "/farms", "farm");
+    if (farm && farm.id) {
+      CTX.farm_id = farm.id;
+      await call("POST", `/farms/${CTX.farm_id}/soil/estimate`, "soil");
+      await call("GET", "/weather?days=7");
+      await call("GET", "/market/prices?crop_id=soybean&farm_id=" + CTX.farm_id + "&days=90");
+      await call("POST", "/recommendations", "recommendation");
+      // POST /recommendations returns no stored ids, so read the evidence
+      // store first: the rank-1 row carries the id the feedback and outcome
+      // need to reference.
+      const stored = await call("GET", "/recommendations?farm_id=" + (CTX.farm_id ?? ""));
+      if (stored && Array.isArray(stored) && CTX.rec_id) {
+        await call("POST", `/recommendations/${CTX.rec_id}/feedback`, "feedback");
+        await call("POST", "/outcomes", "outcome");
+      }
+    }
+  }
+  this.disabled = false;
+};
+</script>
+</body>
+</html>

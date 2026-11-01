@@ -1,0 +1,1465 @@
+{
+  "_meta": {
+    "source": "FAO EcoCrop (Land & Water Division)",
+    "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/cropList",
+    "record_url_template": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id={code}",
+    "retrieved": "2026-09-17",
+    "retrieval_mode": "offline (parsed entirely from cached HTML)",
+    "retrieval_method": "scripts/fetch_ecocrop.py; raw HTML cached in app/data/sources/ecocrop_html/",
+    "field_semantics": {
+      "*_optimal": "EcoCrop 'Optimal' range - the crop performs well here",
+      "*_absolute": "EcoCrop 'Absolute' range - the crop can survive here, but may underperform",
+      "crop_cycle_days": "EcoCrop 'Crop cycle' min/max days",
+      "soil_texture_*": "EcoCrop texture classes: heavy / medium / light / organic",
+      "soil_drainage_*": "EcoCrop drainage descriptions, verbatim"
+    },
+    "caveat": "EcoCrop ranges are global species-level envelopes, not Maharashtra- or variety-specific recommendations. They are a citable improvement over invented placeholders, but local package-of-practices data should still override them before any field pilot."
+  },
+  "crops": {
+    "soybean": {
+      "temp_optimal_c": [
+        20.0,
+        33.0
+      ],
+      "temp_absolute_c": [
+        10.0,
+        38.0
+      ],
+      "rainfall_optimal_mm": [
+        600.0,
+        1500.0
+      ],
+      "rainfall_absolute_mm": [
+        450.0,
+        1800.0
+      ],
+      "ph_optimal": [
+        5.5,
+        6.5
+      ],
+      "ph_absolute": [
+        4.5,
+        8.4
+      ],
+      "crop_cycle_days": [
+        75.0,
+        180.0
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "organic"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_drainage_absolute": [
+        "poorly (saturated >50% of year)",
+        "well (dry spells)",
+        "excessive (dry/moderately dry)"
+      ],
+      "soil_depth_optimal": [
+        "medium (50-150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "shallow (20-50 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "high"
+      ],
+      "soil_fertility_absolute": [
+        "low"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "photoperiod": [
+        "short day (<12 hours)"
+      ],
+      "climate_zone": [
+        "tropical wet & dry (Aw)",
+        "steppe or semiarid (Bs)",
+        "subtropical dry summer (Cs)"
+      ],
+      "life_span": [
+        "annual"
+      ],
+      "category": [
+        "pulses (grain legumes)"
+      ],
+      "ecocrop_id": 1150,
+      "scientific_name": "Glycine max",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=1150"
+    },
+    "tur": {
+      "temp_optimal_c": [
+        18.0,
+        38.0
+      ],
+      "temp_absolute_c": [
+        10.0,
+        45.0
+      ],
+      "rainfall_optimal_mm": [
+        600.0,
+        1500.0
+      ],
+      "rainfall_absolute_mm": [
+        400.0,
+        4000.0
+      ],
+      "ph_optimal": [
+        5.0,
+        7.0
+      ],
+      "ph_absolute": [
+        4.5,
+        8.4
+      ],
+      "crop_cycle_days": [
+        90.0,
+        365.0
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "light"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_drainage_absolute": [
+        "well (dry spells)",
+        "excessive (dry/moderately dry)"
+      ],
+      "soil_depth_optimal": [
+        "deep (>>150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "medium (50-150 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "moderate"
+      ],
+      "soil_fertility_absolute": [
+        "low"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [],
+      "photoperiod": [
+        "short day (<12 hours)",
+        "neutral day (12-14 hours)"
+      ],
+      "climate_zone": [
+        "tropical wet & dry (Aw)",
+        "tropical wet (Ar)",
+        "steppe or semiarid (Bs)",
+        "subtropical humid (Cf)",
+        "subtropical dry summer (Cs)",
+        "subtropical dry winter (Cw)"
+      ],
+      "life_span": [
+        "perennial"
+      ],
+      "category": [
+        "vegetables"
+      ],
+      "ecocrop_id": 576,
+      "scientific_name": "Cajanus cajan",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=576"
+    },
+    "cotton": {
+      "temp_optimal_c": [
+        22.0,
+        36.0
+      ],
+      "temp_absolute_c": [
+        15.0,
+        42.0
+      ],
+      "rainfall_optimal_mm": [
+        750.0,
+        1200.0
+      ],
+      "rainfall_absolute_mm": [
+        450.0,
+        1500.0
+      ],
+      "ph_optimal": [
+        6.0,
+        7.5
+      ],
+      "ph_absolute": [
+        5.0,
+        9.5
+      ],
+      "crop_cycle_days": [
+        150.0,
+        200.0
+      ],
+      "soil_texture_optimal": [
+        "heavy",
+        "medium"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light",
+        "organic"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_drainage_absolute": [
+        "well (dry spells)"
+      ],
+      "soil_depth_optimal": [
+        "deep (>>150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "medium (50-150 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "moderate"
+      ],
+      "soil_fertility_absolute": [
+        "moderate"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "photoperiod": [
+        "short day (<12 hours)",
+        "neutral day (12-14 hours)",
+        "long day (>14 hours)"
+      ],
+      "climate_zone": [
+        "tropical wet & dry (Aw)",
+        "tropical wet (Ar)",
+        "steppe or semiarid (Bs)",
+        "subtropical humid (Cf)",
+        "subtropical dry summer (Cs)",
+        "subtropical dry winter (Cw)",
+        "temperate oceanic (Do)",
+        "temperate continental (Dc)",
+        "temperate with humid winters (Df)",
+        "temperate with dry winters (Dw)"
+      ],
+      "life_span": [
+        "annual",
+        "perennial"
+      ],
+      "category": [
+        "forage/pasture",
+        "materials"
+      ],
+      "ecocrop_id": 1160,
+      "scientific_name": "Gossypium hirsutum",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=1160"
+    },
+    "maize": {
+      "temp_optimal_c": [
+        18.0,
+        33.0
+      ],
+      "temp_absolute_c": [
+        10.0,
+        47.0
+      ],
+      "rainfall_optimal_mm": [
+        600.0,
+        1200.0
+      ],
+      "rainfall_absolute_mm": [
+        400.0,
+        1800.0
+      ],
+      "ph_optimal": [
+        5.0,
+        7.0
+      ],
+      "ph_absolute": [
+        4.5,
+        8.5
+      ],
+      "crop_cycle_days": [
+        65.0,
+        365.0
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "organic"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_drainage_absolute": [
+        "well (dry spells)",
+        "excessive (dry/moderately dry)"
+      ],
+      "soil_depth_optimal": [
+        "medium (50-150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "shallow (20-50 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "high"
+      ],
+      "soil_fertility_absolute": [
+        "low"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "photoperiod": [
+        "short day (<12 hours)",
+        "neutral day (12-14 hours)"
+      ],
+      "climate_zone": [
+        "tropical wet & dry (Aw)",
+        "steppe or semiarid (Bs)",
+        "subtropical humid (Cf)",
+        "subtropical dry summer (Cs)",
+        "subtropical dry winter (Cw)",
+        "temperate oceanic (Do)",
+        "temperate continental (Dc)",
+        "temperate with humid winters (Df)",
+        "temperate with dry winters (Dw)"
+      ],
+      "life_span": [
+        "annual"
+      ],
+      "category": [
+        "cereals & pseudocereals",
+        "forage/pasture",
+        "vegetables",
+        "materials",
+        "environmental"
+      ],
+      "ecocrop_id": 238663,
+      "scientific_name": "Zea mays ssp. mays",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=238663",
+      "sourcing_note": "Cultivated maize. EcoCrop's generic 'Zea mays' record (id 2175) has blank soil texture and drainage cells; this subspecies record has both."
+    },
+    "jowar": {
+      "temp_optimal_c": [
+        22.0,
+        35.0
+      ],
+      "temp_absolute_c": [
+        8.0,
+        40.0
+      ],
+      "rainfall_optimal_mm": [
+        400.0,
+        600.0
+      ],
+      "rainfall_absolute_mm": [
+        300.0,
+        700.0
+      ],
+      "ph_optimal": [
+        5.5,
+        7.5
+      ],
+      "ph_absolute": [
+        5.0,
+        8.0
+      ],
+      "crop_cycle_days": [
+        90.0,
+        300.0
+      ],
+      "soil_texture_optimal": [
+        "heavy",
+        "medium"
+      ],
+      "soil_texture_absolute": [
+        "wide"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_drainage_absolute": [
+        "well (dry spells)",
+        "excessive (dry/moderately dry)"
+      ],
+      "soil_depth_optimal": [
+        "medium (50-150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "medium (50-150 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "high"
+      ],
+      "soil_fertility_absolute": [
+        "low"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "photoperiod": [
+        "short day (<12 hours)"
+      ],
+      "climate_zone": [
+        "tropical wet & dry (Aw)",
+        "steppe or semiarid (Bs)",
+        "subtropical dry summer (Cs)"
+      ],
+      "life_span": [
+        "annual"
+      ],
+      "category": [
+        "cereals & pseudocereals",
+        "forage/pasture",
+        "medicinals & aromatic"
+      ],
+      "ecocrop_id": 48747,
+      "scientific_name": "Sorghum bicolor",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=48747"
+    },
+    "bajra": {
+      "temp_optimal_c": [
+        25.0,
+        35.0
+      ],
+      "temp_absolute_c": [
+        12.0,
+        40.0
+      ],
+      "rainfall_optimal_mm": [
+        400.0,
+        900.0
+      ],
+      "rainfall_absolute_mm": [
+        200.0,
+        1700.0
+      ],
+      "ph_optimal": [
+        5.0,
+        6.5
+      ],
+      "ph_absolute": [
+        4.5,
+        8.3
+      ],
+      "crop_cycle_days": [
+        60.0,
+        120.0
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "light"
+      ],
+      "soil_texture_absolute": [
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_drainage_absolute": [
+        "well (dry spells)",
+        "excessive (dry/moderately dry)"
+      ],
+      "soil_depth_optimal": [
+        "deep (>>150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "medium (50-150 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "moderate"
+      ],
+      "soil_fertility_absolute": [
+        "low"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "photoperiod": [
+        "short day (<12 hours)",
+        "neutral day (12-14 hours)"
+      ],
+      "climate_zone": [
+        "tropical wet & dry (Aw)",
+        "tropical wet (Ar)",
+        "desert or arid (Bw)",
+        "steppe or semiarid (Bs)",
+        "subtropical humid (Cf)",
+        "subtropical dry summer (Cs)",
+        "subtropical dry winter (Cw)"
+      ],
+      "life_span": [
+        "annual"
+      ],
+      "category": [
+        "cereals & pseudocereals"
+      ],
+      "ecocrop_id": 8418,
+      "scientific_name": "Pennisetum glaucum",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=8418"
+    },
+    "groundnut": {
+      "temp_optimal_c": [
+        22.0,
+        32.0
+      ],
+      "temp_absolute_c": [
+        10.0,
+        45.0
+      ],
+      "rainfall_optimal_mm": [
+        600.0,
+        1500.0
+      ],
+      "rainfall_absolute_mm": [
+        400.0,
+        4000.0
+      ],
+      "ph_optimal": [
+        5.5,
+        6.5
+      ],
+      "ph_absolute": [
+        4.5,
+        8.5
+      ],
+      "crop_cycle_days": [
+        90.0,
+        150.0
+      ],
+      "soil_texture_optimal": [
+        "medium"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light",
+        "organic"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_drainage_absolute": [
+        "well (dry spells)"
+      ],
+      "soil_depth_optimal": [
+        "medium (50-150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "medium (50-150 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "high"
+      ],
+      "soil_fertility_absolute": [
+        "moderate"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "low (<4 dS/m)"
+      ],
+      "photoperiod": [
+        "short day (<12 hours)",
+        "neutral day (12-14 hours)",
+        "long day (>14 hours)"
+      ],
+      "climate_zone": [
+        "tropical wet & dry (Aw)",
+        "steppe or semiarid (Bs)",
+        "subtropical humid (Cf)"
+      ],
+      "life_span": [
+        "annual"
+      ],
+      "category": [
+        "pulses (grain legumes)",
+        "vegetables",
+        "materials",
+        "medicinals & aromatic"
+      ],
+      "ecocrop_id": 2199,
+      "scientific_name": "Arachis hypogaea",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=2199"
+    },
+    "onion": {
+      "temp_optimal_c": [
+        12.0,
+        25.0
+      ],
+      "temp_absolute_c": [
+        4.0,
+        30.0
+      ],
+      "rainfall_optimal_mm": [
+        350.0,
+        600.0
+      ],
+      "rainfall_absolute_mm": [
+        300.0,
+        2800.0
+      ],
+      "ph_optimal": [
+        6.0,
+        7.0
+      ],
+      "ph_absolute": [
+        4.3,
+        8.3
+      ],
+      "crop_cycle_days": [
+        85.0,
+        175.0
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "organic"
+      ],
+      "soil_texture_absolute": [
+        "wide",
+        "organic"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_drainage_absolute": [
+        "well (dry spells)"
+      ],
+      "soil_depth_optimal": [
+        "medium (50-150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "shallow (20-50 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "moderate"
+      ],
+      "soil_fertility_absolute": [
+        "low"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "photoperiod": [
+        "short day (<12 hours)",
+        "neutral day (12-14 hours)",
+        "long day (>14 hours)"
+      ],
+      "climate_zone": [
+        "tropical wet & dry (Aw)",
+        "tropical wet (Ar)",
+        "steppe or semiarid (Bs)",
+        "subtropical humid (Cf)",
+        "subtropical dry summer (Cs)",
+        "subtropical dry winter (Cw)",
+        "temperate oceanic (Do)",
+        "temperate continental (Dc)",
+        "temperate with humid winters (Df)",
+        "temperate with dry winters (Dw)"
+      ],
+      "life_span": [
+        "biennial"
+      ],
+      "category": [
+        "vegetables",
+        "medicinals & aromatic"
+      ],
+      "ecocrop_id": 364,
+      "scientific_name": "Allium cepa",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=364"
+    },
+    "sugarcane": {
+      "temp_optimal_c": [
+        24.0,
+        37.0
+      ],
+      "temp_absolute_c": [
+        15.0,
+        41.0
+      ],
+      "rainfall_optimal_mm": [
+        1500.0,
+        2000.0
+      ],
+      "rainfall_absolute_mm": [
+        1000.0,
+        5000.0
+      ],
+      "ph_optimal": [
+        5.0,
+        8.0
+      ],
+      "ph_absolute": [
+        4.5,
+        9.0
+      ],
+      "crop_cycle_days": [
+        210.0,
+        365.0
+      ],
+      "soil_texture_optimal": [],
+      "soil_texture_absolute": [],
+      "soil_drainage_optimal": [],
+      "soil_drainage_absolute": [],
+      "soil_depth_optimal": [
+        "deep (>>150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "medium (50-150 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "high"
+      ],
+      "soil_fertility_absolute": [
+        "moderate"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "photoperiod": [],
+      "climate_zone": [],
+      "life_span": [],
+      "category": [],
+      "ecocrop_id": 1884,
+      "scientific_name": "Saccharum officinarum",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=1884",
+      "fallback": {
+        "ecocrop_id": 9432,
+        "scientific_name": "Saccharum barberi",
+        "fields": [
+          "soil_texture",
+          "soil_drainage"
+        ],
+        "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=9432",
+        "data": {
+          "temp_optimal_c": [
+            20.0,
+            32.0
+          ],
+          "temp_absolute_c": [
+            12.0,
+            38.0
+          ],
+          "rainfall_optimal_mm": [
+            1200.0,
+            1500.0
+          ],
+          "rainfall_absolute_mm": [
+            1000.0,
+            5000.0
+          ],
+          "ph_optimal": [
+            5.0,
+            6.0
+          ],
+          "ph_absolute": [
+            4.5,
+            7.5
+          ],
+          "crop_cycle_days": [
+            270.0,
+            300.0
+          ],
+          "soil_texture_optimal": [
+            "heavy",
+            "medium"
+          ],
+          "soil_texture_absolute": [
+            "heavy",
+            "medium",
+            "light"
+          ],
+          "soil_drainage_optimal": [
+            "poorly (saturated >50% of year)"
+          ],
+          "soil_drainage_absolute": [
+            "poorly (saturated >50% of year)",
+            "well (dry spells)"
+          ],
+          "soil_depth_optimal": [
+            "medium (50-150 cm)"
+          ],
+          "soil_depth_absolute": [
+            "medium (50-150 cm)"
+          ],
+          "soil_fertility_optimal": [
+            "moderate"
+          ],
+          "soil_fertility_absolute": [
+            "low"
+          ],
+          "soil_salinity_optimal": [
+            "low (<4 dS/m)"
+          ],
+          "soil_salinity_absolute": [
+            "low (<4 dS/m)"
+          ],
+          "photoperiod": [
+            "short day (<12 hours)"
+          ],
+          "climate_zone": [
+            "tropical wet & dry (Aw)",
+            "tropical wet (Ar)",
+            "subtropical humid (Cf)",
+            "subtropical dry summer (Cs)",
+            "subtropical dry winter (Cw)",
+            "temperate oceanic (Do)",
+            "temperate continental (Dc)",
+            "temperate with humid winters (Df)",
+            "temperate with dry winters (Dw)"
+          ],
+          "life_span": [
+            "perennial"
+          ],
+          "category": [
+            "forage/pasture",
+            "materials",
+            "environmental"
+          ]
+        }
+      },
+      "sourcing_note": "The Saccharum officinarum record has blank soil texture and drainage cells. Saccharum barberi (Indian cane) supplies those two fields only."
+    },
+    "rice": {
+      "temp_optimal_c": [
+        20.0,
+        30.0
+      ],
+      "temp_absolute_c": [
+        10.0,
+        36.0
+      ],
+      "rainfall_optimal_mm": [
+        1500.0,
+        2000.0
+      ],
+      "rainfall_absolute_mm": [
+        1000.0,
+        4000.0
+      ],
+      "ph_optimal": [
+        5.5,
+        7.0
+      ],
+      "ph_absolute": [
+        4.5,
+        9.0
+      ],
+      "crop_cycle_days": [
+        80.0,
+        180.0
+      ],
+      "soil_texture_optimal": [
+        "wide"
+      ],
+      "soil_texture_absolute": [
+        "wide"
+      ],
+      "soil_drainage_optimal": [
+        "poorly (saturated >50% of year)"
+      ],
+      "soil_drainage_absolute": [
+        "poorly (saturated >50% of year)"
+      ],
+      "soil_depth_optimal": [
+        "medium (50-150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "shallow (20-50 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "high"
+      ],
+      "soil_fertility_absolute": [
+        "moderate"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "low (<4 dS/m)"
+      ],
+      "photoperiod": [
+        "neutral day (12-14 hours)"
+      ],
+      "climate_zone": [
+        "tropical wet & dry (Aw)",
+        "tropical wet (Ar)",
+        "subtropical humid (Cf)",
+        "subtropical dry summer (Cs)",
+        "subtropical dry winter (Cw)"
+      ],
+      "life_span": [
+        "annual"
+      ],
+      "category": [
+        "cereals & pseudocereals"
+      ],
+      "ecocrop_id": 1574,
+      "scientific_name": "Oryza sativa",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=1574"
+    },
+    "wheat": {
+      "temp_optimal_c": [
+        15.0,
+        23.0
+      ],
+      "temp_absolute_c": [
+        5.0,
+        27.0
+      ],
+      "rainfall_optimal_mm": [
+        750.0,
+        900.0
+      ],
+      "rainfall_absolute_mm": [
+        300.0,
+        1600.0
+      ],
+      "ph_optimal": [
+        6.0,
+        7.0
+      ],
+      "ph_absolute": [
+        5.5,
+        8.5
+      ],
+      "crop_cycle_days": [
+        90.0,
+        250.0
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "organic"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_drainage_absolute": [
+        "well (dry spells)"
+      ],
+      "soil_depth_optimal": [
+        "medium (50-150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "shallow (20-50 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "high"
+      ],
+      "soil_fertility_absolute": [
+        "moderate"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "photoperiod": [
+        "neutral day (12-14 hours)",
+        "long day (>14 hours)"
+      ],
+      "climate_zone": [
+        "tropical wet & dry (Aw)",
+        "tropical wet (Ar)",
+        "desert or arid (Bw)",
+        "steppe or semiarid (Bs)",
+        "subtropical humid (Cf)",
+        "subtropical dry summer (Cs)",
+        "subtropical dry winter (Cw)",
+        "temperate oceanic (Do)",
+        "temperate continental (Dc)",
+        "temperate with humid winters (Df)",
+        "temperate with dry winters (Dw)"
+      ],
+      "life_span": [
+        "annual"
+      ],
+      "category": [
+        "cereals & pseudocereals",
+        "forage/pasture",
+        "medicinals & aromatic"
+      ],
+      "ecocrop_id": 2114,
+      "scientific_name": "Triticum aestivum",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=2114"
+    },
+    "gram": {
+      "temp_optimal_c": [
+        15.0,
+        29.0
+      ],
+      "temp_absolute_c": [
+        7.0,
+        35.0
+      ],
+      "rainfall_optimal_mm": [
+        600.0,
+        1000.0
+      ],
+      "rainfall_absolute_mm": [
+        300.0,
+        1800.0
+      ],
+      "ph_optimal": [
+        6.0,
+        8.5
+      ],
+      "ph_absolute": [
+        4.7,
+        9.5
+      ],
+      "crop_cycle_days": [
+        90.0,
+        180.0
+      ],
+      "soil_texture_optimal": [
+        "heavy",
+        "medium"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_drainage_absolute": [
+        "well (dry spells)",
+        "excessive (dry/moderately dry)"
+      ],
+      "soil_depth_optimal": [
+        "medium (50-150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "shallow (20-50 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "moderate"
+      ],
+      "soil_fertility_absolute": [
+        "low"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "photoperiod": [
+        "short day (<12 hours)",
+        "neutral day (12-14 hours)"
+      ],
+      "climate_zone": [
+        "tropical wet & dry (Aw)",
+        "tropical wet (Ar)",
+        "desert or arid (Bw)",
+        "steppe or semiarid (Bs)",
+        "subtropical humid (Cf)",
+        "subtropical dry summer (Cs)",
+        "subtropical dry winter (Cw)",
+        "temperate oceanic (Do)",
+        "temperate continental (Dc)",
+        "temperate with humid winters (Df)",
+        "temperate with dry winters (Dw)"
+      ],
+      "life_span": [
+        "annual"
+      ],
+      "category": [
+        "pulses (grain legumes)"
+      ],
+      "ecocrop_id": 2479,
+      "scientific_name": "Cicer arietinum",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=2479"
+    },
+    "moong": {
+      "temp_optimal_c": [
+        21.0,
+        36.0
+      ],
+      "temp_absolute_c": [
+        8.0,
+        40.0
+      ],
+      "rainfall_optimal_mm": [
+        650.0,
+        900.0
+      ],
+      "rainfall_absolute_mm": [
+        500.0,
+        1250.0
+      ],
+      "ph_optimal": [
+        5.5,
+        6.2
+      ],
+      "ph_absolute": [
+        4.3,
+        8.3
+      ],
+      "crop_cycle_days": [
+        50.0,
+        120.0
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "organic"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_drainage_absolute": [
+        "well (dry spells)",
+        "excessive (dry/moderately dry)"
+      ],
+      "soil_depth_optimal": [
+        "medium (50-150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "shallow (20-50 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "moderate"
+      ],
+      "soil_fertility_absolute": [
+        "low"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "photoperiod": [
+        "short day (<12 hours)",
+        "neutral day (12-14 hours)"
+      ],
+      "climate_zone": [
+        "tropical wet & dry (Aw)",
+        "subtropical humid (Cf)"
+      ],
+      "life_span": [
+        "perennial"
+      ],
+      "category": [
+        "pulses (grain legumes)",
+        "forage/pasture",
+        "cover crop",
+        "environmental"
+      ],
+      "ecocrop_id": 2150,
+      "scientific_name": "Vigna radiata",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=2150"
+    },
+    "urad": {
+      "temp_optimal_c": [
+        22.0,
+        35.0
+      ],
+      "temp_absolute_c": [
+        8.0,
+        40.0
+      ],
+      "rainfall_optimal_mm": [
+        650.0,
+        900.0
+      ],
+      "rainfall_absolute_mm": [
+        530.0,
+        2430.0
+      ],
+      "ph_optimal": [
+        5.5,
+        6.5
+      ],
+      "ph_absolute": [
+        4.5,
+        7.5
+      ],
+      "crop_cycle_days": [
+        60.0,
+        130.0
+      ],
+      "soil_texture_optimal": [
+        "heavy",
+        "medium"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_drainage_absolute": [
+        "well (dry spells)",
+        "excessive (dry/moderately dry)"
+      ],
+      "soil_depth_optimal": [
+        "deep (>>150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "medium (50-150 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "high"
+      ],
+      "soil_fertility_absolute": [
+        "moderate"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "photoperiod": [
+        "short day (<12 hours)",
+        "neutral day (12-14 hours)"
+      ],
+      "climate_zone": [
+        "tropical wet & dry (Aw)",
+        "steppe or semiarid (Bs)"
+      ],
+      "life_span": [
+        "annual"
+      ],
+      "category": [
+        "pulses (grain legumes)",
+        "forage/pasture",
+        "medicinals & aromatic",
+        "cover crop",
+        "environmental"
+      ],
+      "ecocrop_id": 2149,
+      "scientific_name": "Vigna mungo",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=2149"
+    },
+    "sunflower": {
+      "temp_optimal_c": [
+        17.0,
+        34.0
+      ],
+      "temp_absolute_c": [
+        5.0,
+        45.0
+      ],
+      "rainfall_optimal_mm": [
+        600.0,
+        1000.0
+      ],
+      "rainfall_absolute_mm": [
+        300.0,
+        1600.0
+      ],
+      "ph_optimal": [
+        6.0,
+        7.5
+      ],
+      "ph_absolute": [
+        5.5,
+        8.0
+      ],
+      "crop_cycle_days": [
+        70.0,
+        200.0
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "light"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_drainage_absolute": [
+        "well (dry spells)"
+      ],
+      "soil_depth_optimal": [
+        "medium (50-150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "medium (50-150 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "high"
+      ],
+      "soil_fertility_absolute": [
+        "low"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "low (<4 dS/m)"
+      ],
+      "photoperiod": [
+        "short day (<12 hours)"
+      ],
+      "climate_zone": [
+        "tropical wet & dry (Aw)",
+        "steppe or semiarid (Bs)",
+        "subtropical humid (Cf)",
+        "subtropical dry summer (Cs)",
+        "subtropical dry winter (Cw)",
+        "temperate oceanic (Do)",
+        "temperate continental (Dc)",
+        "temperate with humid winters (Df)",
+        "temperate with dry winters (Dw)"
+      ],
+      "life_span": [
+        "annual"
+      ],
+      "category": [
+        "materials",
+        "ornamentals/turf"
+      ],
+      "ecocrop_id": 1191,
+      "scientific_name": "Helianthus annuus",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=1191"
+    },
+    "safflower": {
+      "temp_optimal_c": [
+        20.0,
+        32.0
+      ],
+      "temp_absolute_c": [
+        5.0,
+        45.0
+      ],
+      "rainfall_optimal_mm": [
+        600.0,
+        1000.0
+      ],
+      "rainfall_absolute_mm": [
+        300.0,
+        1400.0
+      ],
+      "ph_optimal": [
+        6.5,
+        7.5
+      ],
+      "ph_absolute": [
+        5.0,
+        8.0
+      ],
+      "crop_cycle_days": [
+        120.0,
+        245.0
+      ],
+      "soil_texture_optimal": [
+        "medium",
+        "light"
+      ],
+      "soil_texture_absolute": [
+        "heavy",
+        "medium",
+        "light"
+      ],
+      "soil_drainage_optimal": [
+        "well (dry spells)"
+      ],
+      "soil_drainage_absolute": [
+        "well (dry spells)",
+        "excessive (dry/moderately dry)"
+      ],
+      "soil_depth_optimal": [
+        "medium (50-150 cm)"
+      ],
+      "soil_depth_absolute": [
+        "shallow (20-50 cm)"
+      ],
+      "soil_fertility_optimal": [
+        "moderate"
+      ],
+      "soil_fertility_absolute": [
+        "low"
+      ],
+      "soil_salinity_optimal": [
+        "low (<4 dS/m)"
+      ],
+      "soil_salinity_absolute": [
+        "medium (4-10 dS/m)"
+      ],
+      "photoperiod": [
+        "short day (<12 hours)",
+        "neutral day (12-14 hours)",
+        "long day (>14 hours)"
+      ],
+      "climate_zone": [
+        "tropical wet & dry (Aw)",
+        "steppe or semiarid (Bs)",
+        "subtropical dry summer (Cs)",
+        "subtropical dry winter (Cw)",
+        "temperate continental (Dc)"
+      ],
+      "life_span": [
+        "annual"
+      ],
+      "category": [
+        "materials",
+        "medicinals & aromatic"
+      ],
+      "ecocrop_id": 2514,
+      "scientific_name": "Carthamus tinctorius",
+      "source_url": "https://ecocrop.apps.fao.org/ecocrop/srv/en/dataSheet?id=2514"
+    }
+  }
+}
